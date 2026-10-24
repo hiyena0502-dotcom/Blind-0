@@ -14,7 +14,7 @@
 .spacer{flex:1}
 .tray{display:flex;align-items:center;gap:12px;color:#d0d9d1;font-size:11px;text-shadow:0 1px 2px #000;letter-spacing:.02em}
 .tray svg{width:16px;height:16px;stroke:#d0d9d1;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.access{position:absolute;inset:0;z-index:10;background:radial-gradient(ellipse at 50% 45%,#102e2b 0%,#071614 68%,#030b0a 100%);display:flex;align-items:center;justify-content:center;color:#a8d6b8;font-family:Consolas,"Courier New",monospace;transition:opacity .8s,visibility .8s}
+.access{position:absolute;inset:0;z-index:10;background:radial-gradient(ellipse at 50% 45%,#102e2b 0%,#071614 68%,#030b0a 100%);display:flex;align-items:center;justify-content:center;color:#a8d6b8;font-family:Consolas,"Courier New",monospace;transition:opacity 2.3s ease-in-out,visibility 2.3s}
 .access.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .access:before{content:"";position:absolute;inset:0;opacity:.16;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 3px,#b5e8bc19 4px 5px)}
 .access:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,#0008 100%)}
@@ -171,12 +171,12 @@ const authOverlay=document.getElementById('authOverlay'),grantedScreen=document.
 async function connectSequence(){
  if(connecting)return;connecting=true;btn.disabled=true;btn.textContent='[ 인증 진행 중... ]';authOverlay.classList.add('visible');log.push('> authentication gateway detected');render();
  await wait(180);const password='20220909';authValue.textContent='';
- for(const digit of password){authValue.textContent+=digit;await wait(65+Math.random()*35)}
+ for(const digit of password){authValue.textContent+=digit;await wait(160+Math.random()*55)}
  authState.textContent='VERIFIED';authTitle.textContent='PASSWORD ACCEPTED';log.push('> access key verified');render();await wait(160);
  loadStatus.textContent='ESTABLISHING SESSION';btn.textContent='[ 데스크톱 연결 중... ]';
  const stages=[[12,'INITIALIZING'],[27,'CHECKING LOCAL INDEX'],[46,'LOADING PROFILE'],[68,'MOUNTING DESKTOP'],[86,'RESTORING INTERFACE'],[100,'COMPLETE']];
- for(const [target,label] of stages){loadStatus.textContent=label;const current=Number(loadTrack.getAttribute('aria-valuenow'));for(let n=current+1;n<=target;n++){loadFill.style.width=n+'%';loadPercent.textContent=n+'%';loadTrack.setAttribute('aria-valuenow',String(n));await wait(7)}log.push('> '+label.toLowerCase()+' ... '+target+'%');render();await wait(70)}
- authState.textContent='ACCESS GRANTED';log.push('> connection established');render();await wait(100);authOverlay.classList.remove('visible');grantedScreen.classList.add('visible');await wait(1050);
+ for(const [target,label] of stages){loadStatus.textContent=label;const current=Number(loadTrack.getAttribute('aria-valuenow'));for(let n=current+1;n<=target;n++){loadFill.style.width=n+'%';loadPercent.textContent=n+'%';loadTrack.setAttribute('aria-valuenow',String(n));await wait(20)}log.push('> '+label.toLowerCase()+' ... '+target+'%');render();await wait(115)}
+ authState.textContent='ACCESS GRANTED';log.push('> connection established');render();await wait(100);authOverlay.classList.remove('visible');grantedScreen.classList.add('visible');await wait(1250);
  access.classList.add('hidden');access.setAttribute('aria-hidden','true');clearInterval(ambientTimer);clearInterval(streamTimer);
 }
 btn.addEventListener('click',connectSequence);</script></body></html>
