@@ -18,6 +18,12 @@
 .access.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .access:before{content:"";position:absolute;inset:0;opacity:.16;pointer-events:none;background:repeating-linear-gradient(to bottom,transparent 0 3px,#b5e8bc19 4px 5px)}
 .access:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,#0008 100%)}
+.data-stream{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.52;font:10px/1.8 Consolas,monospace;color:#6bb789;letter-spacing:.09em}
+.data-column{position:absolute;top:-12%;width:24%;height:124%;overflow:hidden;white-space:pre-wrap;overflow-wrap:anywhere;opacity:.44;mask-image:linear-gradient(transparent,#000 14%,#000 82%,transparent)}
+.data-column.left{left:2%}.data-column.right{right:2%;text-align:right}
+.data-column span{display:block;animation:drift 18s linear infinite}
+.data-column.right span{animation-duration:23s;animation-direction:reverse}
+@keyframes drift{from{transform:translateY(-18%)}to{transform:translateY(16%)}}
 .access-panel{position:relative;z-index:1;width:min(560px,calc(100% - 44px));border:1px solid #47725c77;background:#06130fd9;box-shadow:0 0 0 1px #07110b,0 0 70px #142d2270;padding:30px 32px 25px}
 .access-head{display:flex;justify-content:space-between;gap:12px;color:#688e79;font-size:10px;letter-spacing:.18em;border-bottom:1px solid #41684d66;padding-bottom:13px}
 .access h1{font-size:clamp(19px,4vw,26px);font-weight:400;letter-spacing:.16em;color:#d2f2d6;margin:27px 0 7px}
@@ -36,13 +42,24 @@
 @media(max-width:600px){.taskbar{height:42px}.glow{left:-65vw;width:170vw}.ribbon{width:110%;left:4%}}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
-<section class="access" id="access" aria-label="가상 컴퓨터 접속 화면"><div class="access-panel">
+<section class="access" id="access" aria-label="가상 컴퓨터 접속 화면"><div class="data-stream" aria-hidden="true"><div class="data-column left"><span id="streamLeft"></span></div><div class="data-column right"><span id="streamRight"></span></div></div><div class="access-panel">
 <div class="access-head"><span>REMOTE INTERFACE</span><span>SESSION // 07</span></div>
 <h1>CONNECTION REQUEST</h1>
 <div class="access-sub">LOCAL TERMINAL · AUTHORIZATION INTERFACE<br>대상 컴퓨터에 연결을 시도합니다.</div>
-<div class="terminal" id="terminal" aria-live="polite">> initializing local interface...<br>> remote endpoint detected<span class="cursor">_</span></div>
+<div class="terminal" id="terminal" aria-label="접속 상태 기록"></div>
 <button class="access-btn" id="connect" type="button">[ 접속 시도 ]</button>
 <div class="access-foot"><span>STATUS: STANDBY</span><span>ESCAPE IS NOT REQUIRED</span></div>
 </div></section><div class="glow"></div><div class="ribbon"></div>
 <footer class="taskbar"><div class="start" title="시작 버튼 디자인" aria-label="시작 버튼"><svg viewBox="0 0 24 24"><path d="M2 4 11 2.5v9H2zm11-1.8L22 1v10.5h-9zM2 13h9v9L2 20.5zm11 0h9v10l-9-1.3z"/></svg></div><div class="sep"></div><div class="spacer"></div><div class="tray"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9zm12-1q5 4 0 8m2-11q8 7 0 14"/></svg><svg viewBox="0 0 24 24"><path d="M2.5 9a14.5 14.5 0 0 1 19 0M5.5 12.5a10 10 0 0 1 13 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1.1" fill="#d0d9d1" stroke="none"/></svg><div class="clock"><div id="time">--:--</div><div id="date">----.--.--</div></div></div><div class="showdesktop"></div></footer>
-</main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);const btn=document.getElementById('connect'),terminal=document.getElementById('terminal'),access=document.getElementById('access');btn.addEventListener('click',()=>{btn.disabled=true;btn.textContent='[ 연결 중... ]';const lines=['> opening remote session...','> negotiating interface...','> loading desktop environment...','> connection established'];let i=0;const add=()=>{if(i<lines.length){terminal.textContent+='\n'+lines[i++];setTimeout(add,420)}else{setTimeout(()=>{access.classList.add('hidden');setTimeout(()=>access.setAttribute('aria-hidden','true'),850)},450)}};terminal.textContent='> initializing local interface...\n> remote endpoint detected';setTimeout(add,330)});</script></body></html>
+</main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);const btn=document.getElementById('connect'),terminal=document.getElementById('terminal'),access=document.getElementById('access');
+const left=document.getElementById('streamLeft'),right=document.getElementById('streamRight');
+const hex=()=>Math.floor(Math.random()*65536).toString(16).toUpperCase().padStart(4,'0');
+const makeLine=()=>['SCAN','SYNC','CACHE','PACKET','ROUTE','CHECK','INDEX'][Math.floor(Math.random()*7)]+' 0x'+hex()+' : '+hex()+' '+hex()+' '+hex();
+const streams=()=>{left.textContent=Array.from({length:65},makeLine).join('\n');right.textContent=Array.from({length:65},makeLine).join('\n')};
+streams();const streamTimer=setInterval(streams,5000);
+const ambient=['> scanning interface nodes...','> reading virtual memory block 0x','> checking local session flags...','> packet received : ','> verifying data checksum ','> standby channel active','> mapping directory index 0x'];
+let log=['> initializing local interface...','> remote endpoint detected'];let connecting=false;
+const render=()=>{terminal.textContent=log.slice(-7).join('\n')+'\n_';};
+render();
+const ambientTimer=setInterval(()=>{if(connecting||access.classList.contains('hidden'))return;const pick=ambient[Math.floor(Math.random()*ambient.length)];log.push(pick+(pick.endsWith('0x')||pick.endsWith(': ')||pick.endsWith('checksum ')?hex():'') );if(log.length>30)log=log.slice(-12);render()},620);
+btn.addEventListener('click',()=>{if(connecting)return;connecting=true;btn.disabled=true;btn.textContent='[ 연결 중... ]';const lines=['> opening remote session...','> negotiating interface...','> loading desktop environment...','> connection established'];let i=0;const add=()=>{if(i<lines.length){log.push(lines[i++]);render();setTimeout(add,650)}else{setTimeout(()=>{access.classList.add('hidden');access.setAttribute('aria-hidden','true');clearInterval(ambientTimer);clearInterval(streamTimer)},850)}};setTimeout(add,300)});</script></body></html>
