@@ -162,20 +162,44 @@
 .os-fileinput{font-size:11px}
 @media(max-width:650px){.win-search{width:105px}.explorer-side{width:115px}.os-browser-page{padding:14px}.os-photo{width:110px}.os-photo img{height:75px}}
 .pc-browser-home{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12%;background:linear-gradient(#fff,#f7fafb)}.pc-search-brand{font:normal 36px Georgia,serif;letter-spacing:3px;color:#416c85;margin:0 0 26px}.pc-search-form{display:flex;gap:7px;width:min(100%,660px);margin:10px auto 22px}.pc-search-field{flex:1;min-width:0;padding:12px 14px;border:1px solid #9fb6c4;box-shadow:inset 0 1px 3px #0001;font:14px "Malgun Gothic",sans-serif}.pc-search-form button{min-width:80px;border:1px solid #93aab6;background:linear-gradient(#f7fbfc,#dce9ef);cursor:pointer}.pc-browser-shortcuts{display:flex;gap:10px}.pc-browser-shortcuts button{padding:8px 14px;border:1px solid #c5d5dc;background:#f7fafb;color:#476071;cursor:pointer}.pc-search-tabs{border-bottom:1px solid #dbe5ea;padding:12px;color:#687e8d}.pc-search-result{padding:15px 8px;max-width:690px}.pc-search-result a{display:block;color:#205c96;font-size:17px;margin-top:4px}.pc-search-result small{color:#4d8065}.pc-search-result p{line-height:1.6;color:#53666b}.os-record-preview{background:#fff;color:#263d43;padding:30px 35px}.os-record-preview h2{font-size:19px;font-weight:500;border-bottom:1px solid #d2dfe3;padding-bottom:16px}
-/* Unified polished XP / Windows 7 era iconography */
-.pc-icon-svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 1.5px 1px #18303833)}
-.desktop-icon .di-image{font-size:inherit;line-height:normal;width:47px;height:47px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 3px #091c2299)}
-.desktop-icon .di-image .pc-icon-svg{width:44px;height:44px}
-.desktop-icon{gap:5px;padding-top:5px}
-.file-row .file-icon{font-size:inherit;line-height:normal;width:27px;height:27px;flex:none;display:inline-flex;align-items:center;justify-content:center;margin-right:7px}
-.file-row .file-icon .pc-icon-svg{width:26px;height:26px}
-.explorer-list.icons .file-row .file-icon{width:43px;height:43px;font-size:inherit}
-.explorer-list.icons .file-row .file-icon .pc-icon-svg{width:40px;height:40px}
-.side-entry{display:flex;align-items:center;gap:6px}.side-entry .side-icon{width:19px;height:19px;flex:none}.side-entry .side-icon svg{width:19px;height:19px}
-.win-app-icon{display:flex;width:22px;height:22px;align-items:center}.win-app-icon svg{width:20px;height:20px}
-.task-open{display:flex;align-items:center;gap:7px;text-align:left}.task-open .task-icon{display:flex;width:21px;height:21px;flex:none}.task-open .task-icon svg{width:20px;height:20px}.task-open .task-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.start-item{gap:9px}.start-item .start-icon{display:flex;flex:none;width:23px;height:23px}.start-icon svg{width:23px;height:23px}
-.trash-file-icon,.track-icon{display:inline-flex;width:25px;height:25px;flex:none}.trash-file-icon svg,.track-icon svg{width:25px;height:25px}
+/* Aligned and proportion-matched icon system (48px artboard for every glyph) */
+.pc-icon-svg{
+ display:block;width:100%;height:100%;min-width:0;min-height:0;
+ overflow:visible;shape-rendering:geometricPrecision;filter:none;flex:none
+}
+.desktop-icon{
+ gap:5px;padding-top:5px;
+}
+.desktop-icon .di-image{
+ width:48px;height:48px;flex:none;display:flex;align-items:center;justify-content:center;
+ font-size:inherit;line-height:normal;filter:drop-shadow(0 2px 2px #06181e80)
+}
+.desktop-icon .di-image .pc-icon-svg{width:46px;height:46px}
+.file-row .file-icon{
+ width:26px;height:26px;min-width:26px;flex:none;display:inline-flex;
+ align-items:center;justify-content:center;margin-right:8px;font-size:inherit;line-height:normal
+}
+.file-row .file-icon .pc-icon-svg{width:24px;height:24px}
+.explorer-list.icons .file-row .file-icon{
+ width:44px;height:44px;min-width:44px;margin-right:0;font-size:inherit;
+ display:flex;align-items:center;justify-content:center
+}
+.explorer-list.icons .file-row .file-icon .pc-icon-svg{width:41px;height:41px}
+.side-entry{display:flex;align-items:center;gap:7px}
+.side-entry .side-icon{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;flex:none}
+.side-entry .side-icon .pc-icon-svg{width:18px;height:18px}
+.win-title .win-app-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:none}
+.win-title .win-app-icon .pc-icon-svg{width:19px;height:19px}
+.task-open{display:flex;align-items:center;gap:7px;text-align:left}
+.task-open .task-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex:none}
+.task-open .task-icon .pc-icon-svg{width:19px;height:19px}
+.task-open .task-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.start-item{gap:9px}
+.start-item .start-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:23px;height:23px}
+.start-item .start-icon .pc-icon-svg{width:21px;height:21px}
+.trash-file-icon,.track-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:25px;height:25px}
+.trash-file-icon .pc-icon-svg,.track-icon .pc-icon-svg{width:23px;height:23px}
+.os-listrow .os-filename{min-width:0}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -290,18 +314,18 @@ btn.addEventListener('click',connectSequence);
 /* Hand-drawn vector desktop icon family */
 let pcSvgCounter=0;
 const pcArt={
- computer:'<rect x="5" y="7" width="38" height="29" rx="4" fill="#264653" stroke="#16313c" stroke-width="1.5"/><rect x="8" y="10" width="32" height="22" rx="2" fill="url(#G)" stroke="#b4d7df" stroke-width="1.4"/><path d="M10 11h28v4c-12 0-17 10-28 11Z" fill="#fff" opacity=".24"/><path d="M21 36h6l1.5 5h-9Z" fill="#7898a1"/><rect x="15" y="41" width="18" height="3" rx="1.5" fill="#adc5c9"/>',
- folder:'<path d="M4 12a3 3 0 0 1 3-3h12l5 5h17a3 3 0 0 1 3 3v18a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z" fill="#93724a" stroke="#6e5638"/><path d="M5 19a3 3 0 0 1 3-3h33a3 3 0 0 1 3 3l-3 18a3 3 0 0 1-3 2H8a3 3 0 0 1-3-3Z" fill="url(#G)" stroke="#987947" stroke-width="1.1"/><path d="M8 20h32" stroke="#fff3d0" stroke-width="2" opacity=".7"/>',
- archive:'<path d="M4 13a3 3 0 0 1 3-3h11l5 5h18a3 3 0 0 1 3 3v18a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3Z" fill="#4d737b" stroke="#35545e"/><path d="M5 19h39l-3 18a3 3 0 0 1-3 2H8a3 3 0 0 1-3-3Z" fill="url(#G)" stroke="#527b84"/><rect x="17" y="22" width="17" height="12" rx="1.3" fill="#eaf1f0" stroke="#76969d"/><path d="M20 26h11m-11 4h8" stroke="#6794a1" stroke-width="1.6" stroke-linecap="round"/>',
- internet:'<circle cx="24" cy="24" r="19" fill="#1c567d" stroke="#bddde8" stroke-width="2"/><circle cx="24" cy="24" r="16" fill="url(#G)"/><path d="M8 24h32M24 8c-12 9-12 23 0 32M24 8c12 9 12 23 0 32M12 16h24M12 32h24" fill="none" stroke="#d6f3f2" stroke-width="1.5" opacity=".84"/><path d="m10 19 6-6 8 2 3 8-5 3-2 6-7-3Z" fill="#5da28c" opacity=".78"/><path d="m31 25 7 2-4 9-5 4-2-9Z" fill="#538f88" opacity=".9"/>',
- music:'<circle cx="24" cy="24" r="19" fill="#264e62" stroke="#173541" stroke-width="2"/><circle cx="24" cy="24" r="15.5" fill="url(#G)" stroke="#99c4cb"/><circle cx="24" cy="24" r="7.3" fill="#d8e7e7" stroke="#6f9ca7"/><circle cx="24" cy="24" r="2.6" fill="#547e89"/><path d="M17 16v14.5a4 4 0 1 1-2-3.5V17l15-4v16a4 4 0 1 1-2-3.5V12Z" fill="#244f68" stroke="#d4eff0" stroke-width=".8"/>',
- photo:'<rect x="6" y="7" width="36" height="34" rx="3" fill="#416e7a" stroke="#214651" stroke-width="1.4"/><rect x="9" y="10" width="30" height="28" rx="1" fill="url(#G)" stroke="#e0edf0" stroke-width="1.5"/><circle cx="31" cy="17" r="4" fill="#ffefbd"/><path d="m10 33 11-14 8 9 4-5 6 9v5H10Z" fill="#568e80"/><path d="m10 36 12-12 7 8 5-4 5 7v3H10Z" fill="#2e6576" opacity=".8"/><path d="M10 11h28" stroke="#fff" stroke-width="2" opacity=".45"/>',
- text:'<path d="M10 4h19l9 10v29H10a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z" fill="url(#G)" stroke="#68818a" stroke-width="1.5"/><path d="M29 4v10h9" fill="#c9dade" stroke="#68818a" stroke-width="1.4"/><path d="M13 19h19M13 24h19M13 29h15M13 34h18" stroke="#608893" stroke-width="1.8" stroke-linecap="round"/><rect x="13" y="12" width="11" height="3" rx="1" fill="#679ca8"/>',
- record:'<path d="M10 4h19l9 10v29H10a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3Z" fill="url(#G)" stroke="#8c9fa6" stroke-width="1.5"/><path d="M29 4v10h9" fill="#dbe4e5" stroke="#8c9fa6" stroke-width="1.3"/><path d="M13 19h19M13 24h18M13 29h17M13 34h13" stroke="#84969a" stroke-width="1.5"/><rect x="27" y="32" width="8" height="7" rx="1" fill="#51828f" opacity=".8"/>',
- trash:'<path d="M14 12h20l-2 28a4 4 0 0 1-4 4H20a4 4 0 0 1-4-4Z" fill="url(#G)" stroke="#67818a" stroke-width="1.5"/><path d="M10 12h28v5H10Z" fill="#a8c4cb" stroke="#577580"/><path d="M19 9a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3" fill="none" stroke="#55747f" stroke-width="3"/><path d="M20 21v17M24 21v17M28 21v17" stroke="#7c9ba3" stroke-width="1.8" stroke-linecap="round"/><path d="M16 19h16" stroke="#f5ffff" opacity=".7"/>',
- drive:'<rect x="5" y="14" width="38" height="25" rx="4" fill="#607e88" stroke="#35535c" stroke-width="1.5"/><path d="M7 18h34v12H7Z" fill="url(#G)"/><path d="M7 32h34" stroke="#c2d9de" stroke-width="1.5"/><circle cx="35" cy="35" r="2" fill="#7ecfa8"/><path d="M13 35h14" stroke="#d8e9e9" stroke-width="2" stroke-linecap="round"/>',
- settings:'<circle cx="24" cy="24" r="18" fill="#61818d" stroke="#35525b" stroke-width="2"/><circle cx="24" cy="24" r="11" fill="url(#G)"/><circle cx="24" cy="24" r="5" fill="#6b8e99" stroke="#d9e9e9" stroke-width="2"/><path d="M24 6v7m0 22v7M6 24h7m22 0h7M11 11l5 5m16 16 5 5M37 11l-5 5M16 32l-5 5" stroke="#bed7de" stroke-width="3" stroke-linecap="round"/>',
- programs:'<rect x="6" y="6" width="16" height="16" rx="2" fill="#78a1b5"/><rect x="26" y="6" width="16" height="16" rx="2" fill="#a3bec8"/><rect x="6" y="26" width="16" height="16" rx="2" fill="#b7c8bd"/><rect x="26" y="26" width="16" height="16" rx="2" fill="#5e8e97"/>'
+ computer:'<rect x="6.5" y="7.5" width="35" height="28" rx="3.2" fill="#325968" stroke="#203f4b" stroke-width="1.4"/><rect x="9" y="10" width="30" height="22.5" rx="1.5" fill="url(#G)" stroke="#b3d3d9" stroke-width="1"/><path d="M10.5 11.5H37v3c-11 1.1-15.5 10.1-26.5 11.7Z" fill="#fff" opacity=".24"/><path d="M21.5 35.5h5l1.1 5.2h-7.2Z" fill="#819faa" stroke="#466a77" stroke-width=".8"/><rect x="15.5" y="40.5" width="17" height="3" rx="1.4" fill="#c0d0d5" stroke="#688790" stroke-width=".75"/><circle cx="37.5" cy="34" r=".85" fill="#a8ebbc"/>',
+ folder:'<path d="M7.5 12.5h10.3l4.3 3.6h18a2.7 2.7 0 0 1 2.7 2.7v17.6a2.7 2.7 0 0 1-2.7 2.7H7.7A2.7 2.7 0 0 1 5 36.4V15a2.5 2.5 0 0 1 2.5-2.5Z" fill="#b1844a" stroke="#85633c" stroke-width="1.1" stroke-linejoin="round"/><path d="M7.5 18.5h32.7a2.4 2.4 0 0 1 2.4 2.8l-2.7 15.1a2.8 2.8 0 0 1-2.8 2.3H9.2a2.8 2.8 0 0 1-2.8-2.5L5.1 21.3a2.5 2.5 0 0 1 2.4-2.8Z" fill="url(#G)" stroke="#9e763f" stroke-width="1.05" stroke-linejoin="round"/><path d="M8.5 20.7h30" stroke="#fff2d0" stroke-width="1.5" opacity=".85" stroke-linecap="round"/><path d="M8.7 35.7h28" stroke="#b48342" stroke-width="1.1" opacity=".3" stroke-linecap="round"/>',
+ archive:'<path d="M7.5 12.5h10.3l4.3 3.6h18a2.7 2.7 0 0 1 2.7 2.7v17.6a2.7 2.7 0 0 1-2.7 2.7H7.7A2.7 2.7 0 0 1 5 36.4V15a2.5 2.5 0 0 1 2.5-2.5Z" fill="#537781" stroke="#335660" stroke-width="1.1" stroke-linejoin="round"/><path d="M7.5 18.5h32.7a2.4 2.4 0 0 1 2.4 2.8l-2.7 15.1a2.8 2.8 0 0 1-2.8 2.3H9.2a2.8 2.8 0 0 1-2.8-2.5L5.1 21.3a2.5 2.5 0 0 1 2.4-2.8Z" fill="url(#G)" stroke="#4c7580" stroke-width="1.05" stroke-linejoin="round"/><path d="M8.5 20.7h30" stroke="#f1ffff" stroke-width="1.5" opacity=".7" stroke-linecap="round"/><rect x="17.4" y="23.6" width="14.8" height="10.2" rx="1.2" fill="#f1f5f3" stroke="#658793" stroke-width="1"/><path d="M20.2 27h9.3m-9.3 3.1h7.3" stroke="#7896a1" stroke-width="1.25" stroke-linecap="round"/>',
+ internet:'<circle cx="24" cy="24" r="18.2" fill="#255d85" stroke="#234e68" stroke-width="1.5"/><circle cx="24" cy="24" r="16" fill="url(#G)" stroke="#b8dae7" stroke-width=".9"/><path d="M9 24h30M24 8.5c-6.7 7.6-6.7 23.4 0 31M24 8.5c6.7 7.6 6.7 23.4 0 31M13.2 14.6h21.6M12.8 33.4h22.4" stroke="#daf4f7" stroke-width="1.05" opacity=".82" fill="none" stroke-linecap="round"/><path d="m11 17 4.6-4.4 8 1.8 3 7-4 3.2-2 5.7-5.7-1-2.5-6.1Z" fill="#579b88" opacity=".85"/><path d="m29 26 7.7-.5.9 5-5.9 6.7-4.2 1-2.1-7.4Z" fill="#518b80" opacity=".85"/><path d="M12 13c6-6 15-7 22-2" fill="none" stroke="#fff" stroke-width="1.1" opacity=".32" stroke-linecap="round"/>',
+ music:'<circle cx="24" cy="24" r="18.1" fill="#375e70" stroke="#254756" stroke-width="1.4"/><circle cx="24" cy="24" r="15.4" fill="url(#G)" stroke="#b5d4d9" stroke-width=".95"/><path d="M12.4 16.2A14.6 14.6 0 0 1 29 10" fill="none" stroke="#fff" opacity=".44" stroke-width="2.2" stroke-linecap="round"/><circle cx="24" cy="24" r="7.7" fill="#d9e8e9" stroke="#6b99a4" stroke-width="1"/><circle cx="24" cy="24" r="3.5" fill="#608a98"/><path d="M29.5 14.1v16.1a4.2 4.2 0 1 1-2.2-3.7V15.9l10-2.9v13.5a4.2 4.2 0 1 1-2.2-3.7V10.8Z" fill="#284f6b" stroke="#d8e7e9" stroke-width=".65" stroke-linejoin="round"/>',
+ photo:'<rect x="7" y="8" width="34" height="32" rx="3" fill="#416c7b" stroke="#2b4f5b" stroke-width="1.4"/><rect x="10" y="11" width="28" height="26" rx="1" fill="url(#G)" stroke="#d7e9ec" stroke-width="1"/><circle cx="31.2" cy="17.7" r="3.35" fill="#ffedbc"/><path d="M11.3 33.5 20.2 21l6.7 8 5.1-5.3 4.7 7.9v4.2H11.3Z" fill="#629985"/><path d="m11.3 35 10.4-9.5 6.4 7 4.7-4.5 4 5.8v2.1H11.3Z" fill="#386f7d" opacity=".9"/><path d="M11.1 12.2h25.6" stroke="#fff" stroke-width="1.15" opacity=".55" stroke-linecap="round"/>',
+ text:'<path d="M11.2 5.5h18l8 8V39a3.1 3.1 0 0 1-3.1 3.1h-23A3.1 3.1 0 0 1 8 39V8.7a3.2 3.2 0 0 1 3.2-3.2Z" fill="url(#G)" stroke="#718a92" stroke-width="1.3" stroke-linejoin="round"/><path d="M29.2 5.5v8h8" fill="#dce9eb" stroke="#718a92" stroke-width="1.1" stroke-linejoin="round"/><rect x="13.6" y="12" width="10.7" height="2.7" rx="1.1" fill="#7da8b2"/><path d="M13.7 19.6h18.5m-18.5 4.9h18.5m-18.5 4.9h15.2m-15.2 4.9h17.1" stroke="#75919b" stroke-width="1.55" stroke-linecap="round"/>',
+ record:'<path d="M11.2 5.5h18l8 8V39a3.1 3.1 0 0 1-3.1 3.1h-23A3.1 3.1 0 0 1 8 39V8.7a3.2 3.2 0 0 1 3.2-3.2Z" fill="url(#G)" stroke="#82959b" stroke-width="1.3" stroke-linejoin="round"/><path d="M29.2 5.5v8h8" fill="#e1e9ea" stroke="#82959b" stroke-width="1.1" stroke-linejoin="round"/><rect x="13.6" y="12" width="10.7" height="2.7" rx="1.1" fill="#6a99a5"/><path d="M13.7 19.6h18.5m-18.5 4.9h18.5m-18.5 4.9h14.4m-14.4 4.9h10.4" stroke="#879ba0" stroke-width="1.55" stroke-linecap="round"/><rect x="26.6" y="31.3" width="8.1" height="7.5" rx="1.25" fill="#5d9099" stroke="#447581" stroke-width=".75"/><path d="M28.6 34.4h4.2m-4.2 2h3.1" stroke="#d9eded" stroke-width=".8" stroke-linecap="round"/>',
+ trash:'<path d="M15.1 16.1h17.8l-1.65 22a4.1 4.1 0 0 1-4.1 3.8h-6.3a4.1 4.1 0 0 1-4.1-3.8Z" fill="url(#G)" stroke="#6c8991" stroke-width="1.3" stroke-linejoin="round"/><rect x="10.7" y="12.7" width="26.6" height="4.8" rx="1" fill="#a5c3cb" stroke="#64818a" stroke-width="1.1"/><path d="M19.6 12.6V10a2.75 2.75 0 0 1 2.75-2.75h3.3A2.75 2.75 0 0 1 28.4 10v2.6" fill="none" stroke="#6e8c94" stroke-width="2.1" stroke-linecap="round"/><path d="M20 21.4v14.9m4-14.9v14.9m4-14.9v14.9" stroke="#819ea7" stroke-width="1.6" stroke-linecap="round"/><path d="M17.2 19.4h13.6" stroke="#fff" stroke-width="1.15" opacity=".72" stroke-linecap="round"/>',
+ drive:'<rect x="6" y="13.5" width="36" height="25.5" rx="3.6" fill="#718b93" stroke="#45606a" stroke-width="1.35"/><path d="M8.2 17h31.6v12.4H8.2Z" fill="url(#G)" stroke="#9fbcc6" stroke-width=".65"/><path d="M8.2 32h31.6" stroke="#d9e9ed" stroke-width="1.25"/><path d="M12.5 35.2h15.2" stroke="#c6dce2" stroke-width="1.65" stroke-linecap="round"/><circle cx="35.1" cy="35.3" r="2" fill="#7ccea6"/><circle cx="35.1" cy="35.3" r=".75" fill="#d3ffe5"/>',
+ settings:'<path d="M20.3 6.8h7.4l1.25 4.45 4 1.65 4-2.25 5 5-2.25 4L41.3 24l-1.6 4.05 2.25 4-5 5-4-2.25-4 1.65-1.25 4.75h-7.4l-1.25-4.75-4-1.65-4 2.25-5-5 2.25-4L6.7 24l1.6-4.05-2.25-4 5-5 4 2.25 4-1.65Z" fill="url(#G)" stroke="#537883" stroke-width="1.1" stroke-linejoin="round"/><circle cx="24" cy="24" r="11" fill="#aacbd2" stroke="#547d88" stroke-width="1.4"/><circle cx="24" cy="24" r="5.2" fill="#6a96a0" stroke="#dae9ec" stroke-width="1.55"/><path d="M18.7 15.4a10 10 0 0 1 11.2 1" fill="none" stroke="#fff" opacity=".45" stroke-width="1.65" stroke-linecap="round"/>',
+ programs:'<rect x="7" y="7" width="14.8" height="14.8" rx="2.25" fill="#789fb3" stroke="#52798c" stroke-width=".9"/><rect x="26.2" y="7" width="14.8" height="14.8" rx="2.25" fill="#acc5cf" stroke="#7e9fa9" stroke-width=".9"/><rect x="7" y="26.2" width="14.8" height="14.8" rx="2.25" fill="#afc5b8" stroke="#7f9e8e" stroke-width=".9"/><rect x="26.2" y="26.2" width="14.8" height="14.8" rx="2.25" fill="#6495a0" stroke="#46717e" stroke-width=".9"/><path d="M9.5 9.5h9.3m9.9 0H38M9.5 28.7h9.3m9.9 0H38" stroke="#fff" stroke-width="1.15" opacity=".4" stroke-linecap="round"/>'
 };
 const pcIconColors={
  computer:['#a9d9df','#3a7286'],folder:['#ffe5a4','#d5a45b'],archive:['#b9dfe2','#648e9e'],
@@ -311,12 +335,12 @@ const pcIconColors={
 };
 function pcSvg(kind){
  const name=pcArt[kind]?kind:'text',colors=pcIconColors[name],id='pc-grad-'+(++pcSvgCounter);
- return '<svg class="pc-icon-svg" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="'+id+'" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="'+colors[0]+'"/><stop offset="1" stop-color="'+colors[1]+'"/></linearGradient></defs>'+pcArt[name].replaceAll('url(#G)','url(#'+id+')')+'</svg>';
+ return '<svg class="pc-icon-svg" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="'+id+'" x1="18%" y1="0%" x2="76%" y2="100%"><stop stop-color="'+colors[0]+'"/><stop offset="1" stop-color="'+colors[1]+'"/></linearGradient></defs>'+pcArt[name].replaceAll('url(#G)','url(#'+id+')')+'</svg>';
 }
 function pcIconNode(kind,cls=''){const span=document.createElement('span');span.className=cls;span.innerHTML=pcSvg(kind);return span}
 function pcWindowIcon(kind,path){return kind==='explorer'?(path==='root'?'computer':path==='drive'?'drive':path==='silver'?'archive':'folder'):{browser:'internet',musicplayer:'music',photos:'photo',notepad:'text',trash:'trash',record:'record',settings:'settings'}[kind]||'computer'}
 function pcUpdateTask(w,title,kind){w.task.querySelector('.task-title').textContent=title;const box=w.task.querySelector('.task-icon');if(box)box.innerHTML=pcSvg(kind||pcWindowIcon(w.kind,w.path))}
-function pcMenuIcon(label){if(label.includes('프로그램'))return 'programs';if(label.includes('컴퓨터')||label.includes('탐색기'))return 'computer';if(label.includes('실버'))return 'archive';if(label.includes('인터넷'))return 'internet';if(label.includes('휴지통'))return 'trash';if(label.includes('음악'))return 'music';if(label.includes('사진'))return 'photo';if(label.includes('메모')||label.includes('문서'))return 'text';if(label.includes('제어판'))return 'settings';return 'folder'}
+function pcMenuIcon(label){if(label.includes('프로그램'))return 'programs';if(label.includes('컴퓨터')||label.includes('탐색기'))return 'computer';if(label.includes('실버'))return 'archive';if(label.includes('인터넷'))return 'internet';if(label.includes('휴지통'))return 'trash';if(label.includes('음악'))return 'music';if(label.includes('사진'))return 'photo';if(label.includes('메모장'))return 'text';if(label.includes('문서'))return 'folder';if(label.includes('제어판'))return 'settings';return 'folder'}
 
 const fsData={
  root:{name:'컴퓨터',items:['drive']},
@@ -370,7 +394,7 @@ function pathLabel(path){const parts=[];let k=path;while(k&&fsData[k]){parts.uns
 function goFolder(id,path,history=true){const w=openWindows.get(id);if(!w||!fsData[path])return;w.path=path;w.selected=null;if(history){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(path);w.historyIndex++}renderExplorer(id)}
 function renderExplorer(id){
  const w=openWindows.get(id);if(!w)return;const node=fsData[w.path],el=w.el;
- el.querySelector('strong').textContent=node.name+' - Windows 탐색기';pcUpdateTask(w,node.name,pcWindowIcon('explorer',w.path));
+ el.querySelector('strong').textContent=node.name+' - Windows 탐색기';pcUpdateTask(w,node.name,pcWindowIcon('explorer',w.path));el.querySelector('.win-app-icon').innerHTML=pcSvg(pcWindowIcon('explorer',w.path));
  const content=el.querySelector('.win-content');content.replaceChildren();
  const menu=document.createElement('div');menu.className='win-menu';menu.textContent='파일　　 편집　　 보기　　 도구　　 도움말';content.append(menu);
  const toolbar=document.createElement('div');toolbar.className='win-toolbar';
@@ -566,7 +590,7 @@ function pcUrl(w,blob){if(!w.objectUrls)w.objectUrls=[];const url=URL.createObje
 renderExplorer=function(id){
  const w=openWindows.get(id);if(!w)return;
  if(!fsData[w.path])w.path='root';
- const folder=fsData[w.path];w.el.querySelector('strong').textContent=folder.name+' - Windows 탐색기';pcUpdateTask(w,folder.name,pcWindowIcon('explorer',w.path));
+ const folder=fsData[w.path];w.el.querySelector('strong').textContent=folder.name+' - Windows 탐색기';pcUpdateTask(w,folder.name,pcWindowIcon('explorer',w.path));w.el.querySelector('.win-app-icon').innerHTML=pcSvg(pcWindowIcon('explorer',w.path));
  const content=w.el.querySelector('.win-content');content.replaceChildren();
  const menu=pcNode('div','win-menu');['파일','편집','보기','도구','도움말'].forEach(label=>{const item=pcNode('span','',label);item.style.cursor='default';item.onclick=e=>{if(label==='파일'){showContext(e.clientX,e.clientY,[['새 텍스트 문서',()=>pcNewText(w.path)],['가져오기',()=>picker.click()]])}if(label==='보기'){showContext(e.clientX,e.clientY,[['자세히',()=>{w.view='details';renderExplorer(id)}],['큰 아이콘',()=>{w.view='icons';renderExplorer(id)}]])}};menu.append(item)});content.append(menu);
  const toolbar=pcNode('div','win-toolbar');
