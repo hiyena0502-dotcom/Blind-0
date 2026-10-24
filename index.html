@@ -99,14 +99,70 @@
 </main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);const btn=document.getElementById('connect'),terminal=document.getElementById('terminal'),access=document.getElementById('access');
 const left=document.getElementById('streamLeft'),right=document.getElementById('streamRight');
 const hex=()=>Math.floor(Math.random()*65536).toString(16).toUpperCase().padStart(4,'0');
-const makeLine=()=>['SCAN','SYNC','CACHE','PACKET','ROUTE','CHECK','INDEX'][Math.floor(Math.random()*7)]+' 0x'+hex()+' : '+hex()+' '+hex()+' '+hex();
+// BLIND easter eggs: dates, birthdays and canonical reference words.
+// The log labels below are fictional interface flavor, not in-universe official IDs.
+const generalOps=['SCAN','PACKET','CACHE','MEMORY','AUTH','SYNC','CHECK','ROUTE','INDEX'];
+const numericEasterEggs=[
+ 'FINAL SESSION DATE : 20220909',
+ 'LOCAL USER TRACE : 0911',
+ 'LEGACY RECORD 01 : 20200703',
+ 'LEGACY RECORD 02 : 20200814',
+ 'LEGACY RECORD 03 : 20201023',
+ 'LEGACY RECORD 04 : 20210129',
+ 'LEGACY RECORD 05 : 20210423',
+ 'LEGACY RECORD 06 : 20210827',
+ 'HIDDEN SIGNATURE : 1228',
+ 'HIDDEN SIGNATURE : 0423',
+ 'HIDDEN SIGNATURE : 1215',
+ 'HIDDEN SIGNATURE : 0107',
+ 'HIDDEN SIGNATURE : 1214',
+ 'PHARMACEUTICAL ID: SH-107 : 107',
+ 'SCHOOL ARCHIVE : 201811',
+ 'RESCUE RECORD : 45 / 15',
+ 'PRIZE POOL / KRW : 6000000000'
+];
+const keywordEasterEggs=[
+ 'SILVER_SOFT','EMERALD_FOREST','GOLD_CAPITAL','RUBY_CHEMICAL',
+ 'PREDATOR','PREY','DMC','OZ','SCARECROW','TIN_WOODMAN',
+ 'COWARDLY_LION','SOUTH_WITCH',
+ 'DEATH_WALTZ','SH-107','HAUNTED_HOUSE','METRONOME',
+ 'UTOPIA','WATCH','SCHOOL_GHOST_STORY','FIRST_PLACE',
+ 'GOLDEN_APPLE','PANDORA','VAMPIRE','DAKIA'
+];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const makeLine=()=>{
+ const roll=Math.random();
+ if(roll<0.018)return pick(numericEasterEggs);
+ if(roll<0.066)return 'INDEXED : '+pick(keywordEasterEggs);
+ return pick(generalOps)+' 0x'+hex()+' : '+hex()+' '+hex()+' '+hex();
+};
 const streams=()=>{left.textContent=Array.from({length:65},makeLine).join('\n');right.textContent=Array.from({length:65},makeLine).join('\n')};
 streams();const streamTimer=setInterval(streams,1400);
-const ambient=['> scanning interface nodes...','> reading virtual memory block 0x','> checking local session flags...','> packet received : ','> verifying data checksum ','> standby channel active','> mapping directory index 0x'];
+const ambient=[
+'> scanning interface nodes...','> reading virtual memory block 0x',
+'> checking local session flags...','> packet received : ',
+'> verifying data checksum ','> standby channel active',
+'> mapping directory index 0x','> SCAN sector 0x',
+'> PACKET routing 0x','> CACHE check : ','> MEMORY map 0x',
+'> AUTH state : pending','> SYNC channel active'
+];
 let log=['> initializing local interface...','> remote endpoint detected'];let connecting=false;
 const render=()=>{terminal.textContent=log.slice(-7).join('\n')+'\n_';};
 render();
-const ambientTimer=setInterval(()=>{if(connecting||access.classList.contains('hidden'))return;const pick=ambient[Math.floor(Math.random()*ambient.length)];log.push(pick+(pick.endsWith('0x')||pick.endsWith(': ')||pick.endsWith('checksum ')?hex():'') );if(log.length>30)log=log.slice(-12);render()},190);
+const ambientTimer=setInterval(()=>{
+ if(connecting||access.classList.contains('hidden'))return;
+ const roll=Math.random();
+ let line;
+ if(roll<0.07)line='> '+pick(numericEasterEggs);
+ else if(roll<0.23)line='> '+pick(['cache entry found','reference matched','legacy keyword','archive lookup','index keyword'])+' : '+pick(keywordEasterEggs);
+ else {
+  const entry=pick(ambient);
+  line=entry+(entry.endsWith('0x')||entry.endsWith(': ')||entry.endsWith('checksum ')?hex():'');
+ }
+ log.push(line);
+ if(log.length>30)log=log.slice(-12);
+ render();
+},190);
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const authOverlay=document.getElementById('authOverlay'),grantedScreen=document.getElementById('grantedScreen'),authStage=document.getElementById('authStage'),authValue=document.getElementById('authValue'),authTitle=document.getElementById('authTitle'),authState=document.getElementById('authState'),loadFill=document.getElementById('loadFill'),loadTrack=document.getElementById('loadTrack'),loadStatus=document.getElementById('loadStatus'),loadPercent=document.getElementById('loadPercent');
 async function connectSequence(){
