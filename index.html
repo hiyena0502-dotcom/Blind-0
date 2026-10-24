@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Desktop</title>
+<style>
+:root{font-family:Tahoma,"Malgun Gothic",sans-serif;color:#dce4d9}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{background:#152a28}
+.desktop{position:relative;width:100vw;height:100dvh;overflow:hidden;background:radial-gradient(ellipse 65% 50% at 65% 48%,#456f63 0%,transparent 76%),linear-gradient(132deg,#102a2d 0%,#284b43 45%,#102b30 100%)}
+.desktop:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 80%,#78907940,transparent 60%),linear-gradient(115deg,transparent 0 35%,#d0dec315 47%,transparent 65%);pointer-events:none}
+.desktop:after{content:"";position:absolute;inset:0;opacity:.17;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E")}
+.glow{position:absolute;width:110vw;height:60vh;left:-18vw;top:22vh;transform:rotate(-21deg);border-radius:50%;border:2px solid #d7ead220;box-shadow:0 0 0 30px #c5e1ce0b,0 0 0 78px #c5e1ce0a,0 0 0 130px #c5e1ce08;filter:blur(1px)}
+.ribbon{position:absolute;left:18%;top:8%;width:75%;height:80%;border-radius:55% 15% 60% 35%;border-top:clamp(35px,6vw,100px) solid #a4c3a32b;transform:rotate(-28deg);filter:blur(19px)}
+.taskbar{position:absolute;bottom:0;left:0;right:0;height:46px;background:linear-gradient(#263b3ce8,#0d1d22f5);border-top:1px solid #afc4b04d;box-shadow:0 -3px 20px #0003;display:flex;align-items:center;padding:0 13px;gap:12px;z-index:2}
+.start{height:32px;width:44px;border:1px solid #b2cdb25c;border-radius:5px;background:linear-gradient(140deg,#688b77,#274a45);box-shadow:inset 0 1px #d3e4d451,0 1px 4px #0008;display:grid;place-items:center;cursor:pointer}
+.start svg{width:19px;height:19px;fill:#e0eddd;opacity:.9}
+.sep{height:25px;width:1px;background:#a3b9ad50;box-shadow:1px 0 #0008}
+.spacer{flex:1}
+.tray{display:flex;align-items:center;gap:12px;color:#d0d9d1;font-size:11px;text-shadow:0 1px 2px #000;letter-spacing:.02em}
+.tray svg{width:15px;height:15px;stroke:#d0d9d1;fill:none;stroke-width:1.8}
+.clock{text-align:right;line-height:1.4;min-width:68px}
+.showdesktop{height:100%;width:5px;border-left:1px solid #a4bba65a;background:#9ebba31a;margin-right:-9px}
+.start:focus-visible{outline:2px solid #e1f3e1;outline-offset:2px}
+@media(max-width:600px){.taskbar{height:42px}.glow{left:-65vw;width:170vw}.ribbon{width:110%;left:4%}}
+</style></head>
+<body><main class="desktop" aria-label="빈 컴퓨터 바탕화면"><div class="glow"></div><div class="ribbon"></div>
+<footer class="taskbar"><div class="start" title="시작 버튼 디자인" aria-label="시작 버튼"><svg viewBox="0 0 24 24"><path d="M2 4 11 2.5v9H2zm11-1.8L22 1v10.5h-9zM2 13h9v9L2 20.5zm11 0h9v10l-9-1.3z"/></svg></div><div class="sep"></div><div class="spacer"></div><div class="tray"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9zm12-1q5 4 0 8m2-11q8 7 0 14"/></svg><svg viewBox="0 0 24 24"><path d="M3 17q9-10 18 0M7 20q5-6 10 0M11 23h2"/></svg><div class="clock"><div id="time">--:--</div><div id="date">----.--.--</div></div></div><div class="showdesktop"></div></footer>
+</main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);</script></body></html>
