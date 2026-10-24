@@ -161,7 +161,7 @@
 .os-browser-page .os-listrow{max-width:630px}
 .os-fileinput{font-size:11px}
 @media(max-width:650px){.win-search{width:105px}.explorer-side{width:115px}.os-browser-page{padding:14px}.os-photo{width:110px}.os-photo img{height:75px}}
-.pc-browser-home{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12%;background:linear-gradient(#fff,#f7fafb)}.pc-search-brand{font:normal 36px Georgia,serif;letter-spacing:3px;color:#416c85;margin:0 0 26px}.pc-search-form{display:flex;gap:7px;width:min(100%,660px);margin:10px auto 22px}.pc-search-field{flex:1;min-width:0;padding:12px 14px;border:1px solid #9fb6c4;box-shadow:inset 0 1px 3px #0001;font:14px "Malgun Gothic",sans-serif}.pc-search-form button{min-width:80px;border:1px solid #93aab6;background:linear-gradient(#f7fbfc,#dce9ef);cursor:pointer}.pc-browser-shortcuts{display:flex;gap:10px}.pc-browser-shortcuts button{padding:8px 14px;border:1px solid #c5d5dc;background:#f7fafb;color:#476071;cursor:pointer}.pc-search-tabs{border-bottom:1px solid #dbe5ea;padding:12px;color:#687e8d}.pc-search-result{padding:15px 8px;max-width:690px}.pc-search-result a{display:block;color:#205c96;font-size:17px;margin-top:4px}.pc-search-result small{color:#4d8065}.pc-search-result p{line-height:1.6;color:#53666b}</style></head>
+.pc-browser-home{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12%;background:linear-gradient(#fff,#f7fafb)}.pc-search-brand{font:normal 36px Georgia,serif;letter-spacing:3px;color:#416c85;margin:0 0 26px}.pc-search-form{display:flex;gap:7px;width:min(100%,660px);margin:10px auto 22px}.pc-search-field{flex:1;min-width:0;padding:12px 14px;border:1px solid #9fb6c4;box-shadow:inset 0 1px 3px #0001;font:14px "Malgun Gothic",sans-serif}.pc-search-form button{min-width:80px;border:1px solid #93aab6;background:linear-gradient(#f7fbfc,#dce9ef);cursor:pointer}.pc-browser-shortcuts{display:flex;gap:10px}.pc-browser-shortcuts button{padding:8px 14px;border:1px solid #c5d5dc;background:#f7fafb;color:#476071;cursor:pointer}.pc-search-tabs{border-bottom:1px solid #dbe5ea;padding:12px;color:#687e8d}.pc-search-result{padding:15px 8px;max-width:690px}.pc-search-result a{display:block;color:#205c96;font-size:17px;margin-top:4px}.pc-search-result small{color:#4d8065}.pc-search-result p{line-height:1.6;color:#53666b}.os-record-preview{background:#fff;color:#263d43;padding:30px 35px}.os-record-preview h2{font-size:19px;font-weight:500;border-bottom:1px solid #d2dfe3;padding-bottom:16px}</style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
 <div class="win-layer" id="winLayer"></div>
@@ -273,27 +273,29 @@ btn.addEventListener('click',connectSequence);
 /* Virtual desktop filesystem. BLIND 1–6: Silver Soft's records reviewed by the user, not cases worked by him. */
 const fsData={
  root:{name:'컴퓨터',items:['drive']},
- drive:{name:'로컬 디스크 (C:)',parent:'root',items:['users','work','system']},
- users:{name:'사용자',parent:'drive',items:['home']},
- home:{name:'공룡',parent:'users',items:['docs','pictures','music','downloads']},
- docs:{name:'문서',parent:'home',items:['notes']},
- pictures:{name:'사진',parent:'home',items:[]},
- music:{name:'음악',parent:'home',items:[]},
- downloads:{name:'다운로드',parent:'home',items:[]},
- notes:{name:'메모',parent:'docs',items:[]},
- work:{name:'업무',parent:'drive',items:['agency','silver','emerald']},
+ drive:{name:'로컬 디스크 (C:)',parent:'root',items:['work','silver','docs','pictures','music','downloads','system']},
+ work:{name:'업무',parent:'drive',items:['agency','emerald']},
  agency:{name:'흥신소',parent:'work',items:[]},
- silver:{name:'실버 소프트',parent:'work',items:['archive']},
- archive:{name:'기록 자료',parent:'silver',items:['blind1','blind2','blind3','blind4','blind5','blind6']},
- blind1:{name:'01_죽음의 왈츠',parent:'archive',items:[]},
- blind2:{name:'02_유령의 집',parent:'archive',items:[]},
- blind3:{name:'03_유토피아',parent:'archive',items:[]},
- blind4:{name:'04_학교 괴담',parent:'archive',items:[]},
- blind5:{name:'05_황금 사과',parent:'archive',items:[]},
- blind6:{name:'06_뱀파이어',parent:'archive',items:[]},
  emerald:{name:'에메랄드 포레스트',parent:'work',items:[]},
+ silver:{name:'실버 소프트',parent:'drive',items:[]},
+ docs:{name:'문서',parent:'drive',items:[]},
+ pictures:{name:'사진',parent:'drive',items:[]},
+ music:{name:'음악',parent:'drive',items:[]},
+ downloads:{name:'다운로드',parent:'drive',items:[]},
  system:{name:'시스템',parent:'drive',items:[]}
 };
+const pcSilverRecords=[
+ {id:'silver-01',name:'01_죽음의 왈츠',kind:'record',virtual:true,size:0},
+ {id:'silver-02',name:'02_유령의 집',kind:'record',virtual:true,size:0},
+ {id:'silver-03',name:'03_유토피아',kind:'record',virtual:true,size:0},
+ {id:'silver-04',name:'04_학교 괴담',kind:'record',virtual:true,size:0},
+ {id:'silver-05',name:'05_황금 사과',kind:'record',virtual:true,size:0},
+ {id:'silver-06',name:'06_뱀파이어',kind:'record',virtual:true,size:0}
+];
+function pcCanonicalFolder(key){
+ const legacy={users:'docs',home:'docs',notes:'docs',archive:'silver',blind1:'silver',blind2:'silver',blind3:'silver',blind4:'silver',blind5:'silver',blind6:'silver'};
+ return legacy[key]||(fsData[key]?key:'docs');
+}
 const winLayer=document.getElementById('winLayer'),startMenu=document.getElementById('startMenu'),startButton=document.querySelector('.start'),startApps=document.getElementById('startApps'),startLinks=document.getElementById('startLinks'),startSearch=document.getElementById('startSearch'),contextMenu=document.getElementById('contextMenu'),taskSpacer=document.querySelector('.taskbar .spacer');
 let winCounter=0,topWindow=30,focused=null;
 const openWindows=new Map();
@@ -404,9 +406,9 @@ function pcNode(tag,cls,txt){const n=document.createElement(tag);if(cls)n.classN
 function pcButton(label,callback){const b=pcNode('button','',label);b.type='button';b.onclick=callback;return b}
 function pcMessage(message){alert(message)}
 function pcSize(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB'}
-function pcType(f){return f.kind==='text'?'텍스트 문서':f.kind==='image'?'이미지 파일':'오디오 파일'}
+function pcType(f){return f.kind==='record'?'기록 문서':f.kind==='text'?'텍스트 문서':f.kind==='image'?'이미지 파일':'오디오 파일'}
 function pcIcon(f){return f.kind==='text'?'📄':f.kind==='image'?'🖼️':'🎵'}
-function pcUsableFolder(key){return !['root','drive','users','home','system','archive','blind1','blind2','blind3','blind4','blind5','blind6'].includes(key)}
+function pcUsableFolder(key){return Boolean(fsData[key])&&!['root','drive','system'].includes(key)}
 function pcRecordId(){return 'file-'+Date.now()+'-'+Math.random().toString(36).slice(2,9)}
 function pcWindowRefresh(){for(const [id,w] of openWindows){if(w.kind==='explorer'&&fsData[w.path])renderExplorer(id);if(w.kind==='trash')renderApp(id)}renderStart()}
 function pcConnect(){
@@ -416,7 +418,7 @@ function pcConnect(){
   req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files',{keyPath:'id'})};
   req.onerror=()=>{pcStorageFailed=true;pcStorageReady=true;resolve()};
   req.onsuccess=()=>{pcDB=req.result;const tx=pcDB.transaction('files','readonly'),r=tx.objectStore('files').getAll();
-   r.onsuccess=()=>{r.result.forEach(file=>pcFiles.set(file.id,file));pcStorageReady=true;pcMigrateNotes();pcWindowRefresh();resolve()};
+   r.onsuccess=()=>{const moved=[];r.result.forEach(file=>{const canonical=pcCanonicalFolder(file.parent);if(canonical!==file.parent){file.parent=canonical;moved.push(file)}pcFiles.set(file.id,file)});if(moved.length){try{const patch=pcDB.transaction('files','readwrite').objectStore('files');moved.forEach(file=>patch.put(file))}catch(e){}}pcStorageReady=true;pcMigrateNotes();pcWindowRefresh();resolve()};
    r.onerror=()=>{pcStorageFailed=true;pcStorageReady=true;resolve()}
   }
  })
@@ -439,7 +441,7 @@ function pcRemove(id){
 async function pcMigrateNotes(){
  const legacy=localStorage.getItem(savedNotesKey);
  if(legacy&&!Array.from(pcFiles.values()).some(f=>f.legacyNote)&&pcDB){
-  await pcSave({id:pcRecordId(),name:'메모.txt',parent:'notes',kind:'text',text:legacy,size:new Blob([legacy]).size,modified:Date.now(),deleted:false,legacyNote:true}).catch(()=>{});
+  await pcSave({id:pcRecordId(),name:'메모.txt',parent:'docs',kind:'text',text:legacy,size:new Blob([legacy]).size,modified:Date.now(),deleted:false,legacyNote:true}).catch(()=>{});
  }
 }
 async function pcImport(files,parent,filter){
@@ -457,7 +459,7 @@ async function pcImport(files,parent,filter){
  return added
 }
 async function pcNewText(parent){
- if(!pcUsableFolder(parent))parent='notes';
+ if(!pcUsableFolder(parent))parent='docs';
  const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
  const clean=name.trim().slice(0,100);if(!clean)return;
  const record={id:pcRecordId(),name:/\.txt$/i.test(clean)?clean:clean+'.txt',kind:'text',parent,modified:Date.now(),size:0,text:'',deleted:false};
@@ -479,6 +481,7 @@ async function pcErase(file){
 }
 function pcOpenFile(file){
  if(!file||file.deleted)return;
+ if(file.virtual){const id=openWindow(file.name,'record');const w=openWindows.get(id);w.recordTitle=file.name;renderApp(id);return;}
  const kind=file.kind==='text'?'notepad':file.kind==='image'?'photos':'musicplayer';
  const id=openWindow(file.name,kind);
  const w=openWindows.get(id);w.openFileId=file.id;renderApp(id)
@@ -489,6 +492,7 @@ function pcOpenProps(file){
 }
 function pcFileMenu(e,file,id){
  e.preventDefault();e.stopPropagation();
+ if(file.virtual){showContext(e.clientX,e.clientY,[['열기',()=>pcOpenFile(file)],['속성',()=>pcOpenProps(file)]]);return;}
  showContext(e.clientX,e.clientY,[
   ['열기',()=>pcOpenFile(file)],
   ['이름 바꾸기',async()=>{const name=prompt('이름 바꾸기',file.name);if(name===null||!name.trim())return;file.name=name.trim().slice(0,100);file.modified=Date.now();await pcSave(file).catch(()=>pcMessage('변경하지 못했습니다.'))}],
@@ -531,13 +535,13 @@ renderExplorer=function(id){
  const importButton=pcButton('가져오기',()=>picker.click());importButton.disabled=!pcUsableFolder(w.path);
  toolbar.append(back,forward,up,addr,search,toggle,newText,importButton,picker);content.append(toolbar);
  const body=pcNode('div','explorer-body'),side=pcNode('nav','explorer-side');
- const groups=[['즐겨찾기',[['다운로드','downloads'],['문서','docs']]],['라이브러리',[['사진','pictures'],['음악','music'],['메모','notes']]],['컴퓨터',[['로컬 디스크 (C:)','drive'],['업무','work']]]];
+ const groups=[['즐겨찾기',[['문서','docs'],['다운로드','downloads']]],['바로가기',[['업무','work'],['실버 소프트','silver'],['사진','pictures'],['음악','music']]],['컴퓨터',[['로컬 디스크 (C:)','drive']]]];
  for(const [heading,entries] of groups){side.append(pcNode('div','side-group',heading));for(const [name,path] of entries){const entry=pcNode('div','side-entry','📁 '+name);entry.onclick=()=>goFolder(id,path);side.append(entry)}}
  const list=pcNode('div','explorer-list '+(w.view==='icons'?'icons':'')),status=pcNode('div','win-status');
  const draw=()=>{
   const query=search.value.trim().toLocaleLowerCase();
   const dirs=folder.items.map(key=>({key,name:fsData[key].name,isFolder:true}));
-  const files=[...pcFiles.values()].filter(f=>!f.deleted&&f.parent===w.path).map(file=>({key:file.id,name:file.name,file,isFolder:false}));
+  const files=[...pcFiles.values(),...(w.path==='silver'?pcSilverRecords:[])].filter(f=>!f.deleted&&(f.virtual||f.parent===w.path)).map(file=>({key:file.id,name:file.name,file,isFolder:false}));
   let entries=[...dirs,...files].filter(a=>a.name.toLocaleLowerCase().includes(query));
   const mode=w.sortMode||'name';entries.sort((a,b)=>{
    if(a.isFolder!==b.isFolder)return a.isFolder?-1:1;
@@ -584,7 +588,7 @@ renderApp=function(id){
    if(!record){
     const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
     const trimmed=name.trim();if(!trimmed)return;
-    record={id:pcRecordId(),name:/\.txt$/i.test(trimmed)?trimmed:trimmed+'.txt',parent:'notes',kind:'text',deleted:false}
+    record={id:pcRecordId(),name:/\.txt$/i.test(trimmed)?trimmed:trimmed+'.txt',parent:'docs',kind:'text',deleted:false}
    }
    record.text=value;record.size=new Blob([value]).size;record.modified=Date.now();
    try{await pcSave(record);w.openFileId=record.id;w.dirty=false;w.el.querySelector('strong').textContent=record.name+' - 메모장';w.task.textContent='📝 '+record.name;ui.status.textContent='저장됨'}catch(e){pcMessage('저장에 실패했습니다.')}
@@ -673,6 +677,8 @@ renderApp=function(id){
   }
   address.onkeydown=e=>{if(e.key==='Enter')navigate(address.value)};
   draw();ui.status.textContent='인터넷';
+ }else if(w.kind==='record'){
+  ui.main.classList.add('os-record-preview');ui.main.append(pcNode('h2','',w.recordTitle||''));ui.status.textContent='기록 문서';
  }else if(w.kind==='settings'){
   ui.main.append(pcNode('h3','','제어판'));
   const info=pcNode('div','os-listrow','표시 및 사용자 설정');ui.main.append(info);
