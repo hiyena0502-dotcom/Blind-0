@@ -83,8 +83,45 @@
 .fan-disclaimer{position:absolute;top:32px;right:27px;z-index:3;display:flex;flex-direction:column;align-items:flex-end;gap:5px;width:max-content;max-width:calc(100vw - 54px);padding:8px 10px;border-right:2px solid #72d78e;color:#9bceaa;text-align:right;font:10px/1.5 Consolas,"Malgun Gothic",sans-serif;letter-spacing:.025em;background:#07160db5;pointer-events:none;word-break:keep-all;overflow-wrap:normal}
 .fan-disclaimer span:first-child{color:#a9f4b7;letter-spacing:.13em;font-size:9px;white-space:nowrap}
 @media(max-width:680px){.fan-disclaimer{top:28px;right:15px;max-width:calc(100vw - 30px);font-size:9px;padding:5px 8px}.fan-disclaimer span:first-child{font-size:8px}}
+
+/* Desktop shell: classic Windows-inspired UI */
+.taskbar{z-index:6}.start{user-select:none}.start.active{filter:brightness(1.3)}
+.start-menu{display:none;position:absolute;bottom:46px;left:9px;width:405px;height:475px;z-index:8;background:linear-gradient(120deg,#233d46,#354e56);border:1px solid #82999c;border-radius:8px 8px 0 0;box-shadow:0 7px 30px #0009;padding:8px;color:#f1f5f3;font:13px "Malgun Gothic",Tahoma,sans-serif}
+.start-menu.open{display:flex;flex-direction:column}.start-user{height:52px;padding:12px;font-size:15px}.start-cols{display:grid;grid-template-columns:57% 43%;flex:1;min-height:0;gap:7px}
+.start-apps{background:#f6f7f5;color:#273137;border:1px solid #b5c4c4;border-radius:3px;padding:5px;overflow:auto}
+.start-links{padding:6px 2px;overflow:auto}.start-item{display:flex;align-items:center;gap:9px;padding:8px;cursor:default;border-radius:2px;min-height:33px}
+.start-item:hover,.start-item:focus-visible{background:#dbe9ec;color:#203a43;outline:1px solid #b5cfd7}.start-links .start-item:hover{background:#57727a;color:white}
+.start-search{height:30px;width:100%;border:1px solid #aabdc1;padding:5px 9px;background:white;color:#29353a;font:12px "Malgun Gothic",sans-serif}
+.start-bottom{display:flex;gap:9px;padding-top:8px}.start-bottom button{border:1px solid #778d91;background:linear-gradient(#617a7f,#334e55);color:white;padding:5px 11px;cursor:pointer}
+.win-layer{position:absolute;inset:0 0 46px;z-index:4;pointer-events:none}
+.os-window{position:absolute;width:880px;height:550px;min-width:460px;min-height:310px;max-width:100%;max-height:100%;display:flex;flex-direction:column;resize:both;overflow:hidden;background:#f8faf9;color:#29383d;border:1px solid #536e78;border-radius:6px 6px 2px 2px;box-shadow:0 12px 45px #0008;font:12px "Malgun Gothic",Tahoma,sans-serif;pointer-events:auto}
+.os-window.maximized{left:0!important;top:0!important;width:100%!important;height:100%!important;resize:none}
+.win-title{height:33px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 5px 0 12px;background:linear-gradient(#d9e7e9,#a4bdc2);cursor:move;user-select:none;color:#20323a}
+.win-title strong{font-size:12px;font-weight:500;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.win-controls{display:flex;gap:1px}.win-controls button{width:31px;height:22px;border:1px solid #879ea4;background:linear-gradient(#f4f8f9,#b3cbd0);color:#283d45;cursor:pointer}.win-controls button:last-child{background:linear-gradient(#dba9a1,#a65c55);color:white}
+.win-menu{display:flex;gap:19px;padding:7px 12px;border-bottom:1px solid #cdd6d8;background:#f5f7f7}
+.win-toolbar{display:flex;align-items:center;gap:6px;padding:7px 9px;border-bottom:1px solid #c8d2d3;background:#edf3f3}
+.win-toolbar button{border:1px solid #b5c6c8;border-radius:3px;background:linear-gradient(white,#dce8e9);height:26px;min-width:28px;cursor:pointer}
+.win-toolbar button:disabled{opacity:.4;cursor:default}.win-address{flex:1;background:white;border:1px solid #aebfc1;padding:5px 8px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.win-search{width:160px;min-width:70px;padding:5px;border:1px solid #afc1c4}
+.explorer-body{display:flex;flex:1;min-height:0}.explorer-side{width:185px;flex-shrink:0;background:linear-gradient(#edf3f4,#e3ebeb);border-right:1px solid #c6d3d5;padding:12px 8px;overflow:auto}.side-group{margin:8px 5px 4px;color:#52768b;font-weight:bold}.side-entry{padding:6px 8px;cursor:pointer;border-radius:2px}.side-entry:hover{background:#d0e3e8}
+.explorer-list{flex:1;overflow:auto;background:#fff}.file-header,.file-row{display:grid;grid-template-columns:minmax(170px,1fr) 145px 105px;gap:8px;align-items:center;padding:6px 12px}.file-header{background:#f1f5f6;border-bottom:1px solid #d5dfe1;color:#61757b}.file-row{cursor:default;min-height:34px}.file-row:hover{background:#e9f3f7}.file-row.selected{background:#d4e9f3;outline:1px solid #a7cbdc}.file-row .file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-icon{font-size:17px;margin-right:8px}.explorer-list.icons{display:flex;flex-wrap:wrap;align-content:flex-start;padding:12px;gap:8px}.explorer-list.icons .file-header{display:none}.explorer-list.icons .file-row{display:flex;flex-direction:column;justify-content:center;text-align:center;width:110px;height:100px}.explorer-list.icons .file-row .file-icon{display:block;font-size:34px;margin:0}.explorer-list.icons .file-row .file-type,.explorer-list.icons .file-row .file-size{display:none}
+.win-status{height:26px;flex-shrink:0;background:#edf2f3;border-top:1px solid #cbd6d8;padding:5px 12px;color:#63767b}.task-open{height:31px;max-width:170px;min-width:95px;border:1px solid #809b9f;background:linear-gradient(#557278,#263f47);color:#e4efef;padding:0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}.task-open.focused{background:linear-gradient(#78979b,#3e616b)}
+.context-menu{position:absolute;z-index:20;background:#f5f7f7;color:#26363b;border:1px solid #819ba3;box-shadow:2px 5px 15px #0005;min-width:160px;padding:5px;pointer-events:auto}.context-menu div{padding:7px 12px;cursor:pointer}.context-menu div:hover{background:#d5e8ef}
+@media(max-width:650px){.start-menu{width:min(405px,calc(100vw - 18px))}.os-window{min-width:300px}.explorer-side{width:115px}.file-header,.file-row{grid-template-columns:minmax(100px,1fr) 85px}.file-size{display:none}.win-search{width:85px}}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
+
+<div class="win-layer" id="winLayer"></div>
+<div class="start-menu" id="startMenu">
+ <div class="start-user">공룡</div>
+ <div class="start-cols">
+  <div class="start-apps" id="startApps"></div>
+  <div class="start-links" id="startLinks"></div>
+ </div>
+ <div class="start-bottom"><input id="startSearch" class="start-search" placeholder="프로그램 및 파일 검색" autocomplete="off"><button id="shutdown" type="button">시스템 종료</button></div>
+</div>
+<div class="context-menu" id="contextMenu" hidden></div>
 <section class="access" id="access" aria-label="가상 컴퓨터 접속 화면"><aside class="fan-disclaimer" aria-label="비공식 팬메이드 사이트 안내"><span>UNOFFICIAL FAN PROJECT</span><span>본 사이트는 잠뜰TV의 공식 사이트가 아닌 비공식 팬메이드 사이트입니다.</span></aside><div class="bg-grid"></div><div class="circuit"></div><div class="hud-top"></div><div class="hud-bottom"></div><div class="hud-left"></div><div class="hud-right"></div><div class="hud-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="hud-target"></div><div class="bg-ring"></div><div class="bg-corner">NODE STATUS // ACTIVE<br>SECURE LINK // STANDBY<br>DATA FLOW // MONITORING</div><div class="bg-corner right">SESSION // 07<br>ENCRYPTED CHANNEL<br>REMOTE TERMINAL</div><div class="data-stream" aria-hidden="true"><div class="data-column left"><span id="streamLeft"></span></div><div class="data-column right"><span id="streamRight"></span></div></div><div class="access-panel">
 <div class="access-head"><span>REMOTE INTERFACE</span><span>SESSION // 07</span></div>
 <h1>CONNECTION REQUEST</h1>
@@ -180,4 +217,86 @@ async function connectSequence(){
  access.classList.add('revealing');await wait(4200);
  access.classList.add('hidden');access.setAttribute('aria-hidden','true');clearInterval(ambientTimer);clearInterval(streamTimer);
 }
-btn.addEventListener('click',connectSequence);</script></body></html>
+btn.addEventListener('click',connectSequence);
+/* Virtual desktop filesystem. BLIND 1–6: Silver Soft's records reviewed by the user, not cases worked by him. */
+const fsData={
+ root:{name:'컴퓨터',items:['drive']},
+ drive:{name:'로컬 디스크 (C:)',parent:'root',items:['users','work','system']},
+ users:{name:'사용자',parent:'drive',items:['home']},
+ home:{name:'공룡',parent:'users',items:['docs','pictures','music','downloads']},
+ docs:{name:'문서',parent:'home',items:['notes']},
+ pictures:{name:'사진',parent:'home',items:[]},
+ music:{name:'음악',parent:'home',items:[]},
+ downloads:{name:'다운로드',parent:'home',items:[]},
+ notes:{name:'메모',parent:'docs',items:[]},
+ work:{name:'업무',parent:'drive',items:['agency','silver','emerald']},
+ agency:{name:'흥신소',parent:'work',items:[]},
+ silver:{name:'실버 소프트',parent:'work',items:['archive']},
+ archive:{name:'기록 자료',parent:'silver',items:['blind1','blind2','blind3','blind4','blind5','blind6']},
+ blind1:{name:'01_죽음의 왈츠',parent:'archive',items:[]},
+ blind2:{name:'02_유령의 집',parent:'archive',items:[]},
+ blind3:{name:'03_유토피아',parent:'archive',items:[]},
+ blind4:{name:'04_학교 괴담',parent:'archive',items:[]},
+ blind5:{name:'05_황금 사과',parent:'archive',items:[]},
+ blind6:{name:'06_뱀파이어',parent:'archive',items:[]},
+ emerald:{name:'에메랄드 포레스트',parent:'work',items:[]},
+ system:{name:'시스템',parent:'drive',items:[]}
+};
+const winLayer=document.getElementById('winLayer'),startMenu=document.getElementById('startMenu'),startButton=document.querySelector('.start'),startApps=document.getElementById('startApps'),startLinks=document.getElementById('startLinks'),startSearch=document.getElementById('startSearch'),contextMenu=document.getElementById('contextMenu'),taskSpacer=document.querySelector('.taskbar .spacer');
+let winCounter=0,topWindow=30,focused=null;
+const openWindows=new Map();
+function closeStart(){startMenu.classList.remove('open');startButton.classList.remove('active')}
+function focusWin(id){const w=openWindows.get(id);if(!w)return;w.el.style.zIndex=++topWindow;focused=id;for(const [key,v] of openWindows)v.task.classList.toggle('focused',key===id)}
+function closeWin(id){const w=openWindows.get(id);if(!w)return;w.el.remove();w.task.remove();openWindows.delete(id);if(focused===id)focused=null}
+function toggleMin(id){const w=openWindows.get(id);if(!w)return;if(w.el.style.display==='none'){w.el.style.display='flex';focusWin(id)}else{w.el.style.display='none';w.task.classList.remove('focused');if(focused===id)focused=null}}
+function openWindow(title,kind='explorer',path='root'){
+ closeStart();const id=++winCounter,el=document.createElement('section');el.className='os-window';el.style.left=Math.max(10,Math.min(90+(id%7)*25,innerWidth-490))+'px';el.style.top=(45+(id%7)*24)+'px';
+ el.innerHTML='<div class="win-title"><span>📁</span><strong></strong><div class="win-controls"><button data-act="min" title="최소화">─</button><button data-act="max" title="최대화">□</button><button data-act="close" title="닫기">×</button></div></div><div class="win-content" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>';
+ el.querySelector('strong').textContent=title;winLayer.appendChild(el);
+ const task=document.createElement('button');task.className='task-open';task.textContent='📁 '+title;taskSpacer.before(task);
+ const w={el,task,kind,path,history:[path],historyIndex:0,view:'details',selected:null};openWindows.set(id,w);focusWin(id);
+ task.onclick=()=>{if(focused===id&&el.style.display!=='none')toggleMin(id);else{el.style.display='flex';focusWin(id)}};
+ el.addEventListener('pointerdown',()=>focusWin(id));
+ el.querySelectorAll('[data-act]').forEach(b=>b.onclick=e=>{e.stopPropagation();const act=b.dataset.act;if(act==='close')closeWin(id);if(act==='min')toggleMin(id);if(act==='max'){el.classList.toggle('maximized');focusWin(id)}});
+ const bar=el.querySelector('.win-title');let drag=null;
+ bar.addEventListener('pointerdown',e=>{if(e.target.closest('button')||el.classList.contains('maximized'))return;drag={x:e.clientX,y:e.clientY,l:el.offsetLeft,t:el.offsetTop};bar.setPointerCapture(e.pointerId)});
+ bar.addEventListener('pointermove',e=>{if(!drag)return;el.style.left=Math.max(0,Math.min(innerWidth-90,drag.l+e.clientX-drag.x))+'px';el.style.top=Math.max(0,Math.min(innerHeight-110,drag.t+e.clientY-drag.y))+'px'});
+ bar.addEventListener('pointerup',()=>drag=null);bar.addEventListener('dblclick',e=>{if(!e.target.closest('button'))el.classList.toggle('maximized')});
+ if(kind==='explorer')renderExplorer(id);else{const content=el.querySelector('.win-content');content.style.background='#fff';content.style.padding='16px';content.textContent='';}
+ return id;
+}
+function pathLabel(path){const parts=[];let k=path;while(k&&fsData[k]){parts.unshift(fsData[k].name);k=fsData[k].parent}return parts.join(' › ')}
+function goFolder(id,path,history=true){const w=openWindows.get(id);if(!w||!fsData[path])return;w.path=path;w.selected=null;if(history){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(path);w.historyIndex++}renderExplorer(id)}
+function renderExplorer(id){
+ const w=openWindows.get(id);if(!w)return;const node=fsData[w.path],el=w.el;
+ el.querySelector('strong').textContent=node.name+' - Windows 탐색기';w.task.textContent='📁 '+node.name;
+ const content=el.querySelector('.win-content');content.replaceChildren();
+ const menu=document.createElement('div');menu.className='win-menu';menu.textContent='파일　　 편집　　 보기　　 도구　　 도움말';content.append(menu);
+ const toolbar=document.createElement('div');toolbar.className='win-toolbar';
+ const back=document.createElement('button');back.textContent='◀';back.title='뒤로';back.disabled=w.historyIndex===0;back.onclick=()=>{w.historyIndex--;goFolder(id,w.history[w.historyIndex],false)};
+ const forward=document.createElement('button');forward.textContent='▶';forward.title='앞으로';forward.disabled=w.historyIndex>=w.history.length-1;forward.onclick=()=>{w.historyIndex++;goFolder(id,w.history[w.historyIndex],false)};
+ const up=document.createElement('button');up.textContent='↑';up.title='상위 폴더';up.disabled=!node.parent;up.onclick=()=>goFolder(id,node.parent);
+ const address=document.createElement('div');address.className='win-address';address.textContent=pathLabel(w.path);
+ const search=document.createElement('input');search.className='win-search';search.placeholder='검색';
+ const view=document.createElement('button');view.textContent=w.view==='details'?'▤':'▦';view.title='보기 변경';view.onclick=()=>{w.view=w.view==='details'?'icons':'details';renderExplorer(id)};
+ toolbar.append(back,forward,up,address,search,view);content.append(toolbar);
+ const body=document.createElement('div');body.className='explorer-body',side=document.createElement('nav');side.className='explorer-side';
+ const groups=[['즐겨찾기',[['다운로드','downloads'],['문서','docs']]],['라이브러리',[['문서','docs'],['사진','pictures'],['음악','music']]],['컴퓨터',[['로컬 디스크 (C:)','drive']]]];
+ groups.forEach(([name,entries])=>{const h=document.createElement('div');h.className='side-group';h.textContent=name;side.append(h);entries.forEach(([label,key])=>{const item=document.createElement('div');item.className='side-entry';item.textContent='📁 '+label;item.onclick=()=>goFolder(id,key);side.append(item)})});
+ const list=document.createElement('div');list.className='explorer-list '+(w.view==='icons'?'icons':'');
+ const status=document.createElement('div');status.className='win-status';
+ const draw=()=>{list.replaceChildren();const items=node.items.filter(key=>fsData[key].name.toLowerCase().includes(search.value.toLowerCase()));if(w.view==='details'){const header=document.createElement('div');header.className='file-header';header.innerHTML='<span>이름</span><span>유형</span><span class="file-size">크기</span>';list.append(header)}
+ items.forEach(key=>{const row=document.createElement('div');row.className='file-row';row.tabIndex=0;row.classList.toggle('selected',w.selected===key);const label=document.createElement('span');label.className='file-name';const ico=document.createElement('span');ico.className='file-icon';ico.textContent='📁';label.append(ico,document.createTextNode(fsData[key].name));const type=document.createElement('span');type.className='file-type';type.textContent='파일 폴더';const size=document.createElement('span');size.className='file-size';row.append(label,type,size);row.onclick=()=>{w.selected=key;list.querySelectorAll('.file-row').forEach(r=>r.classList.remove('selected'));row.classList.add('selected')};row.ondblclick=()=>goFolder(id,key);row.onkeydown=e=>{if(e.key==='Enter')goFolder(id,key)};row.oncontextmenu=e=>{e.preventDefault();w.selected=key;showContext(e.clientX,e.clientY,[['열기',()=>goFolder(id,key)],['속성',()=>alert(fsData[key].name+'\n유형: 파일 폴더')]])};list.append(row)});status.textContent=items.length+'개 항목';};
+ search.oninput=draw;draw();body.append(side,list);content.append(body,status);
+}
+function showContext(x,y,entries){contextMenu.replaceChildren();entries.forEach(([name,fn])=>{const item=document.createElement('div');item.textContent=name;item.onclick=()=>{contextMenu.hidden=true;fn()};contextMenu.append(item)});contextMenu.hidden=false;contextMenu.style.left=Math.min(x,innerWidth-180)+'px';contextMenu.style.top=Math.min(y,innerHeight-125)+'px'}
+const programs=[['파일 탐색기',()=>openWindow('컴퓨터','explorer','root')],['메모장',()=>openWindow('메모장','blank')],['사진 뷰어',()=>openWindow('사진 뷰어','blank')],['인터넷',()=>openWindow('인터넷','blank')]];
+const links=[['문서','docs'],['사진','pictures'],['음악','music'],['다운로드','downloads'],['컴퓨터','root'],['제어판',null],['휴지통',null]];
+function makeStartEntry(parent,label,action){const el=document.createElement('div');el.className='start-item';el.tabIndex=0;el.textContent=label;el.onclick=action;el.onkeydown=e=>{if(e.key==='Enter')action()};parent.append(el)}
+function renderStart(){startApps.replaceChildren();startLinks.replaceChildren();const query=startSearch.value.trim().toLowerCase();programs.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,action])=>makeStartEntry(startApps,name,action));if(!query)makeStartEntry(startApps,'모든 프로그램 ▸',()=>{startApps.replaceChildren();programs.forEach(([name,action])=>makeStartEntry(startApps,name,action))});links.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,'blank')))}
+startButton.onclick=e=>{e.stopPropagation();startMenu.classList.toggle('open');startButton.classList.toggle('active',startMenu.classList.contains('open'));if(startMenu.classList.contains('open')){startSearch.value='';renderStart()}};
+startSearch.oninput=renderStart;
+document.getElementById('shutdown').onclick=()=>{closeStart();if(confirm('접속을 종료하시겠습니까?'))location.reload()};
+document.addEventListener('pointerdown',e=>{if(!startMenu.contains(e.target)&&!startButton.contains(e.target))closeStart();if(!contextMenu.contains(e.target))contextMenu.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeStart();contextMenu.hidden=true}if(e.altKey&&e.key==='F4'&&focused){e.preventDefault();closeWin(focused)}});
+</script></body></html>
