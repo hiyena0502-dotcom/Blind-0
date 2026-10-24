@@ -161,7 +161,7 @@
 .os-browser-page .os-listrow{max-width:630px}
 .os-fileinput{font-size:11px}
 @media(max-width:650px){.win-search{width:105px}.explorer-side{width:115px}.os-browser-page{padding:14px}.os-photo{width:110px}.os-photo img{height:75px}}
-</style></head>
+.pc-browser-home{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12%;background:linear-gradient(#fff,#f7fafb)}.pc-search-brand{font:normal 36px Georgia,serif;letter-spacing:3px;color:#416c85;margin:0 0 26px}.pc-search-form{display:flex;gap:7px;width:min(100%,660px);margin:10px auto 22px}.pc-search-field{flex:1;min-width:0;padding:12px 14px;border:1px solid #9fb6c4;box-shadow:inset 0 1px 3px #0001;font:14px "Malgun Gothic",sans-serif}.pc-search-form button{min-width:80px;border:1px solid #93aab6;background:linear-gradient(#f7fbfc,#dce9ef);cursor:pointer}.pc-browser-shortcuts{display:flex;gap:10px}.pc-browser-shortcuts button{padding:8px 14px;border:1px solid #c5d5dc;background:#f7fafb;color:#476071;cursor:pointer}.pc-search-tabs{border-bottom:1px solid #dbe5ea;padding:12px;color:#687e8d}.pc-search-result{padding:15px 8px;max-width:690px}.pc-search-result a{display:block;color:#205c96;font-size:17px;margin-top:4px}.pc-search-result small{color:#4d8065}.pc-search-result p{line-height:1.6;color:#53666b}</style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
 <div class="win-layer" id="winLayer"></div>
@@ -629,37 +629,47 @@ renderApp=function(id){
  }else if(w.kind==='browser'){
   const state=w.browserState||{history:['pc://시작'],index:0};w.browserState=state;
   const back=pcButton('◀',()=>step(-1)),forward=pcButton('▶',()=>step(1)),home=pcButton('⌂',()=>navigate('pc://시작')),reload=pcButton('⟳',()=>draw()),address=pcNode('input','os-browser-address'),go=pcButton('이동',()=>navigate(address.value));
-  const bookmark=pcButton('☆',()=>{const addressNow=state.history[state.index];const all=pcBookmarks();const idx=all.indexOf(addressNow);if(idx>=0)all.splice(idx,1);else all.push(addressNow);localStorage.setItem('blind-pc-bookmarks',JSON.stringify(all));refreshBookmarks();draw()});
+  const bookmark=pcButton('☆',()=>{const url=state.history[state.index],all=pcBookmarks(),idx=all.indexOf(url);if(idx>=0)all.splice(idx,1);else all.push(url);localStorage.setItem('blind-pc-bookmarks',JSON.stringify(all));refreshBookmarks();draw()});
   ui.bar.append(back,forward,home,reload,address,go,bookmark);
   const links=pcNode('div','os-bookmarks'),page=pcNode('div','os-browser-page');ui.shell.insertBefore(links,ui.main);ui.main.replaceWith(page);
-  const saved=[['컴퓨터','pc://컴퓨터'],['실버 소프트','pc://실버-소프트'],['방문 기록','pc://방문-기록']];
-  for(const [name,url] of saved)links.append(pcButton(name,()=>navigate(url)));
+  const saved=[['시작','pc://시작'],['검색 기록','pc://검색-기록'],['방문 기록','pc://방문-기록'],['즐겨찾기','pc://즐겨찾기']];
+  saved.forEach(([name,url])=>links.append(pcButton(name,()=>navigate(url))));
   const customBookmarks=pcNode('div','os-bookmark-custom');links.append(customBookmarks);
-  function refreshBookmarks(){customBookmarks.replaceChildren();pcBookmarks().forEach(url=>customBookmarks.append(pcButton('★ '+url,()=>navigate(url))))}
-  refreshBookmarks();
+  function refreshBookmarks(){customBookmarks.replaceChildren();pcBookmarks().forEach(url=>customBookmarks.append(pcButton('☆ '+url,()=>navigate(url))))}
   function step(dir){const index=state.index+dir;if(index<0||index>=state.history.length)return;state.index=index;draw()}
   function navigate(raw){
    const url=(raw||'').trim();if(!url)return;
    if(/^https?:\/\//i.test(url)){window.open(url,'_blank','noopener,noreferrer');return}
-   const dest=url.includes('://')?url:'pc://'+url;
-   state.history=state.history.slice(0,state.index+1);state.history.push(dest);state.index++;
-   let visits=[];try{visits=JSON.parse(localStorage.getItem('blind-pc-browser-history')||'[]')}catch(e){}
-   visits.unshift({url:dest,at:Date.now()});localStorage.setItem('blind-pc-browser-history',JSON.stringify(visits.slice(0,100)));
-   draw()
+   const dest=url.startsWith('pc://')?url:'pc://검색?q='+encodeURIComponent(url);
+   state.history=state.history.slice(0,state.index+1);state.history.push(dest);state.index++;draw()
   }
-  function localLink(parent,text,url){const row=pcNode('div','os-listrow'),a=pcNode('a','',text);a.tabIndex=0;a.onclick=()=>navigate(url);a.onkeydown=e=>{if(e.key==='Enter')navigate(url)};row.append(a);parent.append(row)}
-  function folderLink(label,key){const row=pcNode('div','os-listrow'),button=pcButton('📁 '+label,()=>openWindow(label,'explorer',key));row.append(button);page.append(row)}
+  function searchFor(query){const q=query.trim();if(q)navigate('pc://검색?q='+encodeURIComponent(q))}
+  function link(parent,label,url){const row=pcNode('div','os-listrow'),a=pcNode('a','',label);a.tabIndex=0;a.onclick=()=>navigate(url);a.onkeydown=e=>{if(e.key==='Enter')navigate(url)};row.append(a);parent.append(row)}
+  function searchBox(value=''){
+   const form=pcNode('form','pc-search-form'),field=pcNode('input','pc-search-field'),submit=pcButton('검색',()=>searchFor(field.value));field.type='search';field.placeholder='검색어 입력';field.autocomplete='off';field.value=value;form.append(field,submit);form.onsubmit=e=>{e.preventDefault();searchFor(field.value)};page.append(form)
+  }
+  function historyRows(records,type){
+   if(!records.length){page.append(pcNode('p','app-empty','기록이 없습니다.'));return}
+   records.forEach(item=>{const row=pcNode('div','os-listrow'),text=pcNode('span','os-filename',type==='search'?item.query:item.title||item.url),date=pcNode('small','',item.at||'');row.append(text,date);row.onclick=()=>navigate(type==='search'?'pc://검색?q='+encodeURIComponent(item.query):item.url);page.append(row)})
+  }
   function draw(){
-   const url=state.history[state.index];address.value=url;back.disabled=state.index===0;forward.disabled=state.index===state.history.length-1;
-   bookmark.textContent=pcBookmarks().includes(url)?'★':'☆';page.replaceChildren();
-   if(url==='pc://시작'||url==='pc://home'){page.append(pcNode('h2','','즐겨찾기'));for(const [name,link] of saved)localLink(page,name,link)}
-   else if(url==='pc://실버-소프트'){page.append(pcNode('h2','','실버 소프트'));folderLink('기록 자료','archive');folderLink('실버 소프트','silver')}
-   else if(url==='pc://컴퓨터'||url==='pc://files'){page.append(pcNode('h2','','컴퓨터'));folderLink('로컬 디스크 (C:)','drive')}
-   else if(url==='pc://문서'){page.append(pcNode('h2','','문서'));folderLink('문서','docs')}
-   else if(url==='pc://사진'){page.append(pcNode('h2','','사진'));folderLink('사진','pictures')}
-   else if(url==='pc://음악'){page.append(pcNode('h2','','음악'));folderLink('음악','music')}
-   else if(url==='pc://방문-기록'||url==='pc://history'){page.append(pcNode('h2','','방문 기록'));let history=[];try{history=JSON.parse(localStorage.getItem('blind-pc-browser-history')||'[]')}catch(e){}if(!history.length)page.append(pcNode('p','app-empty','기록이 없습니다.'));history.forEach(h=>localLink(page,h.url,h.url))}
-   else{page.append(pcNode('h2','','페이지를 표시할 수 없습니다.'));page.append(pcNode('p','','주소를 확인하십시오.'))}
+   const url=state.history[state.index];address.value=url;back.disabled=state.index===0;forward.disabled=state.index===state.history.length-1;bookmark.textContent=pcBookmarks().includes(url)?'★':'☆';page.replaceChildren();refreshBookmarks();
+   if(url==='pc://시작'||url==='pc://home'){
+    page.classList.add('pc-browser-home');page.append(pcNode('h2','pc-search-brand','검색'));searchBox();
+    const shortcuts=pcNode('div','pc-browser-shortcuts');[['검색 기록','pc://검색-기록'],['방문 기록','pc://방문-기록'],['즐겨찾기','pc://즐겨찾기']].forEach(([name,path])=>{const button=pcButton(name,()=>navigate(path));shortcuts.append(button)});page.append(shortcuts)
+   }else if(url.startsWith('pc://검색?q=')){
+    page.classList.remove('pc-browser-home');let q='';try{q=decodeURIComponent(url.slice('pc://검색?q='.length))}catch(e){}searchBox(q);
+    page.append(pcNode('div','pc-search-tabs','전체　　이미지　　뉴스　　동영상'));
+    const results=Array.isArray(window.BLIND_PC_SEARCH_RESULTS)?window.BLIND_PC_SEARCH_RESULTS:[];const matching=results.filter(r=>r&&typeof r.title==='string'&&typeof r.url==='string'&&((r.title+' '+(r.description||'')).toLowerCase().includes(q.toLowerCase())));
+    if(!matching.length)page.append(pcNode('p','app-empty','검색 결과가 없습니다.'));
+    matching.forEach(result=>{const card=pcNode('div','pc-search-result');const title=pcNode('a','',result.title);title.href='#';title.onclick=e=>{e.preventDefault();navigate(result.url)};card.append(pcNode('small','',result.url),title,pcNode('p','',result.description||''));page.append(card)})
+   }else if(url==='pc://검색-기록'){
+    page.classList.remove('pc-browser-home');page.append(pcNode('h2','','검색 기록'));historyRows(Array.isArray(window.BLIND_PC_SEARCH_HISTORY)?window.BLIND_PC_SEARCH_HISTORY:[],'search')
+   }else if(url==='pc://방문-기록'||url==='pc://history'){
+    page.classList.remove('pc-browser-home');page.append(pcNode('h2','','방문 기록'));historyRows(Array.isArray(window.BLIND_PC_VISIT_HISTORY)?window.BLIND_PC_VISIT_HISTORY:[],'visit')
+   }else if(url==='pc://즐겨찾기'){
+    page.classList.remove('pc-browser-home');page.append(pcNode('h2','','즐겨찾기'));const marks=pcBookmarks();if(!marks.length)page.append(pcNode('p','app-empty','즐겨찾기가 없습니다.'));marks.forEach(url=>link(page,url,url))
+   }else{page.classList.remove('pc-browser-home');page.append(pcNode('h2','','페이지를 표시할 수 없습니다.'),pcNode('p','','주소를 확인하십시오.'))}
   }
   address.onkeydown=e=>{if(e.key==='Enter')navigate(address.value)};
   draw();ui.status.textContent='인터넷';
