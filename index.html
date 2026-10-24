@@ -86,13 +86,20 @@
 
 /* Desktop shell: classic Windows-inspired UI */
 .taskbar{z-index:6}.start{user-select:none}.start.active{filter:brightness(1.3)}
-.start-menu{display:none;position:absolute;bottom:46px;left:9px;width:405px;height:475px;z-index:8;background:linear-gradient(120deg,#233d46,#354e56);border:1px solid #82999c;border-radius:8px 8px 0 0;box-shadow:0 7px 30px #0009;padding:8px;color:#f1f5f3;font:13px "Malgun Gothic",Tahoma,sans-serif}
-.start-menu.open{display:flex;flex-direction:column}.start-user{height:52px;padding:12px;font-size:15px}.start-cols{display:grid;grid-template-columns:57% 43%;flex:1;min-height:0;gap:7px}
-.start-apps{background:#f6f7f5;color:#273137;border:1px solid #b5c4c4;border-radius:3px;padding:5px;overflow:auto}
-.start-links{padding:6px 2px;overflow:auto}.start-item{display:flex;align-items:center;gap:9px;padding:8px;cursor:default;border-radius:2px;min-height:33px}
-.start-item:hover,.start-item:focus-visible{background:#dbe9ec;color:#203a43;outline:1px solid #b5cfd7}.start-links .start-item:hover{background:#57727a;color:white}
-.start-search{height:30px;width:100%;border:1px solid #aabdc1;padding:5px 9px;background:white;color:#29353a;font:12px "Malgun Gothic",sans-serif}
-.start-bottom{display:flex;gap:9px;padding-top:8px}.start-bottom button{border:1px solid #778d91;background:linear-gradient(#617a7f,#334e55);color:white;padding:5px 11px;cursor:pointer}
+.start-menu{display:none;position:absolute;bottom:46px;left:9px;width:354px;height:350px;z-index:8;background:linear-gradient(120deg,#263f46,#344d52);border:1px solid #81979b;border-radius:7px 7px 0 0;box-shadow:0 9px 28px #0008;padding:9px;color:#f2f6f5;font:13px "Malgun Gothic",Tahoma,sans-serif}
+.start-menu.open{display:flex;flex-direction:column}
+.start-user{flex:0 0 39px;height:39px;padding:7px 9px 9px;font-size:14px;font-weight:600;letter-spacing:.02em}
+.start-cols{display:grid;grid-template-columns:minmax(0,59%) minmax(0,41%);flex:1;min-height:0;gap:7px}
+.start-apps{background:#f8faf9;color:#29383f;border:1px solid #bccbca;border-radius:3px;padding:7px 4px;overflow:auto}
+.start-links{padding:7px 2px;overflow:auto}
+.start-item{display:flex;align-items:center;gap:9px;padding:7px 6px;cursor:default;border-radius:3px;min-height:37px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.start-item:hover,.start-item:focus-visible{background:#dcebf0;color:#24434b;outline:1px solid #abcbd5}
+.start-links .start-item{color:#edf4f3;margin:1px 0}
+.start-links .start-item:hover,.start-links .start-item:focus-visible{background:#55747b;color:#fff;outline:1px solid #75919a}
+.start-search{height:31px;flex:1 1 auto;width:0;min-width:0;border:1px solid #aabfc3;border-radius:2px;padding:5px 8px;background:#fdfefe;color:#29383c;font:12px "Malgun Gothic",sans-serif}
+.start-bottom{display:flex;gap:8px;padding:8px 1px 0;align-items:center;flex:none}
+.start-bottom button{height:31px;flex:0 0 auto;white-space:nowrap;border:1px solid #78949a;border-radius:2px;background:linear-gradient(#647f83,#345258);color:white;padding:5px 13px;cursor:pointer;font:12px "Malgun Gothic",sans-serif}
+.start-bottom button:hover{filter:brightness(1.12)}
 .win-layer{position:absolute;inset:0 0 46px;z-index:4;pointer-events:none}
 .os-window{position:absolute;width:880px;height:550px;min-width:460px;min-height:310px;max-width:100%;max-height:100%;display:flex;flex-direction:column;resize:both;overflow:hidden;background:#f8faf9;color:#29383d;border:1px solid #536e78;border-radius:6px 6px 2px 2px;box-shadow:0 12px 45px #0008;font:12px "Malgun Gothic",Tahoma,sans-serif;pointer-events:auto}
 .os-window.maximized{left:0!important;top:0!important;width:100%!important;height:100%!important;resize:none}
@@ -108,7 +115,7 @@
 .explorer-list{flex:1;overflow:auto;background:#fff}.file-header,.file-row{display:grid;grid-template-columns:minmax(170px,1fr) 145px 105px;gap:8px;align-items:center;padding:6px 12px}.file-header{background:#f1f5f6;border-bottom:1px solid #d5dfe1;color:#61757b}.file-row{cursor:default;min-height:34px}.file-row:hover{background:#e9f3f7}.file-row.selected{background:#d4e9f3;outline:1px solid #a7cbdc}.file-row .file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-icon{font-size:17px;margin-right:8px}.explorer-list.icons{display:flex;flex-wrap:wrap;align-content:flex-start;padding:12px;gap:8px}.explorer-list.icons .file-header{display:none}.explorer-list.icons .file-row{display:flex;flex-direction:column;justify-content:center;text-align:center;width:110px;height:100px}.explorer-list.icons .file-row .file-icon{display:block;font-size:34px;margin:0}.explorer-list.icons .file-row .file-type,.explorer-list.icons .file-row .file-size{display:none}
 .win-status{height:26px;flex-shrink:0;background:#edf2f3;border-top:1px solid #cbd6d8;padding:5px 12px;color:#63767b}.task-open{height:31px;max-width:170px;min-width:95px;border:1px solid #809b9f;background:linear-gradient(#557278,#263f47);color:#e4efef;padding:0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}.task-open.focused{background:linear-gradient(#78979b,#3e616b)}
 .context-menu{position:absolute;z-index:20;background:#f5f7f7;color:#26363b;border:1px solid #819ba3;box-shadow:2px 5px 15px #0005;min-width:160px;padding:5px;pointer-events:auto}.context-menu div{padding:7px 12px;cursor:pointer}.context-menu div:hover{background:#d5e8ef}
-@media(max-width:650px){.start-menu{width:min(405px,calc(100vw - 18px))}.os-window{min-width:300px}.explorer-side{width:115px}.file-header,.file-row{grid-template-columns:minmax(100px,1fr) 85px}.file-size{display:none}.win-search{width:85px}}
+@media(max-width:650px){.start-menu{width:min(354px,calc(100vw - 18px))}.os-window{min-width:300px}.explorer-side{width:115px}.file-header,.file-row{grid-template-columns:minmax(100px,1fr) 85px}.file-size{display:none}.win-search{width:85px}}
 
 .desktop-icons{position:absolute;left:15px;top:16px;z-index:2;display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,96px);grid-auto-columns:92px;gap:5px 10px;max-height:calc(100% - 65px)}
 .desktop-icon{width:90px;height:92px;border:1px solid transparent;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 3px 3px;gap:6px;text-align:center;color:#fff;text-shadow:1px 1px 3px #000,0 1px 4px #000;font:12px/1.3 "Malgun Gothic",sans-serif;cursor:default;user-select:none}
@@ -244,7 +251,7 @@
   <div class="start-apps" id="startApps"></div>
   <div class="start-links" id="startLinks"></div>
  </div>
- <div class="start-bottom"><input id="startSearch" class="start-search" placeholder="프로그램 및 파일 검색" autocomplete="off"><button id="shutdown" type="button">시스템 종료</button></div>
+ <div class="start-bottom"><input id="startSearch" class="start-search" placeholder="검색" aria-label="시작 메뉴 검색" autocomplete="off"><button id="shutdown" type="button" title="시스템 종료">종료</button></div>
 </div>
 <div class="context-menu" id="contextMenu" hidden></div>
 <section class="access" id="access" aria-label="가상 컴퓨터 접속 화면"><aside class="fan-disclaimer" aria-label="비공식 팬메이드 사이트 안내"><span>UNOFFICIAL FAN PROJECT</span><span>본 사이트는 잠뜰TV의 공식 사이트가 아닌 비공식 팬메이드 사이트입니다.</span></aside><div class="bg-grid"></div><div class="circuit"></div><div class="hud-top"></div><div class="hud-bottom"></div><div class="hud-left"></div><div class="hud-right"></div><div class="hud-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="hud-target"></div><div class="bg-ring"></div><div class="bg-corner">NODE STATUS // ACTIVE<br>SECURE LINK // STANDBY<br>DATA FLOW // MONITORING</div><div class="bg-corner right">SESSION // 07<br>ENCRYPTED CHANNEL<br>REMOTE TERMINAL</div><div class="data-stream" aria-hidden="true"><div class="data-column left"><span id="streamLeft"></span></div><div class="data-column right"><span id="streamRight"></span></div></div><div class="access-panel">
@@ -569,12 +576,12 @@ const desktopApps=[
 ];
 const programs=[
  ['파일 탐색기',()=>openWindow('컴퓨터','explorer','root')],
+ ['인터넷',()=>openWindow('인터넷','browser')],
  ['메모장',()=>openWindow('메모장','notepad')],
- ['사진 뷰어',()=>openWindow('사진 뷰어','photos')],
- ['음악 플레이어',()=>openWindow('음악 플레이어','musicplayer')],
- ['인터넷',()=>openWindow('인터넷','browser')]
+ ['사진',()=>openWindow('사진','photos')],
+ ['음악',()=>openWindow('음악','musicplayer')]
 ];
-const links=[['문서','docs'],['사진','pictures'],['음악','music'],['다운로드','downloads'],['컴퓨터','root'],['제어판',null],['휴지통',null]];
+const links=[['문서','docs'],['컴퓨터','root'],['휴지통',null]];
 const desktopIcons=document.getElementById('desktopIcons');
 desktopApps.forEach(([name,icon,action])=>{const b=document.createElement('div');b.className='desktop-icon';b.tabIndex=0;b.innerHTML='<span class="di-image"></span><span class="di-label"></span>';b.querySelector('.di-image').innerHTML=pcSvg(icon);b.querySelector('.di-label').textContent=name;b.onclick=()=>{desktopIcons.querySelectorAll('.desktop-icon').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')};b.ondblclick=action;b.onkeydown=e=>{if(e.key==='Enter')action()};desktopIcons.append(b)});
 function makeStartEntry(parent,label,action,kind=null){
@@ -587,25 +594,18 @@ function makeStartEntry(parent,label,action,kind=null){
 function renderStart(){
  startApps.replaceChildren();startLinks.replaceChildren();
  const query=startSearch.value.trim().toLocaleLowerCase();
- const matches=programs.filter(([name])=>name.toLocaleLowerCase().includes(query));
- const folders=links.filter(([name])=>name.toLocaleLowerCase().includes(query));
- const mode=startMenu.dataset.mode||'recent';
- if(mode==='all'&&!query){
-  makeStartEntry(startApps,'◀ 뒤로',()=>{startMenu.dataset.mode='recent';renderStart()},'programs');
-  programs.forEach(([name,action])=>makeStartEntry(startApps,name,action));
- }else{
-  matches.forEach(([name,action])=>makeStartEntry(startApps,name,action));
-  if(!query)makeStartEntry(startApps,'모든 프로그램',()=>{startMenu.dataset.mode='all';renderStart()},'programs');
- }
- folders.forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,name==='휴지통'?'trash':'settings')));
- if(query&&!matches.length&&!folders.length){
-  const empty=document.createElement('div');empty.className='start-empty';empty.textContent='검색 결과가 없습니다.';startApps.append(empty)
+ const matchingPrograms=programs.filter(([name])=>name.toLocaleLowerCase().includes(query));
+ const matchingLinks=links.filter(([name])=>name.toLocaleLowerCase().includes(query));
+ matchingPrograms.forEach(([name,action])=>makeStartEntry(startApps,name,action));
+ matchingLinks.forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow('휴지통','trash')));
+ if(query&&!matchingPrograms.length&&!matchingLinks.length){
+  startApps.append(pcNode('div','start-empty','검색 결과가 없습니다.'))
  }
 }
 function pcToggleStart(force){
  const open=typeof force==='boolean'?force:!startMenu.classList.contains('open');
  if(!open){closeStart();return}
- startMenu.dataset.mode='recent';startSearch.value='';renderStart();
+ startSearch.value='';renderStart();
  startMenu.classList.add('open');startButton.classList.add('active');
  startButton.setAttribute('aria-expanded','true');
  startSearch.focus()
@@ -617,7 +617,7 @@ startButton.tabIndex=0;
 startButton.title='시작';
 startButton.onclick=e=>{e.stopPropagation();pcToggleStart()};
 startButton.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pcToggleStart()}};
-startSearch.oninput=()=>{startMenu.dataset.mode='recent';renderStart()};
+startSearch.oninput=renderStart;
 startSearch.onkeydown=e=>{
  if(e.key==='Enter'){
   e.preventDefault();const first=startApps.querySelector('.start-item')||startLinks.querySelector('.start-item');
