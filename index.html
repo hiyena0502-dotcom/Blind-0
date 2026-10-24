@@ -120,6 +120,47 @@
 .browser-bar{display:flex;gap:7px;background:#e6eff1;padding:8px;border-bottom:1px solid #b7c8ce}.browser-bar input{flex:1;min-width:0;padding:6px;border:1px solid #a2b8c0}.browser-page{padding:25px 30px;overflow:auto;flex:1;background:white;color:#27383d}.browser-page a{color:#235d86;text-decoration:underline;cursor:pointer}.browser-page h2{font-size:22px;margin:0 0 15px}.browser-page p{line-height:1.8}
 .music-track{padding:10px;border-bottom:1px solid #d8e1e3;display:flex;align-items:center;justify-content:space-between}.music-track:hover{background:#edf4f6}
 .photo-grid{display:flex;flex-wrap:wrap;gap:14px}.photo-grid img{width:130px;height:110px;object-fit:cover;border:1px solid #b9c9ca;cursor:pointer}.photo-preview{max-width:100%;max-height:70vh;object-fit:contain}
+
+/* Linked desktop programs */
+.os-window .win-content{overflow:hidden}
+.os-window button:focus-visible,.os-window input:focus-visible,.desktop-icon:focus-visible{outline:2px solid #538da7;outline-offset:-2px}
+.os-toolbar-action{white-space:nowrap}
+.file-row .file-type,.file-row .file-size{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-row .file-name{display:flex;align-items:center;min-width:0}
+.file-row .file-name .file-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.os-window .win-toolbar{flex-wrap:wrap}
+.win-file-action{background:#dfe9ed!important}
+.file-header span{cursor:pointer}
+.file-row.deleted{opacity:.7}
+.app-empty{margin:24px 0;color:#879597}
+.app-shell{display:flex;flex:1;min-height:0;flex-direction:column;background:#f9fbfb;color:#29373d}
+.app-toolbar{display:flex;align-items:center;gap:7px;padding:9px 11px;background:#edf3f4;border-bottom:1px solid #cad8dc;flex-wrap:wrap}
+.app-toolbar input[type=file]{max-width:220px}
+.app-toolbar button,.app-shell button{border:1px solid #9db4b9;background:linear-gradient(#fff,#dfebee);color:#273e47;cursor:pointer;border-radius:3px;padding:6px 10px}
+.app-toolbar button:disabled,.app-shell button:disabled{opacity:.4;cursor:default}
+.app-toolbar input,.app-toolbar select{padding:5px 6px;border:1px solid #b4c8cc;background:white;color:#293e43}
+.app-main{flex:1;min-height:0;overflow:auto;padding:15px}
+.app-main textarea{width:100%;height:100%;min-height:140px;resize:none;outline:none;border:0;padding:15px;background:#fff;color:#253238;font:13px/1.7 Consolas,"Malgun Gothic",monospace}
+.os-notepad-main{padding:0}
+.os-status{flex:none;border-top:1px solid #c9d8dc;background:#edf3f3;color:#586d74;padding:6px 12px;font-size:11px}
+.os-listrow{display:flex;align-items:center;gap:12px;padding:9px;border-bottom:1px solid #e0e9eb;cursor:default}
+.os-listrow:hover{background:#edf5f8}.os-listrow.active{background:#d6e9f1}
+.os-listrow .os-filename{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.os-photos{display:flex;flex-wrap:wrap;align-content:flex-start;gap:13px}
+.os-photo{width:140px;min-height:140px;border:1px solid #d2dde0;padding:8px;cursor:pointer;background:white}
+.os-photo:hover{border-color:#6f9eb5;background:#eaf4f8}
+.os-photo img{width:100%;height:105px;object-fit:contain}
+.os-photo span{font-size:11px;display:block;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.os-photo-large{max-width:100%;max-height:calc(100% - 60px);object-fit:contain}
+.os-browser-address{flex:1;min-width:120px}
+.os-bookmarks{display:flex;gap:9px;flex-wrap:wrap;padding:7px 13px;border-bottom:1px solid #ccd9dd;background:#f8fbfb}
+.os-bookmarks button{border:0;background:none;padding:3px 6px;color:#326c90;cursor:pointer;font:12px "Malgun Gothic",sans-serif}
+.os-browser-page{flex:1;overflow:auto;background:white;padding:26px 32px;font:13px/1.7 "Malgun Gothic",sans-serif}
+.os-browser-page h2{margin:0 0 14px;font-size:20px;font-weight:500;color:#253a42}
+.os-browser-page a{color:#1d5f8d;text-decoration:underline;cursor:pointer}
+.os-browser-page .os-listrow{max-width:630px}
+.os-fileinput{font-size:11px}
+@media(max-width:650px){.win-search{width:105px}.explorer-side{width:115px}.os-browser-page{padding:14px}.os-photo{width:110px}.os-photo img{height:75px}}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -354,4 +395,278 @@ startSearch.oninput=renderStart;
 document.getElementById('shutdown').onclick=()=>{closeStart();if(confirm('접속을 종료하시겠습니까?'))location.reload()};
 document.addEventListener('pointerdown',e=>{if(!startMenu.contains(e.target)&&!startButton.contains(e.target))closeStart();if(!contextMenu.contains(e.target))contextMenu.hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeStart();contextMenu.hidden=true}if(e.altKey&&e.key==='F4'&&focused){e.preventDefault();closeWin(focused)}});
+
+/* Stored local files and connected applications */
+const pcFiles=new Map();
+let pcDB=null,pcStorageReady=false,pcStorageFailed=false;
+const PC_DB='blind-pc-local-files-v1';
+function pcNode(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=cls;if(txt!==undefined)n.textContent=txt;return n}
+function pcButton(label,callback){const b=pcNode('button','',label);b.type='button';b.onclick=callback;return b}
+function pcMessage(message){alert(message)}
+function pcSize(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB'}
+function pcType(f){return f.kind==='text'?'텍스트 문서':f.kind==='image'?'이미지 파일':'오디오 파일'}
+function pcIcon(f){return f.kind==='text'?'📄':f.kind==='image'?'🖼️':'🎵'}
+function pcUsableFolder(key){return !['root','drive','users','home','system','archive','blind1','blind2','blind3','blind4','blind5','blind6'].includes(key)}
+function pcRecordId(){return 'file-'+Date.now()+'-'+Math.random().toString(36).slice(2,9)}
+function pcWindowRefresh(){for(const [id,w] of openWindows){if(w.kind==='explorer'&&fsData[w.path])renderExplorer(id);if(w.kind==='trash')renderApp(id)}renderStart()}
+function pcConnect(){
+ return new Promise(resolve=>{
+  if(!('indexedDB' in window)){pcStorageFailed=true;pcStorageReady=true;resolve();return}
+  let req;try{req=indexedDB.open(PC_DB,1)}catch(e){pcStorageFailed=true;pcStorageReady=true;resolve();return}
+  req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files',{keyPath:'id'})};
+  req.onerror=()=>{pcStorageFailed=true;pcStorageReady=true;resolve()};
+  req.onsuccess=()=>{pcDB=req.result;const tx=pcDB.transaction('files','readonly'),r=tx.objectStore('files').getAll();
+   r.onsuccess=()=>{r.result.forEach(file=>pcFiles.set(file.id,file));pcStorageReady=true;pcMigrateNotes();pcWindowRefresh();resolve()};
+   r.onerror=()=>{pcStorageFailed=true;pcStorageReady=true;resolve()}
+  }
+ })
+}
+function pcSave(file){
+ pcFiles.set(file.id,file);pcWindowRefresh();
+ return new Promise((resolve,reject)=>{
+  if(!pcDB){reject(Error('로컬 저장소에 연결하지 못했습니다.'));return}
+  try{const tx=pcDB.transaction('files','readwrite');tx.objectStore('files').put(file);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('저장 실패'));tx.onabort=()=>reject(tx.error||Error('저장 실패'))}
+  catch(e){reject(e)}
+ })
+}
+function pcRemove(id){
+ pcFiles.delete(id);pcWindowRefresh();
+ return new Promise((resolve,reject)=>{
+  if(!pcDB){reject(Error('로컬 저장소에 연결하지 못했습니다.'));return}
+  try{const tx=pcDB.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('삭제 실패'))}catch(e){reject(e)}
+ })
+}
+async function pcMigrateNotes(){
+ const legacy=localStorage.getItem(savedNotesKey);
+ if(legacy&&!Array.from(pcFiles.values()).some(f=>f.legacyNote)&&pcDB){
+  await pcSave({id:pcRecordId(),name:'메모.txt',parent:'notes',kind:'text',text:legacy,size:new Blob([legacy]).size,modified:Date.now(),deleted:false,legacyNote:true}).catch(()=>{});
+ }
+}
+async function pcImport(files,parent,filter){
+ if(!pcStorageReady)await pcConnectPromise;
+ if(pcStorageFailed){pcMessage('파일 저장소를 사용할 수 없습니다.');return}
+ let added=0;
+ for(const file of files){
+  let kind=file.type.startsWith('image/')?'image':file.type.startsWith('audio/')?'audio':/\.txt$/i.test(file.name)||file.type==='text/plain'?'text':null;
+  if(!kind||(filter&&filter!==kind))continue;
+  if(file.size>50*1024*1024){pcMessage('50MB보다 큰 파일은 추가할 수 없습니다.');continue}
+  const record={id:pcRecordId(),name:file.name,parent,kind,modified:Date.now(),size:file.size,deleted:false};
+  if(kind==='text')record.text=await file.text();else record.blob=file;
+  try{await pcSave(record);added++}catch(e){pcFiles.delete(record.id);pcMessage('저장하지 못했습니다. 저장 공간을 확인하세요.');break}
+ }
+ return added
+}
+async function pcNewText(parent){
+ if(!pcUsableFolder(parent))parent='notes';
+ const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
+ const clean=name.trim().slice(0,100);if(!clean)return;
+ const record={id:pcRecordId(),name:/\.txt$/i.test(clean)?clean:clean+'.txt',kind:'text',parent,modified:Date.now(),size:0,text:'',deleted:false};
+ try{await pcSave(record);pcOpenFile(record)}catch(e){pcMessage('저장할 수 없습니다.')}
+}
+async function pcTrash(file){
+ if(!file||file.deleted)return;
+ if(!confirm('휴지통으로 이동하시겠습니까?\n'+file.name))return;
+ file.deleted=true;file.deletedAt=Date.now();
+ try{await pcSave(file)}catch(e){file.deleted=false;pcMessage('이동하지 못했습니다.')}
+}
+async function pcRestore(file){
+ file.deleted=false;delete file.deletedAt;
+ try{await pcSave(file)}catch(e){file.deleted=true;pcMessage('복원하지 못했습니다.')}
+}
+async function pcErase(file){
+ if(!confirm('영구 삭제하시겠습니까?\n'+file.name))return;
+ try{await pcRemove(file.id)}catch(e){pcFiles.set(file.id,file);pcMessage('삭제하지 못했습니다.')}
+}
+function pcOpenFile(file){
+ if(!file||file.deleted)return;
+ const kind=file.kind==='text'?'notepad':file.kind==='image'?'photos':'musicplayer';
+ const id=openWindow(file.name,kind);
+ const w=openWindows.get(id);w.openFileId=file.id;renderApp(id)
+}
+function pcOpenProps(file){
+ const date=new Date(file.modified||Date.now()).toLocaleString('ko-KR');
+ pcMessage('이름: '+file.name+'\n유형: '+pcType(file)+'\n크기: '+pcSize(file.size||0)+'\n수정한 날짜: '+date)
+}
+function pcFileMenu(e,file,id){
+ e.preventDefault();e.stopPropagation();
+ showContext(e.clientX,e.clientY,[
+  ['열기',()=>pcOpenFile(file)],
+  ['이름 바꾸기',async()=>{const name=prompt('이름 바꾸기',file.name);if(name===null||!name.trim())return;file.name=name.trim().slice(0,100);file.modified=Date.now();await pcSave(file).catch(()=>pcMessage('변경하지 못했습니다.'))}],
+  ['삭제',()=>pcTrash(file)],
+  ['속성',()=>pcOpenProps(file)]
+ ])
+}
+const pcOldCloseWin=closeWin;
+closeWin=function(id){
+ const w=openWindows.get(id);
+ if(w&&w.dirty&&w.kind==='notepad'&&!confirm('변경 내용을 저장하지 않고 닫으시겠습니까?'))return;
+ if(w){if(w.player)w.player.pause();if(w.objectUrls)w.objectUrls.forEach(url=>URL.revokeObjectURL(url))}
+ pcOldCloseWin(id)
+};
+function pcReleaseUrls(w){if(w.player)w.player.pause();if(w.objectUrls)w.objectUrls.forEach(url=>URL.revokeObjectURL(url));w.objectUrls=[];w.player=null}
+function pcUrl(w,blob){if(!w.objectUrls)w.objectUrls=[];const url=URL.createObjectURL(blob);w.objectUrls.push(url);return url}
+renderExplorer=function(id){
+ const w=openWindows.get(id);if(!w)return;
+ if(!fsData[w.path])w.path='root';
+ const folder=fsData[w.path];w.el.querySelector('strong').textContent=folder.name+' - Windows 탐색기';w.task.textContent='📁 '+folder.name;
+ const content=w.el.querySelector('.win-content');content.replaceChildren();
+ const menu=pcNode('div','win-menu');['파일','편집','보기','도구','도움말'].forEach(label=>{const item=pcNode('span','',label);item.style.cursor='default';item.onclick=e=>{if(label==='파일'){showContext(e.clientX,e.clientY,[['새 텍스트 문서',()=>pcNewText(w.path)],['가져오기',()=>picker.click()]])}if(label==='보기'){showContext(e.clientX,e.clientY,[['자세히',()=>{w.view='details';renderExplorer(id)}],['큰 아이콘',()=>{w.view='icons';renderExplorer(id)}]])}};menu.append(item)});content.append(menu);
+ const toolbar=pcNode('div','win-toolbar');
+ const back=pcButton('◀',()=>{w.historyIndex--;goFolder(id,w.history[w.historyIndex],false)});back.disabled=w.historyIndex===0;back.title='뒤로';
+ const forward=pcButton('▶',()=>{w.historyIndex++;goFolder(id,w.history[w.historyIndex],false)});forward.disabled=w.historyIndex===w.history.length-1;forward.title='앞으로';
+ const up=pcButton('↑',()=>goFolder(id,folder.parent));up.disabled=!folder.parent;up.title='상위 폴더';
+ const addr=pcNode('div','win-address',pathLabel(w.path));addr.title=pathLabel(w.path);
+ const search=pcNode('input','win-search');search.placeholder='검색';
+ const toggle=pcButton(w.view==='icons'?'▦':'▤',()=>{w.view=w.view==='icons'?'details':'icons';renderExplorer(id)});toggle.title='보기';
+ const newText=pcButton('새 문서',()=>pcNewText(w.path));newText.className='os-toolbar-action';newText.disabled=!pcUsableFolder(w.path);
+ const picker=pcNode('input','os-fileinput');picker.type='file';picker.multiple=true;picker.accept='.txt,text/plain,image/*,audio/*';picker.hidden=true;
+ picker.onchange=async()=>{await pcImport(picker.files,w.path);picker.value=''};
+ const importButton=pcButton('가져오기',()=>picker.click());importButton.disabled=!pcUsableFolder(w.path);
+ toolbar.append(back,forward,up,addr,search,toggle,newText,importButton,picker);content.append(toolbar);
+ const body=pcNode('div','explorer-body'),side=pcNode('nav','explorer-side');
+ const groups=[['즐겨찾기',[['다운로드','downloads'],['문서','docs']]],['라이브러리',[['사진','pictures'],['음악','music'],['메모','notes']]],['컴퓨터',[['로컬 디스크 (C:)','drive'],['업무','work']]]];
+ for(const [heading,entries] of groups){side.append(pcNode('div','side-group',heading));for(const [name,path] of entries){const entry=pcNode('div','side-entry','📁 '+name);entry.onclick=()=>goFolder(id,path);side.append(entry)}}
+ const list=pcNode('div','explorer-list '+(w.view==='icons'?'icons':'')),status=pcNode('div','win-status');
+ const draw=()=>{
+  const query=search.value.trim().toLocaleLowerCase();
+  const dirs=folder.items.map(key=>({key,name:fsData[key].name,isFolder:true}));
+  const files=[...pcFiles.values()].filter(f=>!f.deleted&&f.parent===w.path).map(file=>({key:file.id,name:file.name,file,isFolder:false}));
+  let entries=[...dirs,...files].filter(a=>a.name.toLocaleLowerCase().includes(query));
+  const mode=w.sortMode||'name';entries.sort((a,b)=>mode==='type'?(a.isFolder===b.isFolder?a.name.localeCompare(b.name,'ko'):a.isFolder?-1:1):a.isFolder===b.isFolder?a.name.localeCompare(b.name,'ko'):a.isFolder?-1:1);
+  list.replaceChildren();
+  if(w.view!=='icons'){const header=pcNode('div','file-header');for(const [title,field] of [['이름','name'],['유형','type'],['크기','size']]){const span=pcNode('span',field==='size'?'file-size':'',title);span.onclick=()=>{w.sortMode=field;draw()};header.append(span)}list.append(header)}
+  for(const entry of entries){
+   const row=pcNode('div','file-row');row.tabIndex=0;row.dataset.key=entry.key;row.classList.toggle('selected',w.selected===entry.key);
+   const name=pcNode('span','file-name'),icon=pcNode('span','file-icon',entry.isFolder?'📁':pcIcon(entry.file)),title=pcNode('span','file-title',entry.name);name.append(icon,title);
+   row.append(name,pcNode('span','file-type',entry.isFolder?'파일 폴더':pcType(entry.file)),pcNode('span','file-size',entry.isFolder?'':pcSize(entry.file.size||0)));
+   const select=()=>{w.selected=entry.key;list.querySelectorAll('.file-row').forEach(n=>n.classList.toggle('selected',n===row));status.textContent=entry.name};
+   const open=()=>entry.isFolder?goFolder(id,entry.key):pcOpenFile(entry.file);
+   row.onclick=select;row.ondblclick=open;row.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();open()}};
+   row.oncontextmenu=e=>{select();if(entry.isFolder){e.preventDefault();showContext(e.clientX,e.clientY,[['열기',open],['속성',()=>pcMessage('이름: '+entry.name+'\n유형: 파일 폴더')]])}else pcFileMenu(e,entry.file,id)};
+   list.append(row)
+  }
+  status.textContent=entries.length+'개 항목';
+ };
+ search.oninput=draw;draw();body.append(side,list);content.append(body,status);
+ list.oncontextmenu=e=>{if(e.target!==list)return;e.preventDefault();showContext(e.clientX,e.clientY,[['새 텍스트 문서',()=>pcNewText(w.path)],['가져오기',()=>picker.click()],['새로 고침',()=>renderExplorer(id)]])};
+ list.ondragover=e=>{if(pcUsableFolder(w.path))e.preventDefault()};
+ list.ondrop=e=>{e.preventDefault();if(pcUsableFolder(w.path)&&e.dataTransfer.files.length)pcImport(e.dataTransfer.files,w.path)};
+};
+function pcAppShell(w){
+ pcReleaseUrls(w);const root=w.el.querySelector('.win-content');root.replaceChildren();
+ const shell=pcNode('div','app-shell'),bar=pcNode('div','app-toolbar'),main=pcNode('div','app-main'),status=pcNode('div','os-status','');
+ shell.append(bar,main,status);root.append(shell);return {root,shell,bar,main,status}
+}
+renderApp=function(id){
+ const w=openWindows.get(id);if(!w)return;
+ const ui=pcAppShell(w),file=pcFiles.get(w.openFileId);
+ if(w.kind==='notepad'){
+  ui.main.classList.add('os-notepad-main');
+  const editor=pcNode('textarea');editor.value=file?file.text||'':'';editor.spellcheck=false;ui.main.append(editor);
+  w.dirty=false;w.save=async()=>{
+   const value=editor.value;
+   if(w.openFileId&&!pcFiles.has(w.openFileId)){pcMessage('파일을 찾을 수 없습니다.');return}
+   if(!pcStorageReady)await pcConnectPromise;
+   if(pcStorageFailed){pcMessage('파일 저장소를 사용할 수 없습니다.');return}
+   let record=pcFiles.get(w.openFileId);
+   if(!record){
+    const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
+    const trimmed=name.trim();if(!trimmed)return;
+    record={id:pcRecordId(),name:/\.txt$/i.test(trimmed)?trimmed:trimmed+'.txt',parent:'notes',kind:'text',deleted:false}
+   }
+   record.text=value;record.size=new Blob([value]).size;record.modified=Date.now();
+   try{await pcSave(record);w.openFileId=record.id;w.dirty=false;w.el.querySelector('strong').textContent=record.name+' - 메모장';w.task.textContent='📝 '+record.name;ui.status.textContent='저장됨'}catch(e){pcMessage('저장에 실패했습니다.')}
+  };
+  const save=pcButton('저장',()=>w.save()),fresh=pcButton('새 문서',()=>{if(w.dirty&&!confirm('변경 내용을 저장하지 않고 새 문서를 만드시겠습니까?'))return;w.openFileId=null;editor.value='';w.dirty=false;w.el.querySelector('strong').textContent='제목 없음 - 메모장';w.task.textContent='📝 메모장';ui.status.textContent=''});
+  ui.bar.append(save,fresh);ui.status.textContent=file?file.name:'제목 없음';
+  editor.oninput=()=>{w.dirty=true;ui.status.textContent='수정됨'};
+  if(file){w.el.querySelector('strong').textContent=file.name+' - 메모장';w.task.textContent='📝 '+file.name}
+ }else if(w.kind==='photos'){
+  const input=pcNode('input','os-fileinput');input.type='file';input.accept='image/*';input.multiple=true;
+  const back=pcButton('← 목록',()=>paint());back.hidden=true;
+  ui.bar.append(input,back);
+  const gallery=()=>[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='image').sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  const paint=(active)=>{
+   ui.main.replaceChildren();const files=gallery();back.hidden=!active;
+   if(!active){const grid=pcNode('div','os-photos');if(!files.length)grid.append(pcNode('p','app-empty','사진이 없습니다.'));
+    for(const f of files){const card=pcNode('div','os-photo'),img=pcNode('img');img.src=pcUrl(w,f.blob);img.alt=f.name;card.append(img,pcNode('span','',f.name));card.onclick=()=>paint(f.id);grid.append(card)}ui.main.append(grid)}
+   else{const f=pcFiles.get(active);if(!f||f.deleted){paint();return}const img=pcNode('img','os-photo-large');img.src=pcUrl(w,f.blob);img.alt=f.name;ui.main.append(img,pcNode('div','',f.name));ui.status.textContent=f.name+' · '+pcSize(f.size)}
+  };
+  input.onchange=async()=>{await pcImport(input.files,'pictures','image');input.value='';pcReleaseUrls(w);paint()};paint(w.openFileId);ui.status.textContent='사진';
+ }else if(w.kind==='musicplayer'){
+  const input=pcNode('input','os-fileinput');input.type='file';input.accept='audio/*';input.multiple=true;ui.bar.append(input);
+  const player=pcNode('audio');player.controls=true;player.style.width='100%';
+  const previous=pcButton('◀',()=>selectTrack(Math.max(0,playlist.findIndex(f=>f.id===current)-1))),next=pcButton('▶',()=>selectTrack(Math.min(playlist.length-1,playlist.findIndex(f=>f.id===current)+1)));
+  ui.bar.append(previous,next);ui.main.append(player);w.player=player;
+  const list=pcNode('div');ui.main.append(list);let current=null;
+  const playlist=[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='audio').sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  function selectTrack(index){const f=playlist[index];if(!f)return;current=f.id;player.src=pcUrl(w,f.blob);player.play().catch(()=>{});ui.status.textContent=f.name;list.querySelectorAll('.os-listrow').forEach(r=>r.classList.toggle('active',r.dataset.id===current))}
+  if(!playlist.length)list.append(pcNode('p','app-empty','음악 파일이 없습니다.'));
+  playlist.forEach((f,i)=>{const row=pcNode('div','os-listrow');row.dataset.id=f.id;row.append(pcNode('span','','🎵'),pcNode('span','os-filename',f.name),pcNode('span','',pcSize(f.size)));row.ondblclick=()=>selectTrack(i);row.onclick=()=>selectTrack(i);list.append(row)});
+  player.onended=()=>{const nextIndex=playlist.findIndex(f=>f.id===current)+1;if(nextIndex<playlist.length)selectTrack(nextIndex)};
+  input.onchange=async()=>{await pcImport(input.files,'music','audio');input.value='';renderApp(id)};
+  if(w.openFileId){const index=playlist.findIndex(f=>f.id===w.openFileId);if(index>=0)selectTrack(index)}
+  ui.status.textContent=playlist.length+'개 항목';
+ }else if(w.kind==='trash'){
+  const files=[...pcFiles.values()].filter(f=>f.deleted).sort((a,b)=>(b.deletedAt||0)-(a.deletedAt||0));
+  const empty=pcButton('휴지통 비우기',async()=>{if(!files.length||!confirm('휴지통의 모든 파일을 영구 삭제하시겠습니까?'))return;try{for(const f of files)await pcRemove(f.id);pcWindowRefresh()}catch(e){pcMessage('삭제하지 못했습니다.')}});
+  empty.disabled=!files.length;ui.bar.append(empty);
+  if(!files.length)ui.main.append(pcNode('p','app-empty','휴지통이 비어 있습니다.'));
+  for(const f of files){const row=pcNode('div','os-listrow');row.append(pcNode('span','',pcIcon(f)),pcNode('span','os-filename',f.name),pcButton('복원',()=>pcRestore(f)),pcButton('삭제',()=>pcErase(f)));ui.main.append(row)}
+  ui.status.textContent=files.length+'개 항목';
+ }else if(w.kind==='browser'){
+  const state=w.browserState||{history:['pc://시작'],index:0};w.browserState=state;
+  const back=pcButton('◀',()=>step(-1)),forward=pcButton('▶',()=>step(1)),home=pcButton('⌂',()=>navigate('pc://시작')),reload=pcButton('⟳',()=>draw()),address=pcNode('input','os-browser-address'),go=pcButton('이동',()=>navigate(address.value));
+  const bookmark=pcButton('☆',()=>{const addressNow=state.history[state.index];const all=pcBookmarks();const idx=all.indexOf(addressNow);if(idx>=0)all.splice(idx,1);else all.push(addressNow);localStorage.setItem('blind-pc-bookmarks',JSON.stringify(all));draw()});
+  ui.bar.append(back,forward,home,reload,address,go,bookmark);
+  const links=pcNode('div','os-bookmarks'),page=pcNode('div','os-browser-page');ui.shell.insertBefore(links,ui.main);ui.main.replaceWith(page);
+  const saved=[['컴퓨터','pc://컴퓨터'],['실버 소프트','pc://실버-소프트'],['방문 기록','pc://방문-기록']];
+  for(const [name,url] of saved)links.append(pcButton(name,()=>navigate(url)));
+  function step(dir){const index=state.index+dir;if(index<0||index>=state.history.length)return;state.index=index;draw()}
+  function navigate(raw){
+   const url=(raw||'').trim();if(!url)return;
+   if(/^https?:\/\//i.test(url)){window.open(url,'_blank','noopener,noreferrer');return}
+   const dest=url.includes('://')?url:'pc://'+url;
+   state.history=state.history.slice(0,state.index+1);state.history.push(dest);state.index++;
+   let visits=[];try{visits=JSON.parse(localStorage.getItem('blind-pc-browser-history')||'[]')}catch(e){}
+   visits.unshift({url:dest,at:Date.now()});localStorage.setItem('blind-pc-browser-history',JSON.stringify(visits.slice(0,100)));
+   draw()
+  }
+  function localLink(parent,text,url){const row=pcNode('div','os-listrow'),a=pcNode('a','',text);a.tabIndex=0;a.onclick=()=>navigate(url);a.onkeydown=e=>{if(e.key==='Enter')navigate(url)};row.append(a);parent.append(row)}
+  function folderLink(label,key){const row=pcNode('div','os-listrow'),button=pcButton('📁 '+label,()=>openWindow(label,'explorer',key));row.append(button);page.append(row)}
+  function draw(){
+   const url=state.history[state.index];address.value=url;back.disabled=state.index===0;forward.disabled=state.index===state.history.length-1;
+   bookmark.textContent=pcBookmarks().includes(url)?'★':'☆';page.replaceChildren();
+   if(url==='pc://시작'||url==='pc://home'){page.append(pcNode('h2','','즐겨찾기'));for(const [name,link] of saved)localLink(page,name,link)}
+   else if(url==='pc://실버-소프트'){page.append(pcNode('h2','','실버 소프트'));folderLink('기록 자료','archive');folderLink('실버 소프트','silver')}
+   else if(url==='pc://컴퓨터'||url==='pc://files'){page.append(pcNode('h2','','컴퓨터'));folderLink('로컬 디스크 (C:)','drive')}
+   else if(url==='pc://문서'){page.append(pcNode('h2','','문서'));folderLink('문서','docs')}
+   else if(url==='pc://사진'){page.append(pcNode('h2','','사진'));folderLink('사진','pictures')}
+   else if(url==='pc://음악'){page.append(pcNode('h2','','음악'));folderLink('음악','music')}
+   else if(url==='pc://방문-기록'||url==='pc://history'){page.append(pcNode('h2','','방문 기록'));let history=[];try{history=JSON.parse(localStorage.getItem('blind-pc-browser-history')||'[]')}catch(e){}if(!history.length)page.append(pcNode('p','app-empty','기록이 없습니다.'));history.forEach(h=>localLink(page,h.url,h.url))}
+   else{page.append(pcNode('h2','','페이지를 표시할 수 없습니다.'));page.append(pcNode('p','','주소를 확인하십시오.'))}
+  }
+  address.onkeydown=e=>{if(e.key==='Enter')navigate(address.value)};
+  draw();ui.status.textContent='인터넷';
+ }else if(w.kind==='settings'){
+  ui.main.append(pcNode('h3','','제어판'));
+  const info=pcNode('div','os-listrow','표시 및 사용자 설정');ui.main.append(info);
+  ui.main.append(pcButton('파일 탐색기 열기',()=>openWindow('컴퓨터','explorer','root')));
+  ui.status.textContent='제어판';
+ }
+};
+function pcBookmarks(){try{const result=JSON.parse(localStorage.getItem('blind-pc-bookmarks')||'[]');return Array.isArray(result)?result:[]}catch(e){return []}}
+document.addEventListener('keydown',e=>{
+ if(!focused||e.target instanceof HTMLInputElement||e.target instanceof HTMLTextAreaElement)return;
+ const w=openWindows.get(focused);if(!w)return;
+ if(w.kind==='explorer'&&w.selected&&pcFiles.has(w.selected)){
+  const file=pcFiles.get(w.selected);
+  if(e.key==='Delete'){e.preventDefault();pcTrash(file)}
+  if(e.key==='F2'){e.preventDefault();const renamed=prompt('이름 바꾸기',file.name);if(renamed&&renamed.trim()){file.name=renamed.trim().slice(0,100);file.modified=Date.now();pcSave(file).catch(()=>pcMessage('변경하지 못했습니다.'))}}
+ }
+});
+document.addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'&&focused){const w=openWindows.get(focused);if(w&&w.kind==='notepad'&&w.save){e.preventDefault();w.save()}}
+});
+const pcConnectPromise=pcConnect();
 </script></body></html>
