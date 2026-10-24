@@ -212,6 +212,8 @@
 .context-menu{max-width:calc(100vw - 12px);max-height:calc(100dvh - 60px);overflow:auto}
 .context-menu [role="menuitem"]:focus-visible{outline:1px solid #73a6c4;background:#d5e8ef}
 .showdesktop{cursor:pointer}
+
+.start-empty{padding:14px 9px;color:#6f7f83;font-size:12px}.start-item:focus-visible{outline:1px solid #8dbec8;background:#d5e8ef}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -530,7 +532,30 @@ function renderExplorer(id){
  items.forEach(key=>{const row=document.createElement('div');row.className='file-row';row.tabIndex=0;row.classList.toggle('selected',w.selected===key);const label=document.createElement('span');label.className='file-name';const ico=document.createElement('span');ico.className='file-icon';ico.innerHTML=pcSvg('folder');label.append(ico,document.createTextNode(fsData[key].name));const type=document.createElement('span');type.className='file-type';type.textContent='파일 폴더';const size=document.createElement('span');size.className='file-size';row.append(label,type,size);row.onclick=()=>{w.selected=key;list.querySelectorAll('.file-row').forEach(r=>r.classList.remove('selected'));row.classList.add('selected')};row.ondblclick=()=>goFolder(id,key);row.onkeydown=e=>{if(e.key==='Enter')goFolder(id,key)};row.oncontextmenu=e=>{e.preventDefault();w.selected=key;showContext(e.clientX,e.clientY,[['열기',()=>goFolder(id,key)],['속성',()=>alert(fsData[key].name+'\n유형: 파일 폴더')]])};list.append(row)});status.textContent=items.length+'개 항목';};
  search.oninput=draw;draw();body.append(side,list);content.append(body,status);
 }
-function showContext(x,y,entries){contextMenu.replaceChildren();entries.forEach(([name,fn])=>{const item=document.createElement('div');item.textContent=name;item.onclick=()=>{contextMenu.hidden=true;fn()};contextMenu.append(item)});contextMenu.hidden=false;contextMenu.style.left=Math.min(x,innerWidth-180)+'px';contextMenu.style.top=Math.min(y,innerHeight-125)+'px'}
+function showContext(x,y,entries){
+ contextMenu.replaceChildren();
+ contextMenu.setAttribute('role','menu');
+ entries.forEach(([name,fn])=>{
+  const item=document.createElement('div');item.setAttribute('role','menuitem');
+  item.tabIndex=0;item.textContent=name;
+  item.onclick=()=>{contextMenu.hidden=true;fn()};
+  item.onkeydown=e=>{
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();item.click()}
+   else if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+    e.preventDefault();const all=[...contextMenu.querySelectorAll('[role="menuitem"]')];
+    all[(all.indexOf(item)+(e.key==='ArrowDown'?1:all.length-1))%all.length].focus()
+   }else if(e.key==='Escape'){e.preventDefault();contextMenu.hidden=true}
+  };
+  contextMenu.append(item)
+ });
+ contextMenu.hidden=false;
+ contextMenu.style.left='0px';contextMenu.style.top='0px';
+ const rect=contextMenu.getBoundingClientRect();
+ const bound=document.querySelector('.desktop').getBoundingClientRect();
+ const xx=Math.min(Math.max(4,x-bound.left),Math.max(4,bound.width-rect.width-6));
+ const yy=Math.min(Math.max(4,y-bound.top),Math.max(4,bound.height-rect.height-6));
+ contextMenu.style.left=xx+'px';contextMenu.style.top=yy+'px';
+}
 
 const savedNotesKey='blind-pc-notes';
 const desktopApps=[
@@ -577,13 +602,74 @@ function renderApp(id){
   const body=mk('div','app-area');body.append(mk('p','','설정'));area.append(body);
  }
 }
-function makeStartEntry(parent,label,action){const el=document.createElement('div');el.className='start-item';el.tabIndex=0;el.append(pcIconNode(pcMenuIcon(label),'start-icon'),document.createTextNode(label));el.onclick=action;el.onkeydown=e=>{if(e.key==='Enter')action()};parent.append(el)}
-function renderStart(){startApps.replaceChildren();startLinks.replaceChildren();const query=startSearch.value.trim().toLowerCase();programs.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,action])=>makeStartEntry(startApps,name,action));if(!query)makeStartEntry(startApps,'모든 프로그램 ▸',()=>{startApps.replaceChildren();programs.forEach(([name,action])=>makeStartEntry(startApps,name,action))});links.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,name==='휴지통'?'trash':'settings')))}
-startButton.onclick=e=>{e.stopPropagation();startMenu.classList.toggle('open');startButton.classList.toggle('active',startMenu.classList.contains('open'));if(startMenu.classList.contains('open')){startSearch.value='';renderStart()}};
-startSearch.oninput=renderStart;
+function makeStartEntry(parent,label,action,kind=null){
+ const el=document.createElement('div');el.className='start-item';el.tabIndex=0;
+ el.setAttribute('role','button');el.append(pcIconNode(kind||pcMenuIcon(label),'start-icon'),document.createTextNode(label));
+ el.onclick=action;
+ el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();action()}};
+ parent.append(el);return el
+}
+function renderStart(){
+ startApps.replaceChildren();startLinks.replaceChildren();
+ const query=startSearch.value.trim().toLocaleLowerCase();
+ const matches=programs.filter(([name])=>name.toLocaleLowerCase().includes(query));
+ const folders=links.filter(([name])=>name.toLocaleLowerCase().includes(query));
+ const mode=startMenu.dataset.mode||'recent';
+ if(mode==='all'&&!query){
+  makeStartEntry(startApps,'◀ 뒤로',()=>{startMenu.dataset.mode='recent';renderStart()},'programs');
+  programs.forEach(([name,action])=>makeStartEntry(startApps,name,action));
+ }else{
+  matches.forEach(([name,action])=>makeStartEntry(startApps,name,action));
+  if(!query)makeStartEntry(startApps,'모든 프로그램',()=>{startMenu.dataset.mode='all';renderStart()},'programs');
+ }
+ folders.forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,name==='휴지통'?'trash':'settings')));
+ if(query&&!matches.length&&!folders.length){
+  const empty=document.createElement('div');empty.className='start-empty';empty.textContent='검색 결과가 없습니다.';startApps.append(empty)
+ }
+}
+function pcToggleStart(force){
+ const open=typeof force==='boolean'?force:!startMenu.classList.contains('open');
+ if(!open){closeStart();return}
+ startMenu.dataset.mode='recent';startSearch.value='';renderStart();
+ startMenu.classList.add('open');startButton.classList.add('active');
+ startButton.setAttribute('aria-expanded','true');
+ startSearch.focus()
+}
+startButton.setAttribute('role','button');
+startButton.setAttribute('aria-controls','startMenu');
+startButton.setAttribute('aria-expanded','false');
+startButton.tabIndex=0;
+startButton.title='시작';
+startButton.onclick=e=>{e.stopPropagation();pcToggleStart()};
+startButton.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pcToggleStart()}};
+startSearch.oninput=()=>{startMenu.dataset.mode='recent';renderStart()};
+startSearch.onkeydown=e=>{
+ if(e.key==='Enter'){
+  e.preventDefault();const first=startApps.querySelector('.start-item')||startLinks.querySelector('.start-item');
+  if(first)first.click()
+ }else if(e.key==='ArrowDown'){
+  e.preventDefault();const first=startApps.querySelector('.start-item')||startLinks.querySelector('.start-item');
+  if(first)first.focus()
+ }else if(e.key==='Escape'){e.preventDefault();pcToggleStart(false);startButton.focus()}
+};
+startMenu.addEventListener('keydown',e=>{
+ if(e.target===startSearch)return;
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+  const items=[...startMenu.querySelectorAll('.start-item')];if(!items.length)return;
+  const idx=items.indexOf(document.activeElement),step=e.key==='ArrowDown'?1:-1;
+  e.preventDefault();items[(idx+step+items.length)%items.length].focus()
+ }else if(e.key==='Escape'){e.preventDefault();pcToggleStart(false);startButton.focus()}
+});
 document.getElementById('shutdown').onclick=()=>{closeStart();if(confirm('접속을 종료하시겠습니까?'))location.reload()};
-document.addEventListener('pointerdown',e=>{if(!startMenu.contains(e.target)&&!startButton.contains(e.target))closeStart();if(!contextMenu.contains(e.target))contextMenu.hidden=true});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeStart();contextMenu.hidden=true}if(e.altKey&&e.key==='F4'&&focused){e.preventDefault();closeWin(focused)}});
+document.addEventListener('pointerdown',e=>{
+ if(!startMenu.contains(e.target)&&!startButton.contains(e.target))closeStart();
+ if(!contextMenu.contains(e.target))contextMenu.hidden=true
+});
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey&&e.key==='Escape'){e.preventDefault();pcToggleStart();return}
+ if(e.key==='Escape'){closeStart();contextMenu.hidden=true}
+ if(e.altKey&&e.key==='F4'&&focused){e.preventDefault();closeWin(focused)}
+});
 
 /* Stored local files and connected applications */
 const pcFiles=new Map();
