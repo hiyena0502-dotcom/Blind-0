@@ -226,6 +226,14 @@
 .win-address .pc-crumb-arrow{color:#849fa6}
 .explorer-side .side-entry.active{background:#d0e2e9;color:#234b60}
 .file-header span:focus-visible{outline:1px solid #91bac7}
+
+.task-window-list{display:flex;align-items:center;gap:5px;flex:1;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.task-window-list::-webkit-scrollbar{display:none}
+.task-window-list .task-open{min-width:92px;max-width:175px;flex:0 1 155px}
+.taskbar .spacer{flex:0;display:none}
+.taskbar .start,.taskbar .sep,.taskbar .tray,.taskbar .showdesktop{flex-shrink:0}
+.taskbar{gap:9px}
+.showdesktop{width:9px;margin-right:-9px}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -396,6 +404,7 @@ function pcCanonicalFolder(key){
 const winLayer=document.getElementById('winLayer'),startMenu=document.getElementById('startMenu'),startButton=document.querySelector('.start'),startApps=document.getElementById('startApps'),startLinks=document.getElementById('startLinks'),startSearch=document.getElementById('startSearch'),contextMenu=document.getElementById('contextMenu'),taskSpacer=document.querySelector('.taskbar .spacer');
 let winCounter=0,topWindow=30,focused=null;
 const openWindows=new Map();
+const taskWindowList=document.createElement('div');taskWindowList.className='task-window-list';taskSpacer.before(taskWindowList);
 const pcDesktopArea=()=>({width:Math.max(280,winLayer.clientWidth||innerWidth),height:Math.max(250,winLayer.clientHeight||innerHeight-46)});
 function closeStart(){
  startMenu.classList.remove('open');
@@ -471,7 +480,7 @@ function openWindow(title,kind='explorer',path='root'){
  const task=document.createElement('button');task.type='button';task.className='task-open';
  task.innerHTML='<span class="task-icon"></span><span class="task-title"></span>';
  task.querySelector('.task-icon').innerHTML=pcSvg(pcWindowIcon(kind,path));task.querySelector('.task-title').textContent=title;
- task.title=title;taskSpacer.before(task);
+ task.title=title;taskWindowList.append(task);
  const w={el,task,kind,path,history:[path],historyIndex:0,view:'details',selected:null,search:''};
  openWindows.set(id,w);focusWin(id);pcFitWindow(w);
  task.onclick=()=>{if(focused===id&&el.style.display!=='none')toggleMin(id);else focusWin(id)};
@@ -509,8 +518,8 @@ if(showDesktopButton){
   if(desktopSnapshot.length){
    const snapshot=desktopSnapshot;desktopSnapshot=[];
    snapshot.forEach(id=>{const w=openWindows.get(id);if(w)w.el.style.display='flex'});
-   const last=snapshot.find(id=>id===focused)||snapshot[snapshot.length-1];
-   if(last&&openWindows.has(last))focusWin(last);
+   const last=[...snapshot].reverse().find(id=>openWindows.has(id));
+   if(last)focusWin(last);
   }else{
    desktopSnapshot=[...openWindows].filter(([id,w])=>w.el.style.display!=='none').map(([id])=>id);
    for(const id of desktopSnapshot){const w=openWindows.get(id);w.el.style.display='none';w.task.classList.remove('focused')}
@@ -568,8 +577,6 @@ const programs=[
 const links=[['문서','docs'],['사진','pictures'],['음악','music'],['다운로드','downloads'],['컴퓨터','root'],['제어판',null],['휴지통',null]];
 const desktopIcons=document.getElementById('desktopIcons');
 desktopApps.forEach(([name,icon,action])=>{const b=document.createElement('div');b.className='desktop-icon';b.tabIndex=0;b.innerHTML='<span class="di-image"></span><span class="di-label"></span>';b.querySelector('.di-image').innerHTML=pcSvg(icon);b.querySelector('.di-label').textContent=name;b.onclick=()=>{desktopIcons.querySelectorAll('.desktop-icon').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')};b.ondblclick=action;b.onkeydown=e=>{if(e.key==='Enter')action()};desktopIcons.append(b)});
-let browserHome='home',musicAudio=null,musicTimer=null;
-const musicLibrary=[{name:'오디오 파일 없음',type:'empty'}];
 function makeStartEntry(parent,label,action,kind=null){
  const el=document.createElement('div');el.className='start-item';el.tabIndex=0;
  el.setAttribute('role','button');el.append(pcIconNode(kind||pcMenuIcon(label),'start-icon'),document.createTextNode(label));
@@ -921,8 +928,8 @@ function pcRenameFile(file){
  if(!file||file.virtual||file.deleted)return;
  const answer=prompt('이름 바꾸기',file.name);
  if(answer===null||!answer.trim())return;
- const before=file.name;file.name=answer.trim().slice(0,100);file.modified=Date.now();
- pcSave(file).catch(()=>{file.name=before;pcWindowRefresh();pcMessage('이름을 바꾸지 못했습니다.')})
+ const before=file.name,modified=file.modified;file.name=answer.trim().slice(0,100);file.modified=Date.now();
+ pcSave(file).catch(()=>{file.name=before;file.modified=modified;pcWindowRefresh();pcMessage('이름을 바꾸지 못했습니다.')})
 }
 function pcAppShell(w){
  pcReleaseUrls(w);const root=w.el.querySelector('.win-content');root.replaceChildren();
