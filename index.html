@@ -727,53 +727,11 @@ function pcSave(file){
   catch(e){reject(e)}
  })
 }
-function pcRemove(id){
- pcFiles.delete(id);pcWindowRefresh();
- return new Promise((resolve,reject)=>{
-  if(!pcDB){reject(Error('로컬 저장소에 연결하지 못했습니다.'));return}
-  try{const tx=pcDB.transaction('files','readwrite');tx.objectStore('files').delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||Error('삭제 실패'))}catch(e){reject(e)}
- })
-}
 async function pcMigrateNotes(){
  const legacy=localStorage.getItem(savedNotesKey);
  if(legacy&&!Array.from(pcFiles.values()).some(f=>f.legacyNote)&&pcDB){
   await pcSave({id:pcRecordId(),name:'메모.txt',parent:'docs',kind:'text',text:legacy,size:new Blob([legacy]).size,modified:Date.now(),deleted:false,legacyNote:true}).catch(()=>{});
  }
-}
-async function pcImport(files,parent,filter){
- if(!pcStorageReady)await pcConnectPromise;
- if(pcStorageFailed){pcMessage('파일 저장소를 사용할 수 없습니다.');return}
- let added=0;
- for(const file of files){
-  let kind=file.type.startsWith('image/')?'image':file.type.startsWith('audio/')?'audio':/\.txt$/i.test(file.name)||file.type==='text/plain'?'text':null;
-  if(!kind||(filter&&filter!==kind))continue;
-  if(file.size>50*1024*1024){pcMessage('50MB보다 큰 파일은 추가할 수 없습니다.');continue}
-  const record={id:pcRecordId(),name:file.name,parent,kind,modified:Date.now(),size:file.size,deleted:false};
-  if(kind==='text')record.text=await file.text();else record.blob=file;
-  try{await pcSave(record);added++}catch(e){pcFiles.delete(record.id);pcMessage('저장하지 못했습니다. 저장 공간을 확인하세요.');break}
- }
- return added
-}
-async function pcNewText(parent){
- if(!pcUsableFolder(parent))parent='docs';
- const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
- const clean=name.trim().slice(0,100);if(!clean)return;
- const record={id:pcRecordId(),name:/\.txt$/i.test(clean)?clean:clean+'.txt',kind:'text',parent,modified:Date.now(),size:0,text:'',deleted:false};
- try{await pcSave(record);pcOpenFile(record)}catch(e){pcMessage('저장할 수 없습니다.')}
-}
-async function pcTrash(file){
- if(!file||file.deleted)return;
- if(!confirm('휴지통으로 이동하시겠습니까?\n'+file.name))return;
- file.deleted=true;file.deletedAt=Date.now();
- try{await pcSave(file)}catch(e){file.deleted=false;pcMessage('이동하지 못했습니다.')}
-}
-async function pcRestore(file){
- file.deleted=false;delete file.deletedAt;
- try{await pcSave(file)}catch(e){file.deleted=true;pcMessage('복원하지 못했습니다.')}
-}
-async function pcErase(file){
- if(!confirm('영구 삭제하시겠습니까?\n'+file.name))return;
- try{await pcRemove(file.id)}catch(e){pcFiles.set(file.id,file);pcMessage('삭제하지 못했습니다.')}
 }
 function pcOpenFile(file){
  if(!file||file.deleted)return;
@@ -788,38 +746,11 @@ function pcOpenProps(file){
 }
 function pcFileMenu(e,file,id){
  e.preventDefault();e.stopPropagation();
- if(file.virtual){
-  showContext(e.clientX,e.clientY,[['열기',()=>pcOpenFile(file)],['속성',()=>pcOpenProps(file)]]);
-  return
- }
- showContext(e.clientX,e.clientY,[
-  ['열기',()=>pcOpenFile(file)],
-  ['이름 바꾸기',()=>pcRenameFile(file)],
-  ['다른 폴더로 이동',async()=>{
-   const destinations=[
-    ['문서','docs'],['공룡의 기록','records'],['사진','pictures'],['음악','music'],['다운로드','downloads'],
-    ['업무','work'],['흥신소','agency'],['에메랄드 포레스트','emerald'],['실버 소프트','silver']
-   ].filter(([label,key])=>key!==file.parent);
-   const selection=prompt('이동할 폴더 번호를 입력하십시오.\n'+destinations.map(([name],i)=>(i+1)+'. '+name).join('\n'));
-   if(selection===null)return;
-   const idx=Number(selection);
-   const target=Number.isInteger(idx)&&idx>=1?destinations[idx-1]:null;
-   if(!target)return;
-   const originalParent=file.parent,originalModified=file.modified;
-   file.parent=target[1];file.modified=Date.now();
-   try{await pcSave(file)}catch(err){
-    file.parent=originalParent;file.modified=originalModified;pcWindowRefresh();
-    pcMessage('파일을 이동하지 못했습니다.')
-   }
-  }],
-  ['삭제',()=>pcTrash(file)],
-  ['속성',()=>pcOpenProps(file)]
- ])
+ showContext(e.clientX,e.clientY,[['열기',()=>pcOpenFile(file)],['속성',()=>pcOpenProps(file)]]);
 }
 const pcOldCloseWin=closeWin;
 closeWin=function(id){
  const w=openWindows.get(id);
- if(w&&w.dirty&&w.kind==='notepad'&&!confirm('변경 내용을 저장하지 않고 닫으시겠습니까?'))return;
  if(w){if(w.player)w.player.pause();if(w.objectUrls)w.objectUrls.forEach(url=>URL.revokeObjectURL(url))}
  pcOldCloseWin(id)
 };
@@ -834,9 +765,6 @@ function renderExplorer(id){
  w.el.querySelector('.win-app-icon').innerHTML=pcSvg(pcWindowIcon('explorer',w.path));
  w.el.setAttribute('aria-label',folder.name+' - 파일 탐색기');
  const content=w.el.querySelector('.win-content');content.replaceChildren();
- const picker=pcNode('input','os-fileinput');picker.type='file';picker.multiple=true;
- picker.accept='.txt,text/plain,image/*,audio/*';picker.hidden=true;
- picker.onchange=async()=>{if(picker.files.length)await pcImport(picker.files,w.path);picker.value=''};
  const tools=pcNode('div','win-toolbar');
  const back=pcButton('◀',()=>pcBrowseHistory(id,-1));back.disabled=w.historyIndex===0;back.title='뒤로 (Alt+←)';
  const forward=pcButton('▶',()=>pcBrowseHistory(id,1));forward.disabled=w.historyIndex>=w.history.length-1;forward.title='앞으로 (Alt+→)';
@@ -854,22 +782,11 @@ function renderExplorer(id){
  search.setAttribute('aria-label','폴더 검색');
  const toggle=pcButton(w.view==='icons'?'▦':'▤',()=>{w.view=w.view==='icons'?'details':'icons';renderExplorer(id)});
  toggle.title=w.view==='icons'?'자세히 보기':'큰 아이콘 보기';
- const newText=pcButton('새 문서',()=>pcNewText(w.path));
- newText.className='os-toolbar-action';newText.disabled=!pcUsableFolder(w.path);
- const importButton=pcButton('가져오기',()=>picker.click());
- importButton.disabled=!pcUsableFolder(w.path);
- tools.append(back,forward,up,address,search,toggle,newText,importButton,picker);
+ tools.append(back,forward,up,address,search,toggle);
  const menu=pcNode('div','win-menu');
- const editSelected=operation=>{
-  const file=pcFiles.get(w.selected);
-  if(!file||file.deleted)return;
-  if(operation==='rename')pcRenameFile(file);
-  else if(operation==='delete')pcTrash(file);
-  else if(operation==='properties')pcOpenProps(file)
- };
+ const selectedProperties=()=>{const file=pcFiles.get(w.selected);if(file)pcOpenProps(file)};
  const menus=[
-  ['파일',()=>[['새 텍스트 문서',()=>pcUsableFolder(w.path)&&pcNewText(w.path)],['가져오기',()=>pcUsableFolder(w.path)&&picker.click()],['새로 고침',()=>renderExplorer(id)]]],
-  ['편집',()=>[['이름 바꾸기',()=>editSelected('rename')],['삭제',()=>editSelected('delete')],['속성',()=>editSelected('properties')]]],
+  ['파일',()=>[['새로 고침',()=>renderExplorer(id)],['속성',selectedProperties]]],
   ['보기',()=>[['자세히 보기',()=>{w.view='details';renderExplorer(id)}],['큰 아이콘',()=>{w.view='icons';renderExplorer(id)}],['이름순',()=>{w.sortMode='name';renderExplorer(id)}],['유형순',()=>{w.sortMode='type';renderExplorer(id)}],['크기순',()=>{w.sortMode='size';renderExplorer(id)}]]],
   ['도구',()=>[['새로 고침',()=>renderExplorer(id)],['상위 폴더',()=>folder.parent&&goFolder(id,folder.parent)]]]
  ];
@@ -956,13 +873,10 @@ function renderExplorer(id){
   if(e.target!==list)return;
   e.preventDefault();
   const options=[['새로 고침',()=>renderExplorer(id)]];
-  if(pcUsableFolder(w.path)){
-   options.unshift(['새 텍스트 문서',()=>pcNewText(w.path)],['가져오기',()=>picker.click()])
-  }
   showContext(e.clientX,e.clientY,options)
  };
- list.ondragover=e=>{if(pcUsableFolder(w.path))e.preventDefault()};
- list.ondrop=e=>{e.preventDefault();if(pcUsableFolder(w.path)&&e.dataTransfer?.files?.length)pcImport(e.dataTransfer.files,w.path)};
+ list.ondragover=e=>e.preventDefault();
+ list.ondrop=e=>e.preventDefault();
 };
 function pcBrowseHistory(id,step){
  const w=openWindows.get(id);
@@ -971,13 +885,6 @@ function pcBrowseHistory(id,step){
  if(next<0||next>=w.history.length)return;
  w.historyIndex=next;
  goFolder(id,w.history[next],false)
-}
-function pcRenameFile(file){
- if(!file||file.virtual||file.deleted)return;
- const answer=prompt('이름 바꾸기',file.name);
- if(answer===null||!answer.trim())return;
- const before=file.name,modified=file.modified;file.name=answer.trim().slice(0,100);file.modified=Date.now();
- pcSave(file).catch(()=>{file.name=before;file.modified=modified;pcWindowRefresh();pcMessage('이름을 바꾸지 못했습니다.')})
 }
 function pcAppShell(w){
  pcReleaseUrls(w);const root=w.el.querySelector('.win-content');root.replaceChildren();
@@ -989,29 +896,12 @@ function renderApp(id){
  const ui=pcAppShell(w),file=pcFiles.get(w.openFileId);
  if(w.kind==='notepad'){
   ui.main.classList.add('os-notepad-main');
-  const editor=pcNode('textarea');editor.setAttribute('aria-label','문서 내용');editor.value=file?file.text||'':'';editor.spellcheck=false;ui.main.append(editor);
-  w.dirty=false;w.save=async()=>{
-   const value=editor.value;
-   if(w.openFileId&&!pcFiles.has(w.openFileId)){pcMessage('파일을 찾을 수 없습니다.');return}
-   if(!pcStorageReady)await pcConnectPromise;
-   if(pcStorageFailed){pcMessage('파일 저장소를 사용할 수 없습니다.');return}
-   let record=pcFiles.get(w.openFileId);
-   if(!record){
-    const name=prompt('파일 이름','새 텍스트 문서.txt');if(name===null)return;
-    const trimmed=name.trim();if(!trimmed)return;
-    record={id:pcRecordId(),name:/\.txt$/i.test(trimmed)?trimmed:trimmed+'.txt',parent:'docs',kind:'text',deleted:false}
-   }
-   record.text=value;record.size=new Blob([value]).size;record.modified=Date.now();
-   try{await pcSave(record);w.openFileId=record.id;w.dirty=false;w.el.querySelector('strong').textContent=record.name+' - 메모장';pcUpdateTask(w,record.name,'text');ui.status.textContent='저장됨'}catch(e){pcMessage('저장에 실패했습니다.')}
-  };
-  const save=pcButton('저장',()=>w.save()),fresh=pcButton('새 문서',()=>{if(w.dirty&&!confirm('변경 내용을 저장하지 않고 새 문서를 만드시겠습니까?'))return;w.openFileId=null;editor.value='';w.dirty=false;w.el.querySelector('strong').textContent='제목 없음 - 메모장';pcUpdateTask(w,'메모장','text');ui.status.textContent=''});
-  ui.bar.append(save,fresh);ui.status.textContent=file?file.name:'제목 없음';
-  editor.oninput=()=>{w.dirty=true;ui.status.textContent='수정됨'};
-  if(file){w.el.querySelector('strong').textContent=file.name+' - 메모장';pcUpdateTask(w,file.name,'text')}
+  const editor=pcNode('textarea');editor.setAttribute('aria-label','문서 내용');editor.readOnly=true;editor.value=file?file.text||'':w.previewText||'';editor.spellcheck=false;ui.main.append(editor);
+  w.dirty=false;w.save=null;ui.bar.hidden=true;ui.status.textContent=(file?.name||w.previewTitle||'메모장')+' · 읽기 전용';
+  if(file||w.previewTitle){const name=file?.name||w.previewTitle;w.el.querySelector('strong').textContent=name+' - 메모장';pcUpdateTask(w,name,'text')}
  }else if(w.kind==='photos'){
-  const input=pcNode('input','os-fileinput');input.type='file';input.accept='image/*';input.multiple=true;
   const back=pcButton('← 목록',()=>paint());back.hidden=true;
-  ui.bar.append(input,back);
+  ui.bar.append(back);
   const gallery=()=>[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='image').sort((a,b)=>a.name.localeCompare(b.name,'ko'));
   const paint=(active)=>{
    ui.main.replaceChildren();const files=gallery();back.hidden=!active;
@@ -1019,9 +909,8 @@ function renderApp(id){
     for(const f of files){const card=pcNode('div','os-photo'),img=pcNode('img');img.src=pcUrl(w,f.blob);img.alt=f.name;card.append(img,pcNode('span','',f.name));card.onclick=()=>paint(f.id);grid.append(card)}ui.main.append(grid)}
    else{const f=pcFiles.get(active);if(!f||f.deleted){paint();return}const img=pcNode('img','os-photo-large');img.src=pcUrl(w,f.blob);img.alt=f.name;ui.main.append(img,pcNode('div','',f.name));ui.status.textContent=f.name+' · '+pcSize(f.size)}
   };
-  input.onchange=async()=>{await pcImport(input.files,'pictures','image');input.value='';pcReleaseUrls(w);paint()};paint(w.openFileId);ui.status.textContent='사진';
+  paint(w.openFileId);ui.status.textContent='사진';
  }else if(w.kind==='musicplayer'){
-  const input=pcNode('input','os-fileinput');input.type='file';input.accept='audio/*';input.multiple=true;ui.bar.append(input);
   const player=pcNode('audio');player.controls=true;player.style.width='100%';
   const previous=pcButton('◀',()=>selectTrack(Math.max(0,playlist.findIndex(f=>f.id===current)-1))),next=pcButton('▶',()=>selectTrack(Math.min(playlist.length-1,playlist.findIndex(f=>f.id===current)+1)));
   ui.bar.append(previous,next);ui.main.append(player);w.player=player;
@@ -1031,15 +920,13 @@ function renderApp(id){
   if(!playlist.length)list.append(pcNode('p','app-empty','음악 파일이 없습니다.'));
   playlist.forEach((f,i)=>{const row=pcNode('div','os-listrow');row.dataset.id=f.id;row.append(pcIconNode('music','track-icon'),pcNode('span','os-filename',f.name),pcNode('span','',pcSize(f.size)));row.ondblclick=()=>selectTrack(i);row.onclick=()=>selectTrack(i);list.append(row)});
   player.onended=()=>{const nextIndex=playlist.findIndex(f=>f.id===current)+1;if(nextIndex<playlist.length)selectTrack(nextIndex)};
-  input.onchange=async()=>{await pcImport(input.files,'music','audio');input.value='';renderApp(id)};
   if(w.openFileId){const index=playlist.findIndex(f=>f.id===w.openFileId);if(index>=0)selectTrack(index)}
   ui.status.textContent=playlist.length+'개 항목';
  }else if(w.kind==='trash'){
   const files=[...pcFiles.values()].filter(f=>f.deleted).sort((a,b)=>(b.deletedAt||0)-(a.deletedAt||0));
-  const empty=pcButton('휴지통 비우기',async()=>{if(!files.length||!confirm('휴지통의 모든 파일을 영구 삭제하시겠습니까?'))return;try{for(const f of files)await pcRemove(f.id);pcWindowRefresh()}catch(e){pcMessage('삭제하지 못했습니다.')}});
-  empty.disabled=!files.length;ui.bar.append(empty);
+  ui.bar.hidden=true;
   if(!files.length)ui.main.append(pcNode('p','app-empty','휴지통이 비어 있습니다.'));
-  for(const f of files){const row=pcNode('div','os-listrow');row.append(pcIconNode(pcIcon(f),'trash-file-icon'),pcNode('span','os-filename',f.name),pcButton('복원',()=>pcRestore(f)),pcButton('삭제',()=>pcErase(f)));ui.main.append(row)}
+  for(const f of files){const row=pcNode('div','os-listrow');row.append(pcIconNode(pcIcon(f),'trash-file-icon'),pcNode('span','os-filename',f.name));ui.main.append(row)}
   ui.status.textContent=files.length+'개 항목';
  }else if(w.kind==='browser'){
   bnRenderBrowser(id,w,ui);
@@ -1056,9 +943,7 @@ function pcBookmarks(){try{const result=JSON.parse(localStorage.getItem('blind-p
 document.addEventListener('keydown',e=>{
  if(e.defaultPrevented||!focused)return;
  const w=openWindows.get(focused);if(!w)return;
- if((e.ctrlKey||e.metaKey)&&e.key.toLocaleLowerCase()==='s'&&w.kind==='notepad'&&w.save){
-  e.preventDefault();w.save();return
- }
+ if((e.ctrlKey||e.metaKey)&&e.key.toLocaleLowerCase()==='s'&&w.kind==='notepad'){e.preventDefault();return}
  if(w.kind==='browser'){
   if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='l'){e.preventDefault();w.addressField?.focus();w.addressField?.select();return}
   if(e.altKey&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();w.browserStep?.(e.key==='ArrowLeft'?-1:1);return}
@@ -1088,14 +973,7 @@ document.addEventListener('keydown',e=>{
   const nextIndex=index<0?(e.key==='ArrowDown'?0:rows.length-1):(index+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;
   e.preventDefault();rows[nextIndex].click();rows[nextIndex].focus();rows[nextIndex].scrollIntoView({block:'nearest'});return
  }
- if(e.key==='F2'){
-  const file=pcFiles.get(w.selected);
-  if(file&&!file.deleted){e.preventDefault();pcRenameFile(file)}return
- }
- if(e.key==='Delete'){
-  const file=pcFiles.get(w.selected);
-  if(file&&!file.deleted){e.preventDefault();pcTrash(file)}return
- }
+ if(e.key==='F2'||e.key==='Delete'){e.preventDefault();return}
  if(e.key==='Enter'&&w.selected&&!e.target.closest('.file-row')){
   const row=[...list.querySelectorAll('.file-row')].find(item=>item.dataset.key===w.selected);
   if(row){e.preventDefault();row.dispatchEvent(new MouseEvent('dblclick',{bubbles:false}))}
@@ -1129,14 +1007,12 @@ const BN_BY_ID=new Map(BN_DATA.pages.map(p=>[p.id,p]));
 const BN_VIDEOS=['NGkzAfFLq4g','Cme_mVcjz3U','tuhBI1o_JSE','fZOW2ssviP8','xnnxOdhyBwo','jJaUePbI4wQ','YMXlfaFF2qQ'];
 const BN_KINDS={site:'웹사이트',news:'뉴스',document:'문서',record:'기록',image:'이미지'};
 function bnRead(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x===null?fallback:x}catch{return fallback}}
-function bnWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}}
 function bnArray(key,fallback=[]){const x=bnRead(key,fallback);return Array.isArray(x)?x:fallback}
 function bnURL(p){return 'https://'+({site:'web',news:'news',document:'docs',record:'memo',image:'images'}[p.kind]||'web')+'.mora.local/'+p.id}
 function bnPage(id){const p=BN_BY_ID.get(id);if(p){const original=pcFiles.get('seed-'+id);if(p.kind==='record'&&original?.deleted)return null;const f=[...pcFiles.values()].find(f=>!f.deleted&&f.sourcePage===id);return f?{...p,title:f.name.replace(/\.txt$/i,''),paragraphs:f.text.split(/\n\n+/),fileId:f.id}:p}if(id.startsWith('file:')){const f=pcFiles.get(id.slice(5));if(f&&!f.deleted&&f.kind==='text')return {id,title:f.name,site:'내 문서',kind:'record',ep:0,summary:f.text.slice(0,100),paragraphs:f.text.split(/\n\n+/),tags:['메모','문서','기록'],fileId:f.id,theme:'document'}}return null}
 function bnCatalog(){return [...BN_DATA.pages.map(p=>bnPage(p.id)),...[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='text'&&!f.sourcePage).map(f=>bnPage('file:'+f.id)),...BN_DATA.assets.map(([id,title,desc,pageId])=>({id:'asset:'+id,title,summary:desc,kind:'image',ep:BN_BY_ID.get(pageId).ep,site:'이미지 자료',tags:[...BN_BY_ID.get(pageId).tags,title,'이미지','사진'],paragraphs:[],asset:id,target:pageId}))].filter(Boolean)}
-function bnSeedHistory(type){if(bnRead('blind-net-cleared-'+type,false))return [];return (type==='search'?['실버 소프트','골드 캐피탈','루비 케미칼','에메랄드 포레스트']:['silver','ruby','review-index']).map(x=>type==='search'?{query:x,at:null,seed:true}:{url:bnURL(BN_BY_ID.get(x)),title:BN_BY_ID.get(x).title,at:null,seed:true})}
+function bnSeedHistory(type){return (type==='search'?['실버 소프트','골드 캐피탈','루비 케미칼','에메랄드 포레스트']:['silver','ruby','review-index']).map(x=>type==='search'?{query:x,at:null,seed:true}:{url:bnURL(BN_BY_ID.get(x)),title:BN_BY_ID.get(x).title,at:null,seed:true})}
 function bnHistory(type){return [...bnArray('blind-net-'+type),...bnSeedHistory(type)]}
-function bnRemember(type,item){const all=bnArray('blind-net-'+type);const key=type==='search'?'query':'url';const rest=all.filter(x=>x&&x[key]!==item[key]);bnWrite('blind-net-'+type,[{...item,at:Date.now()},...rest].slice(0,100))}
 function bnDate(at){if(!at)return '이전 기록';const d=new Date(at);return Number.isNaN(d.getTime())?'날짜 미상':d.toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})}
 function bnBookmarks(){return bnArray('blind-pc-bookmarks',[bnURL(BN_BY_ID.get('silver')),bnURL(BN_BY_ID.get('emerald'))]).filter(x=>typeof x==='string')}
 function bnAssetFile(slot){const links=bnRead('blind-net-assets',{});const f=links&&typeof links==='object'?pcFiles.get(links[slot]):null;return f&&!f.deleted&&f.kind==='image'&&f.blob?f:null}
@@ -1145,27 +1021,26 @@ async function bnSeed(){
  pcWindowRefresh();
 }
 function bnOpenBrowser(dest='pc://시작'){const id=openWindow('인터넷','browser');const w=openWindows.get(id);w.browserState={history:[dest],index:0};renderApp(id);return id}
-function bnOpenNote(page){const f=pcFiles.get(page.fileId)||[...pcFiles.values()].find(f=>!f.deleted&&f.sourcePage===page.id);if(f){pcOpenFile(f);return}const record={id:pcRecordId(),name:page.title+'.txt',kind:'text',parent:'docs',text:(page.paragraphs||[]).join('\n\n'),modified:Date.now(),size:0,deleted:false};record.size=new Blob([record.text]).size;pcSave(record).then(()=>pcOpenFile(record)).catch(()=>pcMessage('문서를 저장하지 못했습니다.'))}
+function bnOpenNote(page){const f=pcFiles.get(page.fileId)||[...pcFiles.values()].find(f=>!f.deleted&&f.sourcePage===page.id);if(f){pcOpenFile(f);return}const id=openWindow(page.title,'notepad'),w=openWindows.get(id);w.previewTitle=page.title;w.previewText=(page.paragraphs||[]).join('\n\n');renderApp(id)}
 function bnRenderBrowser(id,w,ui){
  w.el.dataset.program='browser';
  const state=w.browserState||{history:['pc://시작'],index:0};w.browserState=state;
  const page=pcNode('div','os-browser-page net-page');page.tabIndex=0;page.setAttribute('aria-label','인터넷 페이지');ui.main.replaceWith(page);
- const back=pcButton('←',()=>step(-1)),forward=pcButton('→',()=>step(1)),home=pcButton('⌂',()=>navigate('pc://시작')),reload=pcButton('↻',()=>draw()),address=pcNode('input','os-browser-address'),go=pcButton('이동',()=>navigate(address.value)),bookmark=pcButton('☆',toggleBookmark);
- for(const [b,label] of [[back,'뒤로'],[forward,'앞으로'],[home,'시작 페이지'],[reload,'새로 고침'],[bookmark,'즐겨찾기 추가 또는 해제']]){b.title=label;b.setAttribute('aria-label',label)}
+ const back=pcButton('←',()=>step(-1)),forward=pcButton('→',()=>step(1)),home=pcButton('⌂',()=>navigate('pc://시작')),reload=pcButton('↻',()=>draw()),address=pcNode('input','os-browser-address'),go=pcButton('이동',()=>navigate(address.value));
+ for(const [b,label] of [[back,'뒤로'],[forward,'앞으로'],[home,'시작 페이지'],[reload,'새로 고침']]){b.title=label;b.setAttribute('aria-label',label)}
  address.setAttribute('aria-label','주소 또는 검색어');address.autocomplete='off';address.spellcheck=false;address.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();navigate(address.value)}};
- ui.bar.append(back,forward,home,reload,address,go,bookmark);
+ ui.bar.append(back,forward,home,reload,address,go);
  const menu=pcNode('nav','os-bookmarks');menu.setAttribute('aria-label','인터넷 도구');
- [['검색','pc://시작'],['검색 기록','pc://검색-기록'],['방문 기록','pc://방문-기록'],['즐겨찾기','pc://즐겨찾기'],['저장한 문서','pc://저장한-문서'],['이미지 관리','pc://이미지-관리']].forEach(([label,url])=>menu.append(pcButton(label,()=>navigate(url))));ui.bar.after(menu);
+ [['검색','pc://시작'],['검색 기록','pc://검색-기록'],['방문 기록','pc://방문-기록'],['즐겨찾기','pc://즐겨찾기'],['보관 문서','pc://저장한-문서']].forEach(([label,url])=>menu.append(pcButton(label,()=>navigate(url))));ui.bar.after(menu);
  w.navigate=navigate;w.browserSearch=searchFor;w.addressField=address;w.browserStep=step;w.browserReload=()=>draw();
  function toast(message){const old=w.el.querySelector('.net-toast');if(old)old.remove();const n=pcNode('div','net-toast',message);n.setAttribute('role','status');w.el.append(n);setTimeout(()=>n.remove(),2800)}
  function pageId(url){try{if(url.startsWith('pc://페이지/'))return decodeURIComponent(url.slice('pc://페이지/'.length));const u=new URL(url);if(u.hostname.endsWith('.mora.local'))return decodeURIComponent(u.pathname.slice(1))}catch{}return null}
  function destination(raw){let value=String(raw||'').trim().slice(0,500);if(!value)return 'pc://시작';if(value.startsWith('pc://'))return value;if(!value.includes('://')&&/^[\w-]+\.mora\.local\//.test(value))value='https://'+value;if(pageId(value))return value;return 'pc://검색?q='+encodeURIComponent(value)}
  function navigate(raw){const dest=destination(raw);state.scrolls=state.scrolls||{};state.scrolls[state.index]=page.scrollTop;state.history=state.history.slice(0,state.index+1);state.history.push(dest);state.index++;state.resultLimit=12;draw(true)}
  function step(n){const next=state.index+n;if(next<0||next>=state.history.length)return;state.scrolls=state.scrolls||{};state.scrolls[state.index]=page.scrollTop;state.index=next;draw();page.scrollTop=state.scrolls[next]||0}
- function searchFor(q,kind='all',ep='all'){q=String(q).trim().slice(0,200);if(q)bnRemember('search',{query:q});navigate('pc://검색?q='+encodeURIComponent(q)+'&type='+kind+'&ep='+ep)}
+ function searchFor(q,kind='all',ep='all'){q=String(q).trim().slice(0,200);navigate('pc://검색?q='+encodeURIComponent(q)+'&type='+kind+'&ep='+ep)}
  function anchor(label,dest,cls=''){const a=pcNode('a',cls,label);a.href=dest;a.onclick=e=>{e.preventDefault();navigate(dest)};return a}
  function pageLink(p,label,cls=''){const target=p.kind==='image'?BN_BY_ID.get(p.target):p;return anchor(label||p.title,bnURL(target),cls)}
- function toggleBookmark(){const url=state.history[state.index],all=bnBookmarks(),at=all.indexOf(url);if(at>=0)all.splice(at,1);else all.push(url);if(!bnWrite('blind-pc-bookmarks',all)){toast('즐겨찾기를 저장하지 못했습니다.');return}bookmark.textContent=at>=0?'☆':'★';toast(at>=0?'즐겨찾기에서 지웠습니다.':'즐겨찾기에 추가했습니다.')}
  function header(parent,label=''){const h=pcNode('div','net-head');h.append(anchor('모아','pc://시작','net-brand'));if(label)h.append(pcNode('span','net-small',label));h.append(pcNode('span','net-spacer'));h.append(anchor('즐겨찾기','pc://즐겨찾기','net-small'));parent.append(h)}
  function bottom(parent){parent.append(pcNode('div','net-bottom','로컬 연결 · 비공식 팬메이드 재현 페이지'))}
  function chip(parent,text,callback){const b=pcButton(text,callback||(()=>searchFor(text)));b.className='net-chip';parent.append(b);return b}
@@ -1195,41 +1070,38 @@ function bnRenderBrowser(id,w,ui){
  }
  function asset(parent,slot,allowEdit=true){const spec=BN_DATA.assets.find(x=>x[0]===slot);if(!spec)return;const f=bnAssetFile(slot),box=pcNode('figure','net-asset'+(/poster/.test(slot)?' poster':''));
   if(f){const img=pcNode('img');img.src=pcUrl(w,f.blob);img.alt=spec[1];box.append(img,pcNode('figcaption','',spec[1]))}else box.append(pcNode('span','net-asset-symbol','▧'),pcNode('span','',spec[1]),pcNode('small','','이미지가 등록되지 않았습니다.'));
-  if(allowEdit)box.append(pcButton(f?'이미지 바꾸기':'이미지 추가',()=>navigate('pc://이미지-관리#'+slot)));parent.append(box);return box;
+  parent.append(box);return box;
  }
  function evidence(parent,p){const details=pcNode('details','net-evidence');details.append(pcNode('summary','','자료 정보'));details.append(pcNode('p','','원작 소재를 바탕으로 새로 작성한 팬메이드 페이지입니다. 기사 문장, 웹사이트 구성, 검색·방문 기록과 공룡의 메모는 창작 재현이며 원작 문서의 전문이 아닙니다.'));if(p.ep>0){const a=pcNode('a','','관련 원작 영상 ↗');a.href='https://www.youtube.com/watch?v='+BN_VIDEOS[p.ep-1];a.target='_blank';a.rel='noopener noreferrer';details.append(a)}parent.append(details)}
  function article(p){
   const outer=pcNode('article','net-article net-theme-'+(p.theme||'document')),mast=pcNode('div','net-masthead');mast.append(pcNode('b','',p.site),pcNode('span','net-small',BN_KINDS[p.kind]));outer.append(mast);const nav=pcNode('nav','net-site-nav');nav.append(anchor('모아 검색','pc://시작'),anchor('관련 자료','pc://검색?q='+encodeURIComponent((p.tags||[])[0]||p.title)));outer.append(nav);
   const grid=pcNode('div','net-article-grid'),body=pcNode('div','net-article-body'),side=pcNode('aside','net-article-side');body.append(pcNode('div','net-eyebrow',p.kind==='record'?'개인 문서':p.kind==='news'?'관련 보도 자료':p.kind==='document'?'보관 문서':'안내'),pcNode('h1','',p.title),pcNode('p','net-deck',p.summary));
   if(p.asset)asset(body,p.asset);for(const paragraph of p.paragraphs||[])body.append(pcNode('p','net-paragraph',paragraph));if(p.sections?.length){const table=pcNode('table','net-facts');table.setAttribute('aria-label',p.title+' 세부 정보');const tbody=pcNode('tbody');for(const [key,value] of p.sections){const tr=pcNode('tr'),th=pcNode('th','',key);th.scope='row';tr.append(th,pcNode('td','',value));tbody.append(tr)}table.append(tbody);body.append(table)}
-  const actions=pcNode('div','net-actions');actions.append(pcButton('자료를 메모로 저장',()=>saveClip(p)),pcButton('이 제목으로 검색',()=>searchFor(p.title.split(' — ')[0])));if(p.kind==='record')actions.append(pcButton('메모장에서 열기',()=>bnOpenNote(p)));body.append(actions);evidence(body,p);
-  side.append(pcNode('h3','','이어서 찾아보기'));chips(side,(p.tags||[]).slice(0,6));const related=(p.related||[]).map(bnPage).filter(Boolean);if(related.length){side.append(pcNode('h3','','관련 페이지'));for(const rel of related)side.append(pageLink(rel))}side.append(pcNode('h3','','내 기록'));side.append(anchor('검색 기록','pc://검색-기록'),anchor('저장한 문서','pc://저장한-문서'));
+  const actions=pcNode('div','net-actions');actions.append(pcButton('이 제목으로 검색',()=>searchFor(p.title.split(' — ')[0])));if(p.kind==='record')actions.append(pcButton('메모장에서 열기',()=>bnOpenNote(p)));body.append(actions);evidence(body,p);
+  side.append(pcNode('h3','','이어서 찾아보기'));chips(side,(p.tags||[]).slice(0,6));const related=(p.related||[]).map(bnPage).filter(Boolean);if(related.length){side.append(pcNode('h3','','관련 페이지'));for(const rel of related)side.append(pageLink(rel))}side.append(pcNode('h3','','내 기록'));side.append(anchor('검색 기록','pc://검색-기록'),anchor('보관 문서','pc://저장한-문서'));
   grid.append(body,side);outer.append(grid);bottom(outer);page.append(outer);
  }
- async function saveClip(p,selection){if(!pcStorageReady)await pcConnectPromise;const text=(selection?selection+'\n\n':p.title+'\n\n'+(p.paragraphs||[]).join('\n\n')+'\n\n'+(p.sections||[]).map(x=>x.join(' : ')).join('\n'))+'\n\n출처: '+bnURL(p)+'\n팬메이드 재현 자료';const f={id:pcRecordId(),name:(selection?'발췌_':'스크랩_')+p.title.replace(/[<>:"/\\|?*]/g,'_').slice(0,70)+'.txt',parent:'downloads',kind:'text',text,size:new Blob([text]).size,modified:Date.now(),deleted:false,clippedFrom:p.id};try{await pcSave(f);toast('다운로드 폴더에 텍스트로 저장했습니다.')}catch{toast('저장하지 못했습니다. 저장 공간을 확인해 주세요.')}}
- function history(type){header(page,type==='search'?'검색 기록':'방문 기록');const body=pcNode('div','net-history');body.append(pcNode('h1','',type==='search'?'검색 기록':'방문 기록'));const clear=pcButton('기록 지우기',()=>{if(!bnWrite('blind-net-'+type,[])||!bnWrite('blind-net-cleared-'+type,true)){toast('기록을 지우지 못했습니다.');return}draw()});body.append(clear);const rows=bnHistory(type);if(!rows.length)body.append(pcNode('p','net-small','기록이 없습니다.'));for(const x of rows){const row=pcNode('div','net-history-row');row.append(anchor(type==='search'?x.query:x.title||x.url,type==='search'?'pc://검색?q='+encodeURIComponent(x.query):x.url),pcNode('small','',bnDate(x.at)));body.append(row)}page.append(body);bottom(page)}
- function bookmarks(){header(page,'즐겨찾기');const body=pcNode('div','net-history');body.append(pcNode('h1','','즐겨찾기'));for(const url of bnBookmarks()){const p=bnPage(pageId(url)||''),row=pcNode('div','net-history-row');row.append(anchor(p?.title||url,url));const b=pcButton('삭제',()=>{bnWrite('blind-pc-bookmarks',bnBookmarks().filter(x=>x!==url));draw()});b.className='net-text-button';row.append(b);body.append(row)}if(!bnBookmarks().length)body.append(pcNode('p','net-small','별표 버튼으로 페이지를 저장할 수 있습니다.'));page.append(body);bottom(page)}
- function documents(){header(page,'내 문서');const body=pcNode('div','net-history');body.append(pcNode('h1','','저장한 문서'));const files=[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='text').sort((a,b)=>(b.modified||0)-(a.modified||0));body.append(pcNode('p','net-small','문서를 누르면 메모장에서 열립니다.'));for(const f of files){const row=pcNode('div','net-history-row'),button=pcButton(f.name,()=>pcOpenFile(f));button.className='net-text-button';row.append(button,pcNode('small','',fsData[f.parent]?.name||'문서'));body.append(row)}page.append(body);bottom(page)}
- function assets(){header(page,'이미지 관리');const body=pcNode('div','net-history');body.append(pcNode('h1','','이미지 관리'),pcNode('p','net-small','이미지를 직접 등록하거나 사진 폴더의 파일을 연결하세요. 등록한 이미지는 이 브라우저에 저장됩니다.'));const grid=pcNode('div','net-asset-grid');for(const spec of BN_DATA.assets){const [slot,name,desc,target]=spec,card=pcNode('section','net-asset-card');card.id='slot-'+slot;card.append(pcNode('h3','',name),pcNode('p','',desc));asset(card,slot,false);const input=pcNode('input');input.type='file';input.accept='image/*';input.setAttribute('aria-label',name+' 업로드');input.onchange=async()=>{const f=input.files[0];if(!f)return;if(!f.type.startsWith('image/')){toast('이미지 파일을 선택해 주세요.');return}if(f.size>20*1024*1024){toast('20MB 이하의 이미지를 선택해 주세요.');return}if(!pcStorageReady)await pcConnectPromise;const record={id:pcRecordId(),name:f.name,parent:'pictures',kind:'image',blob:f,size:f.size,modified:Date.now(),deleted:false};try{await pcSave(record);bind(slot,record.id);draw();toast('이미지를 연결했습니다.')}catch{toast('이미지를 저장하지 못했습니다.')}};card.append(input);
-   const select=pcNode('select');select.setAttribute('aria-label',name+' 기존 사진 선택');const empty=pcNode('option','','사진 폴더에서 선택');empty.value='';select.append(empty);for(const f of [...pcFiles.values()].filter(f=>f.kind==='image'&&!f.deleted&&f.blob)){const option=pcNode('option','',f.name);option.value=f.id;select.append(option)}const active=bnAssetFile(slot);select.value=active?.id||'';select.onchange=()=>{if(select.value){bind(slot,select.value);draw()}};card.append(select,pcButton('연결 해제',()=>{bind(slot,null);draw()}),pcButton('페이지 보기',()=>navigate(bnURL(BN_BY_ID.get(target)))));grid.append(card)}body.append(grid);page.append(body);bottom(page);const hash=state.history[state.index].split('#')[1];if(hash){const target=page.querySelector('#slot-'+CSS.escape(hash));if(target)page.scrollTop=target.offsetTop-20}}
- function bind(slot,id){const stored=bnRead('blind-net-assets',{}),links=stored&&typeof stored==='object'&&!Array.isArray(stored)?stored:{};if(id)links[slot]=id;else delete links[slot];if(!bnWrite('blind-net-assets',links))toast('이미지 연결 정보를 저장하지 못했습니다.')}
+ function history(type){header(page,type==='search'?'검색 기록':'방문 기록');const body=pcNode('div','net-history');body.append(pcNode('h1','',type==='search'?'검색 기록':'방문 기록'));const rows=bnHistory(type);if(!rows.length)body.append(pcNode('p','net-small','기록이 없습니다.'));for(const x of rows){const row=pcNode('div','net-history-row');row.append(anchor(type==='search'?x.query:x.title||x.url,type==='search'?'pc://검색?q='+encodeURIComponent(x.query):x.url),pcNode('small','',bnDate(x.at)));body.append(row)}page.append(body);bottom(page)}
+ function bookmarks(){header(page,'즐겨찾기');const body=pcNode('div','net-history');body.append(pcNode('h1','','즐겨찾기'));for(const url of bnBookmarks()){const p=bnPage(pageId(url)||''),row=pcNode('div','net-history-row');row.append(anchor(p?.title||url,url));body.append(row)}if(!bnBookmarks().length)body.append(pcNode('p','net-small','등록된 즐겨찾기가 없습니다.'));page.append(body);bottom(page)}
+ function documents(){header(page,'내 문서');const body=pcNode('div','net-history');body.append(pcNode('h1','','보관 문서'));const files=[...pcFiles.values()].filter(f=>!f.deleted&&f.kind==='text').sort((a,b)=>(b.modified||0)-(a.modified||0));body.append(pcNode('p','net-small','문서를 누르면 메모장에서 열립니다.'));for(const f of files){const row=pcNode('div','net-history-row'),button=pcButton(f.name,()=>pcOpenFile(f));button.className='net-text-button';row.append(button,pcNode('small','',fsData[f.parent]?.name||'문서'));body.append(row)}page.append(body);bottom(page)}
  function draw(track=false){
-  pcReleaseUrls(w);page.replaceChildren();page.scrollTop=0;const url=state.history[state.index]||'pc://시작';address.value=url;back.disabled=state.index===0;forward.disabled=state.index===state.history.length-1;bookmark.textContent=bnBookmarks().includes(url)?'★':'☆';w.el.querySelector('strong').textContent='인터넷 — 모아';pcUpdateTask(w,'인터넷','internet');
+  pcReleaseUrls(w);page.replaceChildren();page.scrollTop=0;const url=state.history[state.index]||'pc://시작';address.value=url;back.disabled=state.index===0;forward.disabled=state.index===state.history.length-1;w.el.querySelector('strong').textContent='인터넷 — 모아';pcUpdateTask(w,'인터넷','internet');
   const key=pageId(url),p=key?bnPage(key):null;ui.status.textContent='로컬 연결';
-  if(p){if(track)bnRemember('visit',{url,title:p.title});article(p);w.el.querySelector('strong').textContent=p.title+' — 인터넷';ui.status.textContent=p.site}
+  if(p){article(p);w.el.querySelector('strong').textContent=p.title+' — 인터넷';ui.status.textContent=p.site}
   else if(url.startsWith('pc://검색?')){const params=new URLSearchParams(url.slice('pc://검색?'.length));results(params.get('q')||'',params.get('type')||'all',params.get('ep')||'all')}
   else if(url==='pc://검색-기록')history('search');
   else if(url==='pc://방문-기록'||url==='pc://history')history('visit');
   else if(url==='pc://즐겨찾기')bookmarks();
   else if(url==='pc://저장한-문서')documents();
-  else if(url.startsWith('pc://이미지-관리'))assets();
   else if(url==='pc://시작'||url==='pc://home')homePage();
   else {header(page);const box=pcNode('div','net-history');box.append(pcNode('h1','','페이지를 찾을 수 없습니다.'),pcNode('p','','주소를 확인하거나 검색으로 다시 찾아보세요.'));searchBox(box,key||url);page.append(box)}
  }
- page.addEventListener('mouseup',()=>{const old=page.querySelector('.net-quote-actions');if(old)old.remove();const selection=window.getSelection();if(!selection||selection.isCollapsed||!page.contains(selection.anchorNode)||!page.contains(selection.focusNode))return;const text=selection.toString().trim().slice(0,200);if(text.length<2)return;const p=bnPage(pageId(state.history[state.index])||'');const bar=pcNode('div','net-quote-actions');bar.append(pcNode('span','',text),pcButton('검색',()=>searchFor(text)));if(p)bar.append(pcButton('메모로 저장',()=>saveClip(p,text)));const close=pcButton('×',()=>bar.remove());close.setAttribute('aria-label','선택 도구 닫기');bar.append(close);page.append(bar)});
+ page.addEventListener('mouseup',()=>{const old=page.querySelector('.net-quote-actions');if(old)old.remove();const selection=window.getSelection();if(!selection||selection.isCollapsed||!page.contains(selection.anchorNode)||!page.contains(selection.focusNode))return;const text=selection.toString().trim().slice(0,200);if(text.length<2)return;const p=bnPage(pageId(state.history[state.index])||'');const bar=pcNode('div','net-quote-actions');bar.append(pcNode('span','',text),pcButton('검색',()=>searchFor(text)));const close=pcButton('×',()=>bar.remove());close.setAttribute('aria-label','선택 도구 닫기');bar.append(close);page.append(bar)});
  draw();
 }
 
+document.addEventListener('dragover',e=>e.preventDefault());
+document.addEventListener('drop',e=>e.preventDefault());
 const pcConnectPromise=pcConnect();
 pcConnectPromise.then(bnSeed).catch(()=>{});
 </script></body></html>
