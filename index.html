@@ -296,6 +296,350 @@
 @media(max-width:480px){.net-home-columns{grid-template-columns:1fr}.net-home-brand b{font-size:40px}.net-home-links{gap:12px}.net-history-row{flex-wrap:wrap;gap:6px}.net-history-row small{font-size:10px}.net-theme-document .net-article-body{padding:16px}}
 
 .net-collections{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:22px 0 10px}.net-collections a{border:1px solid #dce3d8;background:#f8faf6;padding:12px 8px;color:#4d6c58;text-align:center;font-size:13px;text-decoration:none}.net-collections a:hover{border-color:#749581;background:#eef4eb}.net-theme-police .net-masthead{background:#203c60;color:#f1f5fa;border-bottom:5px solid #c8b780}.net-theme-police .net-site-nav{background:#e9eef4;border-bottom:1px solid #c3ccd6}.net-theme-police .net-article-body h1{color:#243d60}.net-theme-police .net-facts th{background:#e8edf5;color:#253b55}@media(max-width:700px){.net-collections{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* WIN31 THEME START — vintage Program Manager workstation, 1992 */
+:root{
+  --win31-gray:#c0c0c0;--win31-paper:#fff;--win31-bg:#a3a3a3;
+  --win31-blue:#000080;--win31-hi:#fff;--win31-low:#808080;--win31-edge:#000;
+  font-family:Tahoma,"MS Sans Serif","Malgun Gothic",sans-serif;color:#000;color-scheme:light
+}
+html,body{background:#a3a3a3!important;color:#000!important}
+.desktop{
+  background-color:#a3a3a3!important;
+  background-image:
+    repeating-linear-gradient(0deg,#9991 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,#7771 0 1px,transparent 1px 3px)!important;
+  background-blend-mode:multiply!important;color:#000
+}
+.desktop:before,.desktop:after,.glow,.ribbon{display:none!important}
+.desktop,.os-window,.taskbar,.start-menu,.desktop-icons{font-family:Tahoma,"MS Sans Serif","Malgun Gothic",sans-serif!important}
+.desktop svg{filter:saturate(.6)}
+/* Two-level Windows 3.1 Program Manager, preserving every clickable desktop shortcut */
+.desktop-icons{
+  top:clamp(10px,3vh,25px)!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  width:min(930px,calc(100vw - 38px))!important;
+  height:min(640px,calc(100dvh - 90px))!important;
+  max-height:calc(100dvh - 90px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:0!important;padding:3px!important;
+  background:#c0c0c0!important;color:#000!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  box-shadow:1px 1px 0 #000!important;
+  overflow:hidden!important;z-index:2!important
+}
+.w31-frame-title{
+  display:flex;align-items:center;justify-content:center;position:relative;
+  flex:0 0 26px;height:26px;
+  background:#000080;color:#fff;
+  font:700 13px Tahoma,"Malgun Gothic",sans-serif;letter-spacing:0
+}
+.w31-frame-title:before{
+  content:"▣";position:absolute;left:5px;top:4px;
+  display:grid;place-items:center;
+  width:18px;height:17px;background:#c0c0c0;color:#000;
+  border:1px solid;border-color:#fff #404040 #404040 #fff;
+  font:12px Tahoma,sans-serif
+}
+.w31-frame-title:after{
+  content:"▼  ▲";position:absolute;right:5px;top:5px;
+  padding:1px 4px;background:#c0c0c0;color:#000;
+  border:1px solid;border-color:#fff #404040 #404040 #fff;
+  font:10px Tahoma,sans-serif
+}
+.w31-frame-menu{
+  display:flex;align-items:center;white-space:pre;
+  background:#c0c0c0;color:#000;
+  height:28px;flex:0 0 28px;padding:2px 12px;
+  border-bottom:1px solid #808080;font:12px Tahoma,"Malgun Gothic",sans-serif
+}
+.w31-groups{
+  flex:1;min-height:0;overflow:auto;padding:14px;
+  background:#b4b4b4;
+  display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:minmax(190px,1fr);
+  align-items:stretch;gap:14px
+}
+.w31-group{
+  display:flex;flex-direction:column;min-width:0;min-height:170px;
+  background:#c0c0c0;padding:2px;
+  border:2px solid;border-color:#fff #404040 #404040 #fff
+}
+.w31-group-title{
+  height:24px;flex:0 0 24px;display:flex;align-items:center;justify-content:center;
+  background:#000080;color:#fff;font:700 12px Tahoma,"Malgun Gothic",sans-serif;
+  position:relative
+}
+.w31-group-title:before{
+  content:"▣";position:absolute;left:5px;top:4px;width:15px;height:15px;
+  background:#c0c0c0;color:#000;text-align:center;font:10px/15px Tahoma
+}
+.w31-group-icons{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-auto-rows:105px;align-content:start;justify-items:center;
+  padding:18px 8px;gap:12px 3px;
+  flex:1;min-height:0;overflow:auto;
+  background:#fff;border:2px solid;border-color:#808080 #fff #fff #808080
+}
+.desktop-icon{
+  position:relative!important;
+  display:flex!important;flex-direction:column!important;justify-content:start!important;
+  align-items:center!important;
+  width:100px!important;height:99px!important;
+  border:1px solid transparent!important;border-radius:0!important;
+  padding:6px 3px!important;gap:6px!important;
+  background:transparent!important;color:#000!important;
+  text-shadow:none!important;font:12px/1.3 Tahoma,"Malgun Gothic",sans-serif!important
+}
+.desktop-icon:hover,.desktop-icon:focus-visible{background:#dedede!important;outline:1px dotted #404040!important}
+.desktop-icon.selected{background:#000080!important;color:#fff!important;border-color:#000080!important}
+.desktop-icon .di-image{filter:none!important;width:42px!important;height:42px!important}
+.desktop-icon .di-image .pc-icon-svg{width:40px!important;height:40px!important;filter:saturate(.65)}
+.desktop-icon .di-label{color:inherit!important}
+.w31-manager-footer{
+  height:24px;flex:0 0 24px;padding:5px 9px;
+  background:#c0c0c0;border-top:1px solid #808080;
+  color:#404040;font:11px Tahoma,"Malgun Gothic",sans-serif
+}
+/* App windows: Windows 3.1 chrome and titlebar */
+.os-window,.start-menu,.context-menu{
+  background:#c0c0c0!important;color:#000!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  box-shadow:1px 1px 0 #000!important;border-radius:0!important;
+  font:12px Tahoma,"Malgun Gothic",sans-serif!important
+}
+.os-window{min-width:min(330px,calc(100vw - 6px))!important;min-height:255px!important}
+.win-title{
+  height:27px!important;flex:0 0 27px!important;padding:0 4px 0 7px!important;gap:7px!important;
+  background:#000080!important;color:#fff!important;
+  margin:2px 2px 0!important;border-radius:0!important
+}
+.win-title strong{color:#fff!important;font:700 12px Tahoma,"Malgun Gothic",sans-serif!important}
+.win-app-icon{filter:saturate(.65)}
+.win-controls{gap:3px!important}
+.win-controls button,.win-controls button:last-child{
+  display:grid!important;place-items:center!important;
+  height:20px!important;width:23px!important;min-width:23px!important;padding:0!important;
+  font:bold 12px Tahoma,sans-serif!important;
+  background:#c0c0c0!important;color:#000!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  box-shadow:none!important;border-radius:0!important;filter:none!important
+}
+.win-menu{
+  gap:1px!important;padding:2px 7px!important;min-height:25px!important;
+  background:#c0c0c0!important;color:#000!important;
+  border:0!important
+}
+.win-menu .pc-menu-item{
+  background:transparent!important;color:#000!important;
+  padding:3px 7px!important;border:1px solid transparent!important;
+  border-radius:0!important;box-shadow:none!important
+}
+.win-menu .pc-menu-item:hover,.win-menu .pc-menu-item:focus-visible{
+  background:#000080!important;color:#fff!important;border-color:#000080!important
+}
+.win-toolbar,.app-toolbar,.browser-bar{
+  background:#c0c0c0!important;color:#000!important;
+  border-top:1px solid #fff!important;border-bottom:1px solid #808080!important;
+  padding:5px 7px!important;gap:5px!important
+}
+.os-window button,.start-menu button,.taskbar button,.net-page button{
+  background:#c0c0c0!important;color:#000!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  border-radius:0!important;box-shadow:none!important;
+  font:12px Tahoma,"Malgun Gothic",sans-serif!important
+}
+.os-window button:active,.start-menu button:active,.taskbar button:active,.net-page button:active{
+  border-color:#404040 #fff #fff #404040!important
+}
+.os-window button:disabled{color:#777!important;opacity:.8}
+.os-window input,.os-window textarea,.os-window select,.start-search,.net-page input,.net-page select,.win-address{
+  background:#fff!important;color:#000!important;border-radius:0!important;
+  border:2px solid!important;border-color:#808080 #fff #fff #808080!important;
+  box-shadow:inset 1px 1px 0 #404040!important;
+  font-family:Tahoma,"Malgun Gothic",sans-serif!important
+}
+.os-window textarea{font-family:"Courier New","Malgun Gothic",monospace!important}
+.os-window :is(button,input,textarea,select):focus-visible,.desktop-icon:focus-visible,.start:focus-visible{
+  outline:1px dotted #000!important;outline-offset:-4px!important
+}
+.os-window .win-content,.app-shell,.app-area{background:#c0c0c0!important;color:#000!important}
+.app-area,.app-main{padding:10px!important}
+.app-main{background:#fff!important;color:#000!important}
+.app-main.os-notepad-main{padding:0!important}
+.app-main textarea,.os-notepad-main textarea{
+  padding:12px!important;border:0!important;box-shadow:none!important;
+  background:#fff!important;color:#000!important;
+  font:13px/1.65 "Courier New","Malgun Gothic",monospace!important
+}
+.win-status,.os-status{
+  min-height:23px!important;flex:none!important;padding:4px 9px!important;
+  border-top:2px solid #808080!important;background:#c0c0c0!important;
+  color:#333!important;font:11px Tahoma,"Malgun Gothic",sans-serif!important
+}
+.win-address,.os-browser-address,.win-search{padding:3px 6px!important;min-height:24px!important}
+.explorer-body{background:#c0c0c0!important}
+.explorer-side{background:#c0c0c0!important;color:#000!important;border-right:2px solid #808080!important}
+.side-group{color:#000080!important}
+.side-entry{border-radius:0!important;color:#000!important}
+.side-entry:hover{background:#000080!important;color:#fff!important}
+.explorer-list{
+  background:#fff!important;border:2px solid!important;border-color:#808080 #fff #fff #808080!important
+}
+.file-header{background:#c0c0c0!important;border-bottom:1px solid #808080!important;color:#000!important}
+.file-header span{border-right:1px solid #808080!important}
+.file-row{min-height:29px!important;color:#000!important}
+.file-row:hover{background:#e2e2e2!important}
+.file-row.selected{background:#000080!important;color:#fff!important;outline:none!important}
+.file-row .file-icon{filter:saturate(.65)}
+.os-listrow{color:#000!important;border-color:#a5a5a5!important}
+.os-listrow:hover{background:#ddd!important}
+.os-listrow.active{background:#000080!important;color:#fff!important}
+.os-photo{border-radius:0!important;border:2px solid #808080!important;background:#fff!important}
+.os-record-preview{background:#fff!important;color:#000!important;padding:20px!important}
+.os-record-preview h2{color:#000080!important}
+.app-empty{color:#555!important}
+.context-menu{padding:3px!important}
+.context-menu div{border-radius:0!important;color:#000!important}
+.context-menu div:hover,.context-menu [role=menuitem]:focus-visible{
+  background:#000080!important;color:#fff!important;outline:none!important
+}
+/* Program list + minimized-window strip. 3.1 look, with existing functional navigation. */
+.taskbar{
+  z-index:6!important;height:42px!important;padding:4px 6px!important;
+  background:#c0c0c0!important;color:#000!important;
+  border:0!important;border-top:2px solid #fff!important;box-shadow:inset 0 1px #dfdfdf!important
+}
+.win-layer{bottom:42px!important}
+.start{
+  width:100px!important;height:29px!important;
+  display:flex!important;align-items:center;justify-content:center!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  border-radius:0!important;background:#c0c0c0!important;box-shadow:none!important
+}
+.start:after{content:"프로그램";font:700 12px Tahoma,"Malgun Gothic",sans-serif;color:#000;margin-left:5px}
+.start svg{height:18px!important;width:18px!important;fill:#000!important}
+.start.active{filter:none!important;border-color:#404040 #fff #fff #404040!important}
+.sep{background:#808080!important;box-shadow:1px 0 #fff!important}
+.task-open{
+  height:30px!important;color:#000!important;background:#c0c0c0!important;
+  border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  border-radius:0!important;box-shadow:none!important
+}
+.task-open.focused{border-color:#404040 #fff #fff #404040!important;background:#bcbcbc!important}
+.tray{
+  background:#c0c0c0!important;color:#000!important;text-shadow:none!important;font-size:11px!important;
+  border:2px solid!important;border-color:#808080 #fff #fff #808080!important;padding:4px 7px!important
+}
+.tray svg{stroke:#000!important}
+.start-menu{
+  bottom:42px!important;left:6px!important;
+  width:min(330px,calc(100vw - 12px))!important;
+  height:auto!important;max-height:calc(100dvh - 52px)!important;
+  padding:4px!important;overflow:auto!important;color:#000!important
+}
+.start-user{
+  background:#000080!important;color:#fff!important;height:30px!important;flex:none!important;
+  padding:7px!important;font:700 12px Tahoma,"Malgun Gothic",sans-serif!important
+}
+.start-user:before{content:"Program Manager  ·  "}
+.start-cols{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;min-height:130px!important}
+.start-apps,.start-links{background:#fff!important;color:#000!important;border:2px solid!important;
+  border-color:#808080 #fff #fff #808080!important;border-radius:0!important;padding:4px!important
+}
+.start-item,.start-links .start-item{color:#000!important;border-radius:0!important;min-height:30px!important;padding:6px!important}
+.start-item:hover,.start-item:focus-visible,.start-links .start-item:hover,.start-links .start-item:focus-visible{
+  background:#000080!important;color:#fff!important;outline:none!important
+}
+.start-bottom{background:#c0c0c0!important;padding:6px 0 0!important}
+.start-search{height:29px!important;padding:4px!important}
+.start-bottom button{background:#c0c0c0!important;color:#000!important;border:2px solid!important;
+  border-color:#fff #404040 #404040 #fff!important;border-radius:0!important
+}
+/* Browser program frame + grayscale 1990s web surfaces */
+.os-bookmarks{background:#c0c0c0!important;border-bottom:1px solid #808080!important}
+.os-bookmarks button{border:0!important;box-shadow:none!important;background:transparent!important}
+.os-browser-page,.os-browser-page.net-page{
+  background:#fff!important;color:#000!important;padding:0!important;
+  font:13px/1.6 Tahoma,"Malgun Gothic",sans-serif!important
+}
+.os-browser-page a,.net-page a{color:#000080!important;text-decoration:underline!important}
+.net-head,.net-masthead{
+  padding:12px 18px!important;background:#e1e1e1!important;
+  color:#000!important;border-bottom:2px solid #808080!important
+}
+.net-head .net-brand,.net-brand,.net-masthead b{color:#000080!important;letter-spacing:0!important}
+.net-small,.net-deck,.net-eyebrow,.net-article-side h3{color:#444!important}
+.net-home{background:#fff!important;max-width:970px!important;padding:26px!important}
+.net-home-brand b{font:700 38px Tahoma,sans-serif!important;color:#000080!important;letter-spacing:0!important}
+.net-home-brand small{color:#777!important}
+.net-search-form{border:2px solid #808080!important;background:#c0c0c0!important;border-radius:0!important}
+.net-search-form input{background:#fff!important}
+.net-search-form button,.net-chip,.net-home-links button,.net-actions button,.net-asset button{
+  color:#000!important;border:2px solid!important;border-color:#fff #404040 #404040 #fff!important;
+  background:#c0c0c0!important;border-radius:0!important;box-shadow:none!important
+}
+.net-collections a,.net-home-columns section,.net-asset-card{
+  background:#eee!important;border:1px solid #808080!important;
+  border-radius:0!important;color:#000080!important
+}
+.net-search-header{background:#e8e8e8!important;border-color:#808080!important}
+.net-tabs button{
+  border:1px solid #808080!important;border-radius:0!important;
+  color:#000!important;background:#c0c0c0!important
+}
+.net-tabs button.active{color:#000080!important;border-color:#000080!important;background:#fff!important}
+.net-results-wrap,.net-article,.net-history{background:#fff!important;color:#000!important}
+.net-result{border-color:#aaa!important}
+.net-result p,.net-result .net-source{color:#444!important}
+.net-result a,.net-result h3{color:#000080!important}
+.net-site-dot,.net-result mark{border-color:#888!important;background:#ddd!important;color:#000!important}
+.net-site-nav{background:#c0c0c0!important;border-bottom:1px solid #808080!important}
+.net-article-body h1,.net-theme-news h1{color:#000!important}
+.net-theme-theater .net-masthead,.net-theme-corporate .net-masthead,
+.net-theme-campus .net-masthead,.net-theme-travel .net-masthead,.net-theme-forest .net-masthead,
+.net-theme-document .net-masthead,.net-theme-police .net-masthead{
+  background:#e1e1e1!important;color:#000!important;border-color:#808080!important
+}
+.net-article-grid{padding:22px!important;gap:22px!important}
+.net-article-side{border-left:1px solid #aaa!important}
+.net-facts th{background:#eee!important;color:#000!important}
+.net-facts td,.net-facts th{border-color:#bdbdbd!important}
+.net-theme-document .net-article-body{background:#fff!important;border:1px solid #aaa!important;box-shadow:none!important}
+.net-asset{background:#eee!important;border:1px solid #808080!important;color:#555!important}
+.net-asset-card{background:#eee!important}
+.net-quote-actions,.net-toast{
+  background:#c0c0c0!important;color:#000!important;border:2px solid!important;
+  border-color:#fff #404040 #404040 #fff!important;border-radius:0!important;box-shadow:1px 1px #000!important
+}
+.net-bottom{background:#eee!important;color:#555!important;border-color:#808080!important}
+/* Responsive program groups */
+@media(max-width:720px){
+  .desktop-icons{
+    left:4px!important;right:4px!important;top:4px!important;transform:none!important;
+    width:calc(100vw - 8px)!important;height:calc(100dvh - 54px)!important;
+    max-height:calc(100dvh - 54px)!important
+  }
+  .w31-groups{grid-template-columns:1fr!important;grid-template-rows:none!important;padding:7px!important;gap:10px!important}
+  .w31-group{min-height:172px!important}
+  .w31-group-icons{grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    grid-auto-rows:88px!important;gap:4px!important;padding:8px 4px!important}
+  .desktop-icon{height:84px!important;width:68px!important;font-size:11px!important}
+  .desktop-icon .di-image{height:36px!important;width:36px!important}
+  .desktop-icon .di-image .pc-icon-svg{height:34px!important;width:34px!important}
+  .start{width:85px!important}
+  .os-browser-page .net-article-grid{padding:12px!important;gap:12px!important}
+}
+@media(max-width:400px){
+ .w31-group-icons{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-rows:90px!important}
+ .desktop-icon{width:90px!important}
+ .task-open{max-width:110px!important}
+}
+/* WIN31 THEME END */
+
 </style></head>
 <body><main class="desktop" aria-label="소유자 미상 컴퓨터 바탕화면">
 
@@ -617,6 +961,30 @@ const programs=[
 const links=[['사건 자료','cases'],['조사 노트','records'],['문서','docs'],['컴퓨터','root'],['휴지통',null]];
 const desktopIcons=document.getElementById('desktopIcons');
 desktopApps.forEach(([name,icon,action])=>{const b=document.createElement('div');b.className='desktop-icon';b.tabIndex=0;b.innerHTML='<span class="di-image"></span><span class="di-label"></span>';b.querySelector('.di-image').innerHTML=pcSvg(icon);b.querySelector('.di-label').textContent=name;b.onclick=()=>{desktopIcons.querySelectorAll('.desktop-icon').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')};b.ondblclick=action;b.onkeydown=e=>{if(e.key==='Enter')action()};desktopIcons.append(b)});
+
+/* Windows 3.1 Program Manager: group the existing functional application icons. */
+const w31Icons=[...desktopIcons.children];
+const w31FrameTitle=document.createElement('div');
+w31FrameTitle.className='w31-frame-title';
+w31FrameTitle.textContent='Program Manager';
+const w31Menu=document.createElement('div');
+w31Menu.className='w31-frame-menu';
+w31Menu.textContent='File     Options     Window     Help';
+const w31Groups=document.createElement('div');
+w31Groups.className='w31-groups';
+[['Main',[0,1,2,7]],['Accessories',[3,4,5,6]]].forEach(([name,positions])=>{
+ const group=document.createElement('section');group.className='w31-group';
+ group.setAttribute('aria-label',name+' program group');
+ const bar=document.createElement('div');bar.className='w31-group-title';bar.textContent=name;
+ const content=document.createElement('div');content.className='w31-group-icons';
+ positions.forEach(i=>content.append(w31Icons[i]));
+ group.append(bar,content);w31Groups.append(group);
+});
+const w31Footer=document.createElement('div');
+w31Footer.className='w31-manager-footer';
+w31Footer.textContent='Program Manager  |  Local Computer';
+desktopIcons.replaceChildren(w31FrameTitle,w31Menu,w31Groups,w31Footer);
+
 function makeStartEntry(parent,label,action,kind=null){
  const el=document.createElement('div');el.className='start-item';el.tabIndex=0;
  el.setAttribute('role','button');el.append(pcIconNode(kind||pcMenuIcon(label),'start-icon'),document.createTextNode(label));
