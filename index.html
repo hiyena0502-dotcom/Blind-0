@@ -109,6 +109,17 @@
 .win-status{height:26px;flex-shrink:0;background:#edf2f3;border-top:1px solid #cbd6d8;padding:5px 12px;color:#63767b}.task-open{height:31px;max-width:170px;min-width:95px;border:1px solid #809b9f;background:linear-gradient(#557278,#263f47);color:#e4efef;padding:0 9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer}.task-open.focused{background:linear-gradient(#78979b,#3e616b)}
 .context-menu{position:absolute;z-index:20;background:#f5f7f7;color:#26363b;border:1px solid #819ba3;box-shadow:2px 5px 15px #0005;min-width:160px;padding:5px;pointer-events:auto}.context-menu div{padding:7px 12px;cursor:pointer}.context-menu div:hover{background:#d5e8ef}
 @media(max-width:650px){.start-menu{width:min(405px,calc(100vw - 18px))}.os-window{min-width:300px}.explorer-side{width:115px}.file-header,.file-row{grid-template-columns:minmax(100px,1fr) 85px}.file-size{display:none}.win-search{width:85px}}
+
+.desktop-icons{position:absolute;left:15px;top:16px;z-index:2;display:grid;grid-auto-flow:column;grid-template-rows:repeat(6,96px);grid-auto-columns:92px;gap:5px 10px;max-height:calc(100% - 65px)}
+.desktop-icon{width:90px;height:92px;border:1px solid transparent;border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 3px 3px;gap:6px;text-align:center;color:#fff;text-shadow:1px 1px 3px #000,0 1px 4px #000;font:12px/1.3 "Malgun Gothic",sans-serif;cursor:default;user-select:none}
+.desktop-icon:hover,.desktop-icon:focus-visible{background:#c0e6f025;border-color:#c4eaf075;outline:none}.desktop-icon.selected{background:#b0dfe838;border-color:#c4eaf0a0}
+.desktop-icon .di-image{font-size:36px;line-height:42px;filter:drop-shadow(1px 3px 2px #0006)}
+.app-area{padding:14px;flex:1;min-height:0;overflow:auto;background:#fafbfa;color:#293b41;font:13px "Malgun Gothic",sans-serif}
+.app-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}.app-row input,.app-row select{padding:7px;border:1px solid #a7b7bc;background:white;color:#28363b;min-width:0}.app-row button,.app-area button{padding:6px 11px;border:1px solid #99acb2;background:linear-gradient(#fff,#e2ebee);color:#283d45;cursor:pointer;border-radius:2px}
+.app-area textarea{width:100%;height:calc(100% - 46px);min-height:130px;resize:none;padding:12px;border:1px solid #c8d0d2;font:13px/1.7 Consolas,"Malgun Gothic",monospace;background:white;color:#202a2d}
+.browser-bar{display:flex;gap:7px;background:#e6eff1;padding:8px;border-bottom:1px solid #b7c8ce}.browser-bar input{flex:1;min-width:0;padding:6px;border:1px solid #a2b8c0}.browser-page{padding:25px 30px;overflow:auto;flex:1;background:white;color:#27383d}.browser-page a{color:#235d86;text-decoration:underline;cursor:pointer}.browser-page h2{font-size:22px;margin:0 0 15px}.browser-page p{line-height:1.8}
+.music-track{padding:10px;border-bottom:1px solid #d8e1e3;display:flex;align-items:center;justify-content:space-between}.music-track:hover{background:#edf4f6}
+.photo-grid{display:flex;flex-wrap:wrap;gap:14px}.photo-grid img{width:130px;height:110px;object-fit:cover;border:1px solid #b9c9ca;cursor:pointer}.photo-preview{max-width:100%;max-height:70vh;object-fit:contain}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -134,7 +145,7 @@
 <div class="auth-value" id="authValue" aria-live="off"></div>
 <div class="load-track" role="progressbar" aria-label="접속 로딩" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="loadTrack"><div class="load-fill" id="loadFill"></div></div>
 <div class="load-caption"><span id="loadStatus">AWAITING AUTHORIZATION</span><span id="loadPercent">0%</span></div></div>
-</div></div><div class="granted-screen" id="grantedScreen"><div><div class="granted-title">ACCESS GRANTED</div><div class="granted-caption">REMOTE SESSION ESTABLISHED</div></div></div></section><div class="glow"></div><div class="ribbon"></div>
+</div></div><div class="granted-screen" id="grantedScreen"><div><div class="granted-title">ACCESS GRANTED</div><div class="granted-caption">REMOTE SESSION ESTABLISHED</div></div></div></section><div class="glow"></div><div class="ribbon"></div><div class="desktop-icons" id="desktopIcons"></div>
 <footer class="taskbar"><div class="start" title="시작 버튼 디자인" aria-label="시작 버튼"><svg viewBox="0 0 24 24"><path d="M2 4 11 2.5v9H2zm11-1.8L22 1v10.5h-9zM2 13h9v9L2 20.5zm11 0h9v10l-9-1.3z"/></svg></div><div class="sep"></div><div class="spacer"></div><div class="tray"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9zm12-1q5 4 0 8m2-11q8 7 0 14"/></svg><svg viewBox="0 0 24 24"><path d="M2.5 9a14.5 14.5 0 0 1 19 0M5.5 12.5a10 10 0 0 1 13 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1.1" fill="#d0d9d1" stroke="none"/></svg><div class="clock"><div id="time">--:--</div><div id="date">----.--.--</div></div></div><div class="showdesktop"></div></footer>
 </main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);const btn=document.getElementById('connect'),terminal=document.getElementById('terminal'),access=document.getElementById('access');
 const left=document.getElementById('streamLeft'),right=document.getElementById('streamRight');
@@ -262,7 +273,7 @@ function openWindow(title,kind='explorer',path='root'){
  bar.addEventListener('pointerdown',e=>{if(e.target.closest('button')||el.classList.contains('maximized'))return;drag={x:e.clientX,y:e.clientY,l:el.offsetLeft,t:el.offsetTop};bar.setPointerCapture(e.pointerId)});
  bar.addEventListener('pointermove',e=>{if(!drag)return;el.style.left=Math.max(0,Math.min(innerWidth-90,drag.l+e.clientX-drag.x))+'px';el.style.top=Math.max(0,Math.min(innerHeight-110,drag.t+e.clientY-drag.y))+'px'});
  bar.addEventListener('pointerup',()=>drag=null);bar.addEventListener('dblclick',e=>{if(!e.target.closest('button'))el.classList.toggle('maximized')});
- if(kind==='explorer')renderExplorer(id);else{const content=el.querySelector('.win-content');content.style.background='#fff';content.style.padding='16px';content.textContent='';}
+ if(kind==='explorer')renderExplorer(id);else renderApp(id);
  return id;
 }
 function pathLabel(path){const parts=[];let k=path;while(k&&fsData[k]){parts.unshift(fsData[k].name);k=fsData[k].parent}return parts.join(' › ')}
@@ -290,10 +301,54 @@ function renderExplorer(id){
  search.oninput=draw;draw();body.append(side,list);content.append(body,status);
 }
 function showContext(x,y,entries){contextMenu.replaceChildren();entries.forEach(([name,fn])=>{const item=document.createElement('div');item.textContent=name;item.onclick=()=>{contextMenu.hidden=true;fn()};contextMenu.append(item)});contextMenu.hidden=false;contextMenu.style.left=Math.min(x,innerWidth-180)+'px';contextMenu.style.top=Math.min(y,innerHeight-125)+'px'}
-const programs=[['파일 탐색기',()=>openWindow('컴퓨터','explorer','root')],['메모장',()=>openWindow('메모장','blank')],['사진 뷰어',()=>openWindow('사진 뷰어','blank')],['인터넷',()=>openWindow('인터넷','blank')]];
+
+const savedNotesKey='blind-pc-notes';
+const desktopApps=[
+ ['컴퓨터','🖥️',()=>openWindow('컴퓨터','explorer','root')],
+ ['업무','📁',()=>openWindow('업무','explorer','work')],
+ ['실버 소프트','📂',()=>openWindow('실버 소프트','explorer','silver')],
+ ['인터넷','🌐',()=>openWindow('인터넷','browser')],
+ ['음악','🎵',()=>openWindow('음악','musicplayer')],
+ ['사진','🖼️',()=>openWindow('사진','photos')],
+ ['메모장','📝',()=>openWindow('메모장','notepad')],
+ ['휴지통','🗑️',()=>openWindow('휴지통','trash')]
+];
+const programs=[
+ ['파일 탐색기',()=>openWindow('컴퓨터','explorer','root')],
+ ['메모장',()=>openWindow('메모장','notepad')],
+ ['사진 뷰어',()=>openWindow('사진 뷰어','photos')],
+ ['음악 플레이어',()=>openWindow('음악 플레이어','musicplayer')],
+ ['인터넷',()=>openWindow('인터넷','browser')]
+];
 const links=[['문서','docs'],['사진','pictures'],['음악','music'],['다운로드','downloads'],['컴퓨터','root'],['제어판',null],['휴지통',null]];
+const desktopIcons=document.getElementById('desktopIcons');
+desktopApps.forEach(([name,icon,action])=>{const b=document.createElement('div');b.className='desktop-icon';b.tabIndex=0;b.innerHTML='<span class="di-image"></span><span class="di-label"></span>';b.querySelector('.di-image').textContent=icon;b.querySelector('.di-label').textContent=name;b.onclick=()=>{desktopIcons.querySelectorAll('.desktop-icon').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')};b.ondblclick=action;b.onkeydown=e=>{if(e.key==='Enter')action()};desktopIcons.append(b)});
+let browserHome='home',musicAudio=null,musicTimer=null;
+const musicLibrary=[{name:'오디오 파일 없음',type:'empty'}];
+function renderApp(id){
+ const w=openWindows.get(id);if(!w)return;const area=w.el.querySelector('.win-content');area.replaceChildren();
+ const mk=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n};
+ const button=(text,fn)=>{const b=mk('button','',text);b.onclick=fn;return b};
+ if(w.kind==='notepad'){
+  const top=mk('div','app-row');const save=button('저장',()=>{localStorage.setItem(savedNotesKey,editor.value);status.textContent='저장됨'});const clear=button('새 문서',()=>{if(editor.value&&!confirm('현재 내용을 지우시겠습니까?'))return;editor.value='';status.textContent='새 문서'});const status=mk('span','','');top.append(save,clear,status);
+  const body=mk('div','app-area');body.style.display='flex';body.style.flexDirection='column';body.append(top);const editor=mk('textarea');editor.value=localStorage.getItem(savedNotesKey)||'';editor.placeholder='';editor.addEventListener('input',()=>status.textContent='수정됨');body.append(editor);area.append(body);
+ }else if(w.kind==='browser'){
+  const bar=mk('div','browser-bar'),addr=mk('input');addr.value='pc://시작';const go=button('이동',()=>navigate(addr.value));bar.append(button('⌂',()=>navigate('pc://시작')),addr,go);area.append(bar);const page=mk('div','browser-page');area.append(page);
+  function navigate(url){url=url.trim();addr.value=url;page.replaceChildren();if(url==='pc://시작'||url==='home'||url===''){page.append(mk('h2','','시작 페이지'),mk('p','','즐겨찾기'));[['실버 소프트','pc://silver-soft'],['로컬 파일','pc://files'],['방문 기록','pc://history']].forEach(([label,path])=>{const p=mk('p'),a=mk('a','',label);a.onclick=()=>navigate(path);p.append(a);page.append(p)})}else if(url==='pc://silver-soft'){page.append(mk('h2','','실버 소프트'),mk('p','','로컬에 저장된 자료를 확인할 수 있습니다.'));page.append(button('관련 폴더 열기',()=>openWindow('실버 소프트','explorer','silver')))}else if(url==='pc://files'){page.append(mk('h2','','로컬 파일'));page.append(button('컴퓨터',()=>openWindow('컴퓨터','explorer','root')))}else if(url==='pc://history'){page.append(mk('h2','','방문 기록'),mk('p','','기록이 없습니다.'))}else{page.append(mk('h2','','페이지를 표시할 수 없습니다.'),mk('p','','이 컴퓨터의 브라우저는 로컬 페이지를 표시합니다.'))}}
+  addr.onkeydown=e=>{if(e.key==='Enter')navigate(addr.value)};navigate('pc://시작');
+ }else if(w.kind==='musicplayer'){
+  const body=mk('div','app-area');const head=mk('div','app-row');const file=mk('input');file.type='file';file.accept='audio/*';file.multiple=true;head.append(file);body.append(head);const list=mk('div');body.append(list);const player=mk('audio');player.controls=true;player.style.width='100%';player.style.marginTop='16px';body.append(player);
+  const urls=[];file.onchange=()=>{list.replaceChildren();urls.forEach(u=>URL.revokeObjectURL(u));urls.length=0;[...file.files].forEach((f,i)=>{const url=URL.createObjectURL(f);urls.push(url);const row=mk('div','music-track');row.append(mk('span','',f.name),button('재생',()=>{player.src=url;player.play().catch(()=>{})}));list.append(row)})};body.insertBefore(mk('p','','음악 파일을 선택하면 이 컴퓨터에서 재생할 수 있습니다.'),list);area.append(body);
+ }else if(w.kind==='photos'){
+  const body=mk('div','app-area'),top=mk('div','app-row'),file=mk('input');file.type='file';file.accept='image/*';file.multiple=true;top.append(file);body.append(top);const grid=mk('div','photo-grid');body.append(grid);const urls=[];file.onchange=()=>{grid.replaceChildren();urls.forEach(u=>URL.revokeObjectURL(u));urls.length=0;[...file.files].forEach(f=>{const u=URL.createObjectURL(f);urls.push(u);const img=mk('img');img.src=u;img.alt=f.name;img.onclick=()=>{grid.replaceChildren();const big=mk('img','photo-preview');big.src=u;grid.append(button('← 목록',()=>file.dispatchEvent(new Event('change'))),big)};grid.append(img)})};area.append(body);
+ }else if(w.kind==='trash'){
+  const body=mk('div','app-area');body.append(mk('p','','휴지통이 비어 있습니다.'));area.append(body);
+ }else{
+  const body=mk('div','app-area');body.append(mk('p','','설정'));area.append(body);
+ }
+}
 function makeStartEntry(parent,label,action){const el=document.createElement('div');el.className='start-item';el.tabIndex=0;el.textContent=label;el.onclick=action;el.onkeydown=e=>{if(e.key==='Enter')action()};parent.append(el)}
-function renderStart(){startApps.replaceChildren();startLinks.replaceChildren();const query=startSearch.value.trim().toLowerCase();programs.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,action])=>makeStartEntry(startApps,name,action));if(!query)makeStartEntry(startApps,'모든 프로그램 ▸',()=>{startApps.replaceChildren();programs.forEach(([name,action])=>makeStartEntry(startApps,name,action))});links.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,'blank')))}
+function renderStart(){startApps.replaceChildren();startLinks.replaceChildren();const query=startSearch.value.trim().toLowerCase();programs.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,action])=>makeStartEntry(startApps,name,action));if(!query)makeStartEntry(startApps,'모든 프로그램 ▸',()=>{startApps.replaceChildren();programs.forEach(([name,action])=>makeStartEntry(startApps,name,action))});links.filter(([name])=>name.toLowerCase().includes(query)).forEach(([name,path])=>makeStartEntry(startLinks,name,()=>path?openWindow(name,'explorer',path):openWindow(name,name==='휴지통'?'trash':'settings')))}
 startButton.onclick=e=>{e.stopPropagation();startMenu.classList.toggle('open');startButton.classList.toggle('active',startMenu.classList.contains('open'));if(startMenu.classList.contains('open')){startSearch.value='';renderStart()}};
 startSearch.oninput=renderStart;
 document.getElementById('shutdown').onclick=()=>{closeStart();if(confirm('접속을 종료하시겠습니까?'))location.reload()};
