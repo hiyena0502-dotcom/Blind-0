@@ -200,6 +200,18 @@
 .trash-file-icon,.track-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:25px;height:25px}
 .trash-file-icon .pc-icon-svg,.track-icon .pc-icon-svg{width:23px;height:23px}
 .os-listrow .os-filename{min-width:0}
+
+/* Stable window management and keyboard focus */
+.os-window{min-width:min(360px,calc(100vw - 8px));min-height:min(300px,calc(100dvh - 54px));max-width:100%;max-height:100%}
+.os-window .win-title{touch-action:none}
+.os-window .win-controls button:focus-visible,
+.start:focus-visible,.showdesktop:focus-visible{outline:2px solid #bfe7ef;outline-offset:-3px}
+.os-window .win-controls button:hover{filter:brightness(1.08)}
+.start-menu{max-width:calc(100vw - 12px);max-height:calc(100dvh - 54px)}
+.start-menu .start-item{cursor:default}
+.context-menu{max-width:calc(100vw - 12px);max-height:calc(100dvh - 60px);overflow:auto}
+.context-menu [role="menuitem"]:focus-visible{outline:1px solid #73a6c4;background:#d5e8ef}
+.showdesktop{cursor:pointer}
 </style></head>
 <body><main class="desktop" aria-label="빈 컴퓨터 바탕화면">
 
@@ -370,25 +382,129 @@ function pcCanonicalFolder(key){
 const winLayer=document.getElementById('winLayer'),startMenu=document.getElementById('startMenu'),startButton=document.querySelector('.start'),startApps=document.getElementById('startApps'),startLinks=document.getElementById('startLinks'),startSearch=document.getElementById('startSearch'),contextMenu=document.getElementById('contextMenu'),taskSpacer=document.querySelector('.taskbar .spacer');
 let winCounter=0,topWindow=30,focused=null;
 const openWindows=new Map();
-function closeStart(){startMenu.classList.remove('open');startButton.classList.remove('active')}
-function focusWin(id){const w=openWindows.get(id);if(!w)return;w.el.style.zIndex=++topWindow;focused=id;for(const [key,v] of openWindows)v.task.classList.toggle('focused',key===id)}
-function closeWin(id){const w=openWindows.get(id);if(!w)return;w.el.remove();w.task.remove();openWindows.delete(id);if(focused===id)focused=null}
-function toggleMin(id){const w=openWindows.get(id);if(!w)return;if(w.el.style.display==='none'){w.el.style.display='flex';focusWin(id)}else{w.el.style.display='none';w.task.classList.remove('focused');if(focused===id)focused=null}}
+const pcDesktopArea=()=>({width:Math.max(280,winLayer.clientWidth||innerWidth),height:Math.max(250,winLayer.clientHeight||innerHeight-46)});
+function closeStart(){
+ startMenu.classList.remove('open');
+ startButton.classList.remove('active');
+ startButton.setAttribute('aria-expanded','false');
+}
+function pcFocusTop(exclude=null){
+ let target=null,highest=-Infinity;
+ for(const [id,w] of openWindows){
+  if(id===exclude||w.el.style.display==='none')continue;
+  const order=Number(w.el.style.zIndex)||0;
+  if(order>highest){highest=order;target=id}
+ }
+ if(target!==null)focusWin(target);
+ else {focused=null;for(const w of openWindows.values())w.task.classList.remove('focused')}
+}
+function focusWin(id){
+ const w=openWindows.get(id);if(!w)return;
+ if(w.el.style.display==='none')w.el.style.display='flex';
+ w.el.style.zIndex=++topWindow;focused=id;
+ for(const [key,item] of openWindows)item.task.classList.toggle('focused',key===id);
+}
+function closeWin(id){
+ const w=openWindows.get(id);if(!w)return;
+ w.el.remove();w.task.remove();openWindows.delete(id);
+ if(focused===id)pcFocusTop(id);
+}
+function toggleMin(id){
+ const w=openWindows.get(id);if(!w)return;
+ if(w.el.style.display==='none'){w.el.style.display='flex';focusWin(id);return}
+ w.el.style.display='none';w.task.classList.remove('focused');
+ if(focused===id)pcFocusTop(id);
+}
+function pcFitWindow(w){
+ if(!w||w.el.classList.contains('maximized'))return;
+ const el=w.el,area=pcDesktopArea();
+ const width=Math.min(el.offsetWidth||880,area.width);
+ const height=Math.min(el.offsetHeight||550,area.height);
+ if(el.offsetWidth>area.width)el.style.width=area.width+'px';
+ if(el.offsetHeight>area.height)el.style.height=area.height+'px';
+ const maxX=Math.max(0,area.width-Math.min(width,110));
+ const maxY=Math.max(0,area.height-33);
+ el.style.left=Math.max(0,Math.min(parseFloat(el.style.left)||0,maxX))+'px';
+ el.style.top=Math.max(0,Math.min(parseFloat(el.style.top)||0,maxY))+'px';
+}
+function pcMaximize(id){
+ const w=openWindows.get(id);if(!w)return;
+ const el=w.el;
+ if(el.classList.contains('maximized')){
+  el.classList.remove('maximized');
+  if(w.restoreRect){el.style.left=w.restoreRect.left;el.style.top=w.restoreRect.top;el.style.width=w.restoreRect.width;el.style.height=w.restoreRect.height}
+  pcFitWindow(w);
+ }else{
+  w.restoreRect={left:el.style.left,top:el.style.top,width:el.style.width,height:el.style.height};
+  el.classList.add('maximized');
+ }
+ const button=el.querySelector('[data-act="max"]');
+ if(button){button.textContent=el.classList.contains('maximized')?'❐':'□';button.title=el.classList.contains('maximized')?'이전 크기로':'최대화'}
+ focusWin(id);
+}
 function openWindow(title,kind='explorer',path='root'){
- closeStart();const id=++winCounter,el=document.createElement('section');el.className='os-window';el.style.left=Math.max(10,Math.min(90+(id%7)*25,innerWidth-490))+'px';el.style.top=(45+(id%7)*24)+'px';
- el.innerHTML='<div class="win-title"><span class="win-app-icon"></span><strong></strong><div class="win-controls"><button data-act="min" title="최소화">─</button><button data-act="max" title="최대화">□</button><button data-act="close" title="닫기">×</button></div></div><div class="win-content" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>';
- el.querySelector('strong').textContent=title;el.querySelector('.win-app-icon').innerHTML=pcSvg(pcWindowIcon(kind,path));winLayer.appendChild(el);
- const task=document.createElement('button');task.className='task-open';task.innerHTML='<span class="task-icon"></span><span class="task-title"></span>';task.querySelector('.task-icon').innerHTML=pcSvg(pcWindowIcon(kind,path));task.querySelector('.task-title').textContent=title;taskSpacer.before(task);
- const w={el,task,kind,path,history:[path],historyIndex:0,view:'details',selected:null};openWindows.set(id,w);focusWin(id);
- task.onclick=()=>{if(focused===id&&el.style.display!=='none')toggleMin(id);else{el.style.display='flex';focusWin(id)}};
+ closeStart();
+ const id=++winCounter,el=document.createElement('section'),area=pcDesktopArea();
+ el.className='os-window';
+ el.style.width=Math.min(880,Math.max(275,area.width-24))+'px';
+ el.style.height=Math.min(550,Math.max(240,area.height-28))+'px';
+ el.style.left=Math.max(0,Math.min(70+(id%7)*26,area.width-Math.min(880,area.width-24)))+'px';
+ el.style.top=Math.max(0,Math.min(32+(id%7)*24,area.height-Math.min(550,area.height-28)))+'px';
+ el.setAttribute('role','dialog');el.setAttribute('aria-label',title);
+ el.innerHTML='<div class="win-title"><span class="win-app-icon"></span><strong></strong><div class="win-controls"><button type="button" data-act="min" title="최소화" aria-label="최소화">─</button><button type="button" data-act="max" title="최대화" aria-label="최대화">□</button><button type="button" data-act="close" title="닫기" aria-label="닫기">×</button></div></div><div class="win-content" style="display:flex;flex-direction:column;flex:1;min-height:0"></div>';
+ el.querySelector('strong').textContent=title;el.querySelector('.win-app-icon').innerHTML=pcSvg(pcWindowIcon(kind,path));
+ winLayer.appendChild(el);
+ const task=document.createElement('button');task.type='button';task.className='task-open';
+ task.innerHTML='<span class="task-icon"></span><span class="task-title"></span>';
+ task.querySelector('.task-icon').innerHTML=pcSvg(pcWindowIcon(kind,path));task.querySelector('.task-title').textContent=title;
+ task.title=title;taskSpacer.before(task);
+ const w={el,task,kind,path,history:[path],historyIndex:0,view:'details',selected:null,search:''};
+ openWindows.set(id,w);focusWin(id);pcFitWindow(w);
+ task.onclick=()=>{if(focused===id&&el.style.display!=='none')toggleMin(id);else focusWin(id)};
  el.addEventListener('pointerdown',()=>focusWin(id));
- el.querySelectorAll('[data-act]').forEach(b=>b.onclick=e=>{e.stopPropagation();const act=b.dataset.act;if(act==='close')closeWin(id);if(act==='min')toggleMin(id);if(act==='max'){el.classList.toggle('maximized');focusWin(id)}});
+ el.querySelectorAll('[data-act]').forEach(b=>b.onclick=e=>{
+  e.stopPropagation();const act=b.dataset.act;
+  if(act==='close')closeWin(id);else if(act==='min')toggleMin(id);else if(act==='max')pcMaximize(id);
+ });
  const bar=el.querySelector('.win-title');let drag=null;
- bar.addEventListener('pointerdown',e=>{if(e.target.closest('button')||el.classList.contains('maximized'))return;drag={x:e.clientX,y:e.clientY,l:el.offsetLeft,t:el.offsetTop};bar.setPointerCapture(e.pointerId)});
- bar.addEventListener('pointermove',e=>{if(!drag)return;el.style.left=Math.max(0,Math.min(innerWidth-90,drag.l+e.clientX-drag.x))+'px';el.style.top=Math.max(0,Math.min(innerHeight-110,drag.t+e.clientY-drag.y))+'px'});
- bar.addEventListener('pointerup',()=>drag=null);bar.addEventListener('dblclick',e=>{if(!e.target.closest('button'))el.classList.toggle('maximized')});
+ bar.addEventListener('pointerdown',e=>{
+  if(e.button!==0||e.target.closest('button')||el.classList.contains('maximized'))return;
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY,l:el.offsetLeft,t:el.offsetTop};
+  bar.setPointerCapture(e.pointerId);
+ });
+ bar.addEventListener('pointermove',e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  const area=pcDesktopArea();
+  el.style.left=Math.max(0,Math.min(area.width-95,drag.l+e.clientX-drag.x))+'px';
+  el.style.top=Math.max(0,Math.min(area.height-33,drag.t+e.clientY-drag.y))+'px';
+ });
+ const endDrag=e=>{if(drag&&drag.id===e.pointerId)drag=null};
+ bar.addEventListener('pointerup',endDrag);
+ bar.addEventListener('pointercancel',endDrag);
+ bar.addEventListener('lostpointercapture',()=>{drag=null});
+ bar.addEventListener('dblclick',e=>{if(!e.target.closest('button'))pcMaximize(id)});
  if(kind==='explorer')renderExplorer(id);else renderApp(id);
  return id;
+}
+window.addEventListener('resize',()=>{for(const w of openWindows.values())pcFitWindow(w)});
+const showDesktopButton=document.querySelector('.showdesktop');
+if(showDesktopButton){
+ showDesktopButton.title='바탕 화면 보기';showDesktopButton.tabIndex=0;showDesktopButton.setAttribute('role','button');
+ let desktopSnapshot=[];
+ const toggleDesktop=()=>{
+  if(desktopSnapshot.length){
+   const snapshot=desktopSnapshot;desktopSnapshot=[];
+   snapshot.forEach(id=>{const w=openWindows.get(id);if(w)w.el.style.display='flex'});
+   const last=snapshot.find(id=>id===focused)||snapshot[snapshot.length-1];
+   if(last&&openWindows.has(last))focusWin(last);
+  }else{
+   desktopSnapshot=[...openWindows].filter(([id,w])=>w.el.style.display!=='none').map(([id])=>id);
+   for(const id of desktopSnapshot){const w=openWindows.get(id);w.el.style.display='none';w.task.classList.remove('focused')}
+   focused=null;
+  }
+ };
+ showDesktopButton.onclick=toggleDesktop;
+ showDesktopButton.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleDesktop()}};
 }
 function pathLabel(path){const parts=[];let k=path;while(k&&fsData[k]){parts.unshift(fsData[k].name);k=fsData[k].parent}return parts.join(' › ')}
 function goFolder(id,path,history=true){const w=openWindows.get(id);if(!w||!fsData[path])return;w.path=path;w.selected=null;if(history){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(path);w.historyIndex++}renderExplorer(id)}
