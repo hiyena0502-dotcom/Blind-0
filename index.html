@@ -338,9 +338,9 @@ function pcSvg(kind){
  return '<svg class="pc-icon-svg" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><defs><linearGradient id="'+id+'" x1="18%" y1="0%" x2="76%" y2="100%"><stop stop-color="'+colors[0]+'"/><stop offset="1" stop-color="'+colors[1]+'"/></linearGradient></defs>'+pcArt[name].replaceAll('url(#G)','url(#'+id+')')+'</svg>';
 }
 function pcIconNode(kind,cls=''){const span=document.createElement('span');span.className=cls;span.innerHTML=pcSvg(kind);return span}
-function pcWindowIcon(kind,path){return kind==='explorer'?(path==='root'?'computer':path==='drive'?'drive':path==='silver'?'archive':'folder'):{browser:'internet',musicplayer:'music',photos:'photo',notepad:'text',trash:'trash',record:'record',settings:'settings'}[kind]||'computer'}
+function pcWindowIcon(kind,path){return kind==='explorer'?(path==='root'?'computer':path==='drive'?'drive':'folder'):{browser:'internet',musicplayer:'music',photos:'photo',notepad:'text',trash:'trash',record:'text',settings:'settings'}[kind]||'computer'}
 function pcUpdateTask(w,title,kind){w.task.querySelector('.task-title').textContent=title;const box=w.task.querySelector('.task-icon');if(box)box.innerHTML=pcSvg(kind||pcWindowIcon(w.kind,w.path))}
-function pcMenuIcon(label){if(label.includes('프로그램'))return 'programs';if(label.includes('컴퓨터')||label.includes('탐색기'))return 'computer';if(label.includes('실버'))return 'archive';if(label.includes('인터넷'))return 'internet';if(label.includes('휴지통'))return 'trash';if(label.includes('음악'))return 'music';if(label.includes('사진'))return 'photo';if(label.includes('메모장'))return 'text';if(label.includes('문서'))return 'folder';if(label.includes('제어판'))return 'settings';return 'folder'}
+function pcMenuIcon(label){if(label.includes('프로그램'))return 'programs';if(label.includes('컴퓨터')||label.includes('탐색기'))return 'computer';if(label.includes('실버'))return 'folder';if(label.includes('인터넷'))return 'internet';if(label.includes('휴지통'))return 'trash';if(label.includes('음악'))return 'music';if(label.includes('사진'))return 'photo';if(label.includes('메모장'))return 'text';if(label.includes('문서'))return 'folder';if(label.includes('제어판'))return 'settings';return 'folder'}
 
 const fsData={
  root:{name:'컴퓨터',items:['drive']},
@@ -420,7 +420,7 @@ const savedNotesKey='blind-pc-notes';
 const desktopApps=[
  ['컴퓨터','computer',()=>openWindow('컴퓨터','explorer','root')],
  ['업무','folder',()=>openWindow('업무','explorer','work')],
- ['실버 소프트','archive',()=>openWindow('실버 소프트','explorer','silver')],
+ ['실버 소프트','folder',()=>openWindow('실버 소프트','explorer','silver')],
  ['인터넷','internet',()=>openWindow('인터넷','browser')],
  ['음악','music',()=>openWindow('음악','musicplayer')],
  ['사진','photo',()=>openWindow('사진','photos')],
@@ -478,7 +478,7 @@ function pcButton(label,callback){const b=pcNode('button','',label);b.type='butt
 function pcMessage(message){alert(message)}
 function pcSize(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB'}
 function pcType(f){return f.kind==='record'?'기록 문서':f.kind==='text'?'텍스트 문서':f.kind==='image'?'이미지 파일':'오디오 파일'}
-function pcIcon(f){return f.kind==='record'?'record':f.kind==='text'?'text':f.kind==='image'?'photo':'music'}
+function pcIcon(f){return f.kind==='record'||f.kind==='text'?'text':f.kind==='image'?'photo':'music'}
 function pcUsableFolder(key){return Boolean(fsData[key])&&!['root','drive','system'].includes(key)}
 function pcRecordId(){return 'file-'+Date.now()+'-'+Math.random().toString(36).slice(2,9)}
 function pcWindowRefresh(){for(const [id,w] of openWindows){if(w.kind==='explorer'&&fsData[w.path])renderExplorer(id);if(w.kind==='trash')renderApp(id)}renderStart()}
@@ -607,7 +607,7 @@ renderExplorer=function(id){
  toolbar.append(back,forward,up,addr,search,toggle,newText,importButton,picker);content.append(toolbar);
  const body=pcNode('div','explorer-body'),side=pcNode('nav','explorer-side');
  const groups=[['즐겨찾기',[['문서','docs'],['다운로드','downloads']]],['바로가기',[['업무','work'],['실버 소프트','silver'],['사진','pictures'],['음악','music']]],['컴퓨터',[['로컬 디스크 (C:)','drive']]]];
- for(const [heading,entries] of groups){side.append(pcNode('div','side-group',heading));for(const [name,path] of entries){const entry=pcNode('div','side-entry');entry.append(pcIconNode(name==='실버 소프트'?'archive':'folder','side-icon'),document.createTextNode(name));entry.onclick=()=>goFolder(id,path);side.append(entry)}}
+ for(const [heading,entries] of groups){side.append(pcNode('div','side-group',heading));for(const [name,path] of entries){const entry=pcNode('div','side-entry');entry.append(pcIconNode('folder','side-icon'),document.createTextNode(name));entry.onclick=()=>goFolder(id,path);side.append(entry)}}
  const list=pcNode('div','explorer-list '+(w.view==='icons'?'icons':'')),status=pcNode('div','win-status');
  const draw=()=>{
   const query=search.value.trim().toLocaleLowerCase();
@@ -624,7 +624,7 @@ renderExplorer=function(id){
   if(w.view!=='icons'){const header=pcNode('div','file-header');for(const [title,field] of [['이름','name'],['유형','type'],['크기','size']]){const span=pcNode('span',field==='size'?'file-size':'',title);span.onclick=()=>{w.sortMode=field;draw()};header.append(span)}list.append(header)}
   for(const entry of entries){
    const row=pcNode('div','file-row');row.tabIndex=0;row.dataset.key=entry.key;row.classList.toggle('selected',w.selected===entry.key);
-   const name=pcNode('span','file-name'),icon=pcIconNode(entry.isFolder?(entry.key==='silver'?'archive':'folder'):pcIcon(entry.file),'file-icon'),title=pcNode('span','file-title',entry.name);name.append(icon,title);
+   const name=pcNode('span','file-name'),icon=pcIconNode(entry.isFolder?'folder':pcIcon(entry.file),'file-icon'),title=pcNode('span','file-title',entry.name);name.append(icon,title);
    row.append(name,pcNode('span','file-type',entry.isFolder?'파일 폴더':pcType(entry.file)),pcNode('span','file-size',entry.isFolder?'':pcSize(entry.file.size||0)));
    const select=()=>{w.selected=entry.key;list.querySelectorAll('.file-row').forEach(n=>n.classList.toggle('selected',n===row));status.textContent=entry.name};
    const open=()=>entry.isFolder?goFolder(id,entry.key):pcOpenFile(entry.file);
