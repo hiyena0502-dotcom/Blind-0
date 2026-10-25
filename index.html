@@ -298,12 +298,18 @@
 .net-collections{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:22px 0 10px}.net-collections a{border:1px solid #dce3d8;background:#f8faf6;padding:12px 8px;color:#4d6c58;text-align:center;font-size:13px;text-decoration:none}.net-collections a:hover{border-color:#749581;background:#eef4eb}.net-theme-police .net-masthead{background:#203c60;color:#f1f5fa;border-bottom:5px solid #c8b780}.net-theme-police .net-site-nav{background:#e9eef4;border-bottom:1px solid #c3ccd6}.net-theme-police .net-article-body h1{color:#243d60}.net-theme-police .net-facts th{background:#e8edf5;color:#253b55}@media(max-width:700px){.net-collections{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* River introduction and physical backup screen. Damage is confined to #access. */
 .river-intro{position:absolute;inset:0;z-index:80;background:#000;color:#fff;opacity:1;transition:opacity .5s ease;isolation:isolate}.river-intro.leaving{opacity:0;pointer-events:none}.intro-advance{display:flex;align-items:center;justify-content:center;position:absolute;inset:0;width:100%;height:100%;padding:40px;background:#000;border:0;color:#f5f5f5;cursor:pointer;font-family:"Malgun Gothic",sans-serif}.intro-advance:focus-visible{outline:1px solid #333;outline-offset:-12px}.intro-line{text-align:center;font-size:clamp(19px,2.1vw,28px);font-weight:400;line-height:1.95;letter-spacing:-.035em;white-space:pre-line;word-break:keep-all;transition:opacity .18s ease,transform .18s ease}.intro-line.changing{opacity:0;transform:translateY(3px)}.intro-next{position:absolute;bottom:7%;left:calc(50% - 10px);color:#fff7;opacity:.6;transition:opacity .2s}.intro-advance:hover .intro-next{opacity:1}
-.access.found-machine{position:absolute;inset:0;z-index:60;display:block;background:#10171b;color:#d5dfe3;font-family:Tahoma,"Malgun Gothic",sans-serif;transition:opacity .7s ease,visibility .7s ease,filter .7s ease;opacity:1;visibility:visible;overflow:hidden}.access.found-machine.departing{opacity:0;visibility:hidden;pointer-events:none;filter:blur(3px)}.recovery-room{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:38px 38px 65px;background:radial-gradient(ellipse at 33% 35%,#39464a66 0,transparent 50%),linear-gradient(145deg,#161e23,#10171b 65%,#0b1115)}.recovery-light{position:absolute;inset:0;background:linear-gradient(108deg,transparent 10%,#9da9ab08 38%,transparent 58%);pointer-events:none}.recovery-desk{position:absolute;left:0;right:0;top:66%;bottom:0;background:linear-gradient(#30383b,#242c30 4%,#182126 75%);border-top:1px solid #78818433;box-shadow:0 -20px 70px #0003;pointer-events:none}.machine-setup{position:relative;width:min(1160px,100%);display:grid;grid-template-columns:minmax(0,1fr) 260px;align-items:end;gap:36px;transform:translateY(16px)}.recovery-monitor{position:relative;min-width:0;filter:drop-shadow(0 18px 22px #0007)}.monitor-bezel{position:relative;padding:18px 18px 0;background:linear-gradient(125deg,#414b50,#212a2f 48%,#151d21);border:1px solid #69757a77;border-radius:12px 12px 15px 15px;box-shadow:inset 1px 1px #c4cace19,inset -3px -3px 7px #0008,0 1px 0 #000}.bezel-scuffs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.recovery-glass{position:relative;aspect-ratio:16/10;min-height:330px;overflow:hidden;background:#0c171e;border:2px solid #0a1014;box-shadow:0 0 0 1px #63727945,inset 0 0 40px #0009}.backup-window{position:relative;width:100%;height:100%;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 30%,#203541 0,#142630 55%,#10202a);color:#d7e1e7;font-family:Tahoma,"Malgun Gothic",sans-serif}.backup-caption{height:39px;display:flex;gap:8px;align-items:center;padding:0 16px;border-bottom:1px solid #8babb523;background:#06101633;color:#96aab6;font-size:11px;letter-spacing:.02em}.backup-dot{height:5px;width:5px;background:#809ca9;display:inline-block;border-radius:50%}.backup-content{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px 35px}.backup-drive{height:48px;width:48px;fill:none;stroke:#adbdc5;stroke-width:1.15;margin:0 0 12px}.backup-content h1{font-size:23px;font-weight:400;letter-spacing:-.04em;margin:0 0 8px;color:#e4eaed}.backup-account{font:10px Consolas,monospace;color:#7e969f;letter-spacing:.19em;margin-bottom:25px}.backup-login{width:min(300px,100%)}.backup-login label{display:block;font-size:11px;color:#92a8b4;margin:0 0 7px}.backup-input-row{display:flex;gap:7px}.backup-input-row input{width:0;flex:1;min-width:0;padding:10px 12px;background:#09151dc9;border:1px solid #536b78;border-radius:2px;color:#f0f5f7;font:16px Consolas,monospace;letter-spacing:.15em;outline:none;box-shadow:inset 0 1px 4px #0005}.backup-input-row input:focus{border-color:#a3b8c6;box-shadow:0 0 0 2px #b9cdd114}.backup-input-row button{padding:8px 16px;background:linear-gradient(#becbd1,#8ca0ab);color:#152630;border:1px solid #c4d0d7;border-radius:2px;font:12px "Malgun Gothic",sans-serif;cursor:pointer}.backup-input-row button:hover{background:#c3d0d6}.backup-input-row button:disabled{opacity:.5;cursor:default}.backup-error{font-size:11px;min-height:15px;line-height:1.4;color:#d9aaa1;margin:10px 0 0}.backup-progress{width:min(300px,100%);min-height:73px;text-align:center}.backup-progress[hidden],.trace-overlay[hidden]{display:none!important}.backup-progress p{font-size:12px;color:#b1c2ca;margin:0 0 15px}.backup-track{height:4px;background:#07141d;border:0;overflow:hidden}.backup-track span{display:block;height:100%;width:0;background:#a6c0d0;transition:width .2s ease}.backup-percent{display:block;font:10px Consolas,monospace;letter-spacing:.05em;color:#7d98a7;margin-top:10px}.backup-bottom{height:31px;padding:0 16px;display:flex;align-items:center;gap:7px;font:9px Consolas,monospace;letter-spacing:.12em;color:#657f8c;border-top:1px solid #8babb518}.backup-disk-symbol{font-size:14px}.glass-fractures{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.screen-dust{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 38px #0005;background:linear-gradient(118deg,transparent 72%,#9ca5a40b 73%,transparent 76%)}.monitor-lower{position:relative;height:35px;display:flex;align-items:center;justify-content:center}.bezel-name{font:8px Consolas,monospace;letter-spacing:.2em;color:#73818a}.monitor-controls{position:absolute;right:1px;color:#7f8f97;font:10px Consolas,monospace;display:flex;align-items:center;gap:7px}.monitor-controls i{height:3px;width:3px;background:#a1bfd2;border-radius:50%;box-shadow:0 0 4px #b5d8e8}.monitor-neck{width:86px;height:67px;background:linear-gradient(90deg,#1b242a,#475258 45%,#202a30);margin:auto;box-shadow:inset 0 0 10px #0006;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)}.monitor-foot{height:14px;width:185px;border-radius:50% 50% 20% 20%;background:linear-gradient(#4b565d,#202a30 75%);border:1px solid #68747a55;margin:-1px auto 0;box-shadow:0 5px 8px #0008}.recovery-tower{position:relative;width:260px;max-width:100%;margin-bottom:-8px;filter:drop-shadow(8px 10px 15px #0006)}.tower-art{display:block;width:100%;height:auto;overflow:visible}.tower-trace{position:absolute;left:27%;top:8.2%;width:55%;height:8.3%;border:0;color:#625e5399;font:15px "Courier New",monospace;font-weight:600;letter-spacing:.04em;background:linear-gradient(120deg,#b5b09cbd,#8f8c7cbb);clip-path:polygon(3% 8%,93% 0,100% 23%,95% 34%,100% 49%,96% 100%,6% 93%,0 76%,4% 50%,0 26%);transform:rotate(-12deg) skew(-9deg);cursor:zoom-in;box-shadow:0 1px 2px #0006;opacity:.65}.tower-trace:hover,.tower-trace:focus-visible{opacity:1;filter:brightness(1.2);outline:2px solid #d0d8d1;outline-offset:3px}.tower-trace:after{content:"";position:absolute;inset:0;background:linear-gradient(4deg,transparent 33%,#6e6b5a88 34%,transparent 38%),linear-gradient(140deg,transparent 65%,#e4debb44 66%,transparent 71%);pointer-events:none}.recovery-fan-note{position:absolute;bottom:20px;right:25px;font:10px "Malgun Gothic",sans-serif;color:#72808b}
+
+.access.found-machine{position:absolute;inset:0;z-index:60;display:block;background:#262724;color:#222;font-family:Tahoma,"Malgun Gothic",sans-serif;transition:opacity .7s ease,visibility .7s ease;overflow:hidden}.access.found-machine:before,.access.found-machine:after{display:none}.access.found-machine.departing{opacity:0;visibility:hidden;pointer-events:none}.recovery-room{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:30px 30px 55px;background:radial-gradient(ellipse at 50% 28%,#55564e66,transparent 65%),#252623}.recovery-desk{position:absolute;inset:70% 0 0;background:linear-gradient(#535046,#3e3c34);border-top:1px solid #757165;box-shadow:0 -20px 80px #0003}.machine-setup{position:relative;width:min(870px,100%);display:flex;justify-content:center;padding:0 55px;filter:drop-shadow(0 22px 18px #0005)}.retro-computer{position:relative;width:min(620px,100%)}.crt-shell{position:relative;padding:31px 36px 0;background:linear-gradient(110deg,#ded9be,#bcb79f 90%);border:2px solid #8a8776;border-radius:27px 27px 37px 37px;box-shadow:inset 4px 3px 3px #f2edda,inset -10px -4px 14px #8b8878,12px 3px 0 #99947e,17px 5px 0 #777462}.crt-shell:before{content:"";position:absolute;top:12px;left:35px;right:35px;height:6px;background:repeating-linear-gradient(90deg,#8a8775 0 2px,transparent 2px 7px);opacity:.45;border-radius:50%}.recovery-glass{position:relative;aspect-ratio:4/3;min-height:310px;overflow:hidden;background:#1b3034;border:12px solid #7a786b;border-top-color:#77766b;border-left-color:#888678;border-bottom-color:#c6c1ab;border-right-color:#aaa58f;border-radius:35px/25px;box-shadow:0 0 0 2px #e9e2c9,inset 0 0 18px #0009}.recovery-glass:after{content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;background:linear-gradient(120deg,#ffffff0b,transparent 40%),repeating-linear-gradient(transparent 0 3px,#00000006 3px 4px);box-shadow:inset 0 0 20px #0004}.crt-chin{position:relative;height:57px;display:flex;align-items:center;justify-content:space-between;padding:0 6px;color:#686757}.crt-brand{font:bold 11px Tahoma,sans-serif;letter-spacing:3px;opacity:.65}.crt-buttons{display:flex;gap:11px;align-items:center}.crt-buttons b{width:6px;height:6px;background:#95a956;border-radius:50%;box-shadow:0 0 3px #bbca77}.crt-buttons i{width:15px;height:7px;background:#b4af98;border:1px solid #8f8b78;border-radius:2px;box-shadow:0 1px #ede5ce}.case-wear{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.computer-base{height:56px;margin:0 17px;position:relative;z-index:-1;border:1px solid #93907c;border-top:0;background:linear-gradient(100deg,#d6d0b5,#b0ac94);border-radius:0 0 8px 8px;box-shadow:inset 0 -5px 2px #93907d,7px 2px 0 #7a7866}.base-vents{position:absolute;top:17px;left:22px;width:32%;height:17px;background:repeating-linear-gradient(#6e6e61 0 2px,transparent 2px 5px);opacity:.6}.floppy-drive{position:absolute;right:22px;top:14px;width:39%;height:22px;border:2px solid #8e8b77;background:#c6c1a8;box-shadow:inset 1px 1px #e3dcc3}.floppy-drive:before{content:"";position:absolute;left:9px;right:26px;top:7px;height:4px;background:#363b35;border-bottom:1px solid #ebe1c7}.floppy-drive:after{content:"";position:absolute;width:14px;height:6px;right:3px;bottom:2px;background:#aca78e;border:1px solid #827e6b}.keyboard{position:relative;width:95%;margin:17px auto 0;padding:12px 15px 14px;background:linear-gradient(#d5ceb5,#bdb79d);border:1px solid #817e6b;border-radius:5px 5px 9px 9px;transform:perspective(500px) rotateX(24deg);box-shadow:inset 2px 2px #e9e2cc,0 7px 0 #898572,0 11px 9px #0005}.keyboard-rows{display:flex;flex-direction:column;gap:3px}.keyboard-row{display:flex;gap:3px;height:14px}.keyboard-key{flex:1;background:#d7d1bb;border:1px solid;border-color:#f0e8d2 #99937e #8e8875 #e9e1cb;box-shadow:0 1px #757360;font:7px/12px Tahoma,sans-serif;text-align:center;color:#6a6757;border-radius:1px}.keyboard-key.wide{flex:1.8}.keyboard-key.space{flex:6}.floppy-disk{position:absolute;right:0;bottom:103px;width:133px;height:141px;background:linear-gradient(125deg,#374861,#1e2c43);border:2px solid #172333;border-radius:3px 12px 4px 3px;transform:rotate(12deg);box-shadow:inset 2px 2px #64718a,4px 8px 7px #0005;cursor:zoom-in;padding:0}.floppy-disk:before{content:"";position:absolute;top:0;left:28px;right:18px;height:51px;border:1px solid #636c6d;background:linear-gradient(110deg,#9ba5a5,#c0c5bd 48%,#818e91);border-radius:0 0 3px 3px}.floppy-disk:after{content:"";position:absolute;top:7px;left:67px;width:19px;height:34px;background:#253243;border:1px solid #667078}.floppy-sticker{position:absolute;inset:65px 9px 10px;background:repeating-linear-gradient(#d2cbb3 0 15px,#aaa48d 15px 16px);border-radius:2px;box-shadow:inset 1px 1px #ece5ce;transform:rotate(-1deg);font:13px/45px "Courier New",monospace;color:#565345;letter-spacing:1px}.floppy-disk:hover,.floppy-disk:focus-visible{filter:brightness(1.12);outline:1px dashed #e7dec2;outline-offset:5px}.floppy-notch{position:absolute;left:6px;bottom:4px;width:8px;height:7px;background:#151f31;border:1px solid #56637b}.recovery-fan-note{position:absolute;bottom:16px;right:22px;font:10px "Malgun Gothic",sans-serif;color:#b4b09e77}
+.backup-window{position:relative;width:100%;height:100%;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 30%,#203541 0,#142630 55%,#10202a);color:#d7e1e7;font-family:Tahoma,"Malgun Gothic",sans-serif}.backup-caption{height:39px;display:flex;gap:8px;align-items:center;padding:0 16px;border-bottom:1px solid #8babb523;background:#06101633;color:#96aab6;font-size:11px;letter-spacing:.02em}.backup-dot{height:5px;width:5px;background:#809ca9;display:inline-block;border-radius:50%}.backup-content{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px 35px}.backup-drive{height:48px;width:48px;fill:none;stroke:#adbdc5;stroke-width:1.15;margin:0 0 12px}.backup-content h1{font-size:23px;font-weight:400;letter-spacing:-.04em;margin:0 0 8px;color:#e4eaed}.backup-account{font:10px Consolas,monospace;color:#7e969f;letter-spacing:.19em;margin-bottom:25px}.backup-login{width:min(300px,100%)}.backup-login label{display:block;font-size:11px;color:#92a8b4;margin:0 0 7px}.backup-input-row{display:flex;gap:7px}.backup-input-row input{width:0;flex:1;min-width:0;padding:10px 12px;background:#09151dc9;border:1px solid #536b78;border-radius:2px;color:#f0f5f7;font:16px Consolas,monospace;letter-spacing:.15em;outline:none;box-shadow:inset 0 1px 4px #0005}.backup-input-row input:focus{border-color:#a3b8c6;box-shadow:0 0 0 2px #b9cdd114}.backup-input-row button{padding:8px 16px;background:linear-gradient(#becbd1,#8ca0ab);color:#152630;border:1px solid #c4d0d7;border-radius:2px;font:12px "Malgun Gothic",sans-serif;cursor:pointer}.backup-input-row button:hover{background:#c3d0d6}.backup-input-row button:disabled{opacity:.5;cursor:default}.backup-error{font-size:11px;min-height:15px;line-height:1.4;color:#d9aaa1;margin:10px 0 0}.backup-progress{width:min(300px,100%);min-height:73px;text-align:center}.backup-progress[hidden],.trace-overlay[hidden]{display:none!important}.backup-progress p{font-size:12px;color:#b1c2ca;margin:0 0 15px}.backup-track{height:4px;background:#07141d;border:0;overflow:hidden}.backup-track span{display:block;height:100%;width:0;background:#a6c0d0;transition:width .2s ease}.backup-percent{display:block;font:10px Consolas,monospace;letter-spacing:.05em;color:#7d98a7;margin-top:10px}.backup-bottom{height:31px;padding:0 16px;display:flex;align-items:center;gap:7px;font:9px Consolas,monospace;letter-spacing:.12em;color:#657f8c;border-top:1px solid #8babb518}.backup-disk-symbol{font-size:14px}.glass-fractures{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.screen-dust{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 38px #0005;background:linear-gradient(118deg,transparent 72%,#9ca5a40b 73%,transparent 76%)}
+.backup-window{background:#617c80;color:#111;justify-content:center;padding:35px 27px;font:12px Tahoma,"Malgun Gothic",sans-serif}.backup-caption{flex:none;height:23px;padding:0 8px;background:#000080;color:#fff;font-size:12px;font-weight:bold;border:0;letter-spacing:0;gap:7px}.backup-dot{background:#d2d2d2;border-radius:0;width:8px;height:8px}.backup-content{flex:none;justify-content:center;padding:21px 22px 13px;min-height:205px;background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff}.backup-drive{height:32px;width:32px;stroke:#222;margin-bottom:9px}.access.found-machine h1{font-size:15px;letter-spacing:0;color:#111;text-shadow:none;font-weight:bold;margin:0 0 6px}.backup-account{color:#4b4b4b;font:10px Tahoma,sans-serif;letter-spacing:.06em;margin:0 0 17px}.backup-login{width:min(270px,100%)}.backup-login label{color:#111;font-size:12px}.backup-input-row input{border:2px solid;border-color:#808080 #fff #fff #808080;background:#fff;color:#111;border-radius:0;box-shadow:inset 1px 1px #000;padding:5px 8px;font-size:14px;letter-spacing:.1em}.backup-input-row input:focus{border-color:#808080 #fff #fff #808080;box-shadow:inset 1px 1px #000}.backup-input-row button{background:#c0c0c0;border:2px solid;border-color:#fff #333 #333 #fff;border-radius:0;color:#111;padding:5px 13px;font-size:12px;box-shadow:inset -1px -1px #808080}.backup-input-row button:hover{background:#cecece}.backup-error{color:#8a1414;font-size:11px;min-height:15px;margin-top:7px}.backup-bottom{flex:none;height:23px;padding:0 8px;background:#c0c0c0;color:#555;border:1px solid;border-color:#808080 #fff #fff #808080;font:9px Tahoma,sans-serif;letter-spacing:0}.backup-progress p{color:#222;font-size:12px}.backup-track{height:13px;padding:2px;background:#c0c0c0;border:1px solid;border-color:#808080 #fff #fff #808080}.backup-track span{background:repeating-linear-gradient(90deg,#000080 0 8px,transparent 8px 10px)}.backup-percent{color:#444}.trace-dialog{border-radius:0}
 .trace-overlay{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;padding:24px;background:#03080dbd;backdrop-filter:blur(5px)}.trace-dialog{width:min(580px,100%);padding:0 0 36px;background:#222c32;border:1px solid #66727b;box-shadow:0 25px 90px #000b}.trace-heading{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid #50606b55;color:#b9c6ce;font-size:12px}.trace-heading button{padding:0 4px;border:0;background:transparent;color:#c3cdd3;font:22px/1 Tahoma,sans-serif;cursor:pointer}.trace-paper{position:relative;display:flex;align-items:center;justify-content:center;width:84%;aspect-ratio:2.3;margin:35px auto 4px;background:linear-gradient(120deg,#c4bfa9,#a29d88 85%);color:#443f35;box-shadow:0 5px 8px #0008;transform:rotate(-3deg);clip-path:polygon(2% 1%,95% 0,100% 7%,99% 28%,100% 45%,98% 96%,88% 100%,65% 98%,30% 100%,0 95%,2% 69%,0 38%)}.trace-paper strong{position:relative;z-index:1;font:600 clamp(24px,4vw,43px) "Courier New",monospace;letter-spacing:.12em;opacity:.8;transform:rotate(2deg)}.trace-paper svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.trace-old-word{position:absolute;left:28px;top:20px;font:11px Consolas,monospace;letter-spacing:.2em;color:#625d4d77;text-decoration:line-through}
-@media(max-width:900px){.machine-setup{grid-template-columns:minmax(0,1fr) 200px;gap:18px}.recovery-tower{width:200px}.recovery-room{padding:30px 24px 55px}.monitor-bezel{padding:12px 12px 0}.recovery-glass{aspect-ratio:4/3;min-height:320px}.backup-content{padding:12px 20px}.backup-account{margin-bottom:18px}}
-@media(max-width:620px){.recovery-room{padding:20px 16px 40px}.machine-setup{grid-template-columns:minmax(0,1fr);padding-right:0;transform:translateY(-36px)}.recovery-monitor{width:100%;z-index:1}.recovery-glass{aspect-ratio:4/3;min-height:320px}.recovery-tower{position:absolute;width:125px;right:3px;bottom:-112px;z-index:2}.tower-trace{font-size:8px}.monitor-neck{height:42px}.monitor-foot{width:130px}.backup-content h1{font-size:21px}.intro-advance{padding:26px}.trace-paper strong{font-size:28px}.recovery-fan-note{font-size:9px;bottom:12px;right:14px}}
-@media(max-height:650px) and (min-width:621px){.machine-setup{width:min(930px,100%);grid-template-columns:minmax(0,1fr) 210px;gap:30px;transform:translateY(0)}.recovery-tower{width:210px}.recovery-glass{min-height:280px;aspect-ratio:16/9}.backup-drive{height:34px;margin-bottom:6px}.backup-account{margin-bottom:14px}.backup-content h1{font-size:20px}.monitor-neck{height:40px}.recovery-room{padding-bottom:32px}}
+@media(max-width:700px){.recovery-room{padding:22px 14px 45px}.machine-setup{padding:0 35px 0 5px}.crt-shell{padding:24px 23px 0;border-radius:20px}.recovery-glass{min-height:270px;border-width:9px}.crt-chin{height:43px}.backup-window{padding:25px 15px}.backup-content{padding:15px 13px 6px;min-height:195px}.floppy-disk{width:88px;height:94px;bottom:78px;right:-4px}.floppy-disk:before{left:17px;right:12px;height:34px}.floppy-disk:after{left:44px;width:13px;top:4px;height:24px}.floppy-sticker{inset:44px 6px 8px;font-size:9px;line-height:32px;letter-spacing:0}.keyboard{padding:8px}.keyboard-row{height:10px}.keyboard-key{font-size:5px;line-height:8px}.computer-base{height:46px}.floppy-drive{top:10px}.base-vents{top:13px}.intro-advance{padding:25px}.intro-line{font-size:20px}.trace-paper strong{font-size:28px}}
+@media(max-height:720px) and (min-width:701px){.machine-setup{width:720px;padding:0 50px}.recovery-glass{min-height:265px;aspect-ratio:4/3}.crt-shell{padding:23px 29px 0}.crt-chin{height:43px}.keyboard{margin-top:12px;padding:9px 12px}.keyboard-row{height:10px}.keyboard-key{line-height:9px;font-size:6px}.computer-base{height:45px}.backup-window{padding:20px}.backup-content{min-height:190px;padding:13px 20px 6px}.backup-account{margin-bottom:10px}.backup-error{margin-top:5px}.floppy-disk{width:110px;height:117px;bottom:80px}.floppy-disk:before{height:42px;left:24px}.floppy-disk:after{left:57px;height:28px}.floppy-sticker{inset:54px 8px 8px;font-size:11px;line-height:39px}}
 @media(prefers-reduced-motion:reduce){.river-intro,.intro-line,.access.found-machine,.backup-track span{transition:none}}
+
+
+/* Classic desktop: flat blue, gray bevels, compact window chrome. */
+:root{font-family:Tahoma,"Gulim","굴림",sans-serif;color:#000}html,body{background:#3c6579}.desktop{background:#3c6579}.desktop:before,.desktop:after,.glow,.ribbon{display:none}.taskbar{height:36px;padding:3px 5px;gap:7px;background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;box-shadow:none}.start{width:63px;height:27px;display:flex;gap:5px;padding:2px 5px;border-radius:0;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px #808080;background:#c0c0c0;color:#000}.start:after{content:"시작";font:bold 12px "Gulim",sans-serif}.start svg{width:19px;height:19px;fill:#1e3e87;opacity:1}.start.active{filter:none;border-color:#404040 #fff #fff #404040}.sep{height:25px;background:#808080;box-shadow:1px 0 #fff}.tray{height:26px;gap:9px;padding:1px 6px;border:1px solid;border-color:#808080 #fff #fff #808080;color:#000;text-shadow:none;font:11px Tahoma,sans-serif}.tray svg{stroke:#333;width:14px;height:14px}.clock{line-height:1.1;min-width:59px;font-size:10px}.showdesktop{display:none}.win-layer{bottom:36px}.desktop-icons{left:12px;top:12px;grid-template-rows:repeat(6,85px);grid-auto-columns:80px;gap:3px 5px;max-height:calc(100% - 46px)}.desktop-icon{width:78px;height:82px;border-radius:0;gap:4px;padding:5px 2px;color:#fff;font:12px/1.3 "Gulim","굴림",sans-serif;text-shadow:1px 1px #254554}.desktop-icon .di-image{filter:none;height:38px;min-height:38px}.desktop-icon .di-image .pc-icon-svg{width:36px;height:36px;filter:contrast(1.2) saturate(.9);border-radius:0}.desktop-icon:hover,.desktop-icon:focus-visible,.desktop-icon.selected{background:transparent;border-color:transparent}.desktop-icon:focus-visible .di-label,.desktop-icon.selected .di-label{background:#000080;outline:1px dotted #fff}.os-window{background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;border-radius:0;box-shadow:inset -1px -1px #808080,2px 2px 0 #0004;font:12px "Gulim","굴림",sans-serif;padding:2px}.win-title{height:24px;padding:2px 3px;gap:5px;background:#000080;color:#fff}.win-title strong{font-weight:bold;font-size:12px}.win-title .win-app-icon,.win-title .win-app-icon .pc-icon-svg{height:16px;width:16px}.win-controls{gap:2px}.win-controls button,.win-controls button:last-child{height:18px;width:20px;padding:0;line-height:12px;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;border-radius:0;font:bold 12px Tahoma,sans-serif}.win-menu,.win-toolbar,.os-window[data-program=browser] .app-toolbar,.os-bookmarks,.win-status,.os-status{background:#c0c0c0;color:#000;border-color:#808080;border-radius:0}.win-menu{padding:1px 3px;gap:2px}.win-menu .pc-menu-item{color:#000;border-radius:0}.win-menu .pc-menu-item:hover{background:#000080;color:#fff;border-color:transparent}.win-toolbar{padding:5px;gap:4px}.os-window button,.win-toolbar button,.os-window[data-program=browser] .app-toolbar button{border-radius:0}.win-toolbar button,.os-window[data-program=browser] .app-toolbar button{background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;color:#000}.win-address,.win-search,.os-browser-address{border:2px solid;border-color:#808080 #fff #fff #808080;background:#fff;border-radius:0;box-shadow:inset 1px 1px #000}.explorer-side{background:#c0c0c0;border-color:#808080}.side-group{color:#000}.side-entry{border-radius:0}.side-entry:hover,.explorer-side .side-entry.active{background:#000080;color:#fff}.file-header{background:#c0c0c0;color:#000;border-bottom:1px solid #808080}.file-row.selected{background:#000080;color:#fff;outline:none}.file-row:hover{background:#e4e4e4}.file-row.selected:hover{background:#000080}.win-status{height:24px;margin-top:3px;padding:4px 6px;border:1px solid;border-color:#808080 #fff #fff #808080}.task-open{height:26px;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:none;font-size:11px;padding:0 5px}.task-open.focused{background:#d4d4d4;border-color:#404040 #fff #fff #404040;font-weight:bold}.start-menu{bottom:36px;left:3px;width:305px;height:330px;border:2px solid;border-color:#fff #404040 #404040 #fff;border-radius:0;background:#c0c0c0;color:#000;box-shadow:2px 2px #0006;padding:4px}.start-user{background:#808080;color:#fff;letter-spacing:1px;padding:8px;height:34px;flex-basis:34px}.start-apps,.start-links{background:#c0c0c0;color:#000;border:0;border-radius:0;padding:3px 0}.start-cols{gap:1px}.start-item,.start-links .start-item{border-radius:0;color:#000}.start-item:hover,.start-links .start-item:hover,.start-item:focus-visible,.start-links .start-item:focus-visible{background:#000080;color:#fff;outline:none}.start-bottom{border-top:1px solid #808080;padding-top:5px}.start-search{border-radius:0;border:2px solid;border-color:#808080 #fff #fff #808080}.context-menu{background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:2px 2px #0006;padding:2px}.context-menu div:hover{background:#000080;color:#fff}.trace-dialog{background:#c0c0c0;border:2px solid;border-color:#fff #404040 #404040 #fff;padding:2px 2px 26px}.trace-heading{background:#000080;color:#fff;padding:4px 6px;font:bold 12px "Gulim",sans-serif;border:0}.trace-heading button{background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;font:16px/14px Tahoma,sans-serif;padding:0 2px}.trace-paper{margin-top:30px}.os-notepad-main textarea{font-family:"Gulim","굴림",sans-serif!important;background:#fff!important;font-size:14px!important}
 
 </style></head>
 <body><main class="desktop" aria-label="소유자 미상 컴퓨터 바탕화면">
@@ -318,71 +324,51 @@
  <div class="start-bottom"><input id="startSearch" class="start-search" placeholder="검색" aria-label="시작 메뉴 검색" autocomplete="off"><button id="shutdown" type="button" title="시스템 종료">종료</button></div>
 </div>
 <div class="context-menu" id="contextMenu" hidden></div>
-<section id="riverIntro" class="river-intro" role="dialog" aria-modal="true" aria-label="강가에서 주운 컴퓨터">
+<section id="riverIntro" class="river-intro" role="dialog" aria-modal="true" aria-label="강가에서 주운 오래된 컴퓨터">
  <button id="introAdvance" class="intro-advance" type="button" aria-label="다음 독백">
-  <span id="introLine" class="intro-line" aria-live="polite">강에 놀러 갔다가<br>컴퓨터 한 대를 주웠다</span>
+  <span id="introLine" class="intro-line" aria-live="polite">강에 놀러 갔다가 이상한 걸 주웠다.<br>누가 이런 데 컴퓨터를 버리고 갔지?</span>
   <svg class="intro-next" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
  </button>
 </section>
-<section class="access found-machine" id="access" aria-label="주운 컴퓨터의 백업 이미지 열기">
+<section class="access found-machine" id="access" aria-label="주운 컴퓨터 켜기">
  <div class="recovery-room">
   <div class="recovery-light" aria-hidden="true"></div><div class="recovery-desk" aria-hidden="true"></div>
   <div class="machine-setup">
-   <div class="recovery-monitor">
-    <div class="monitor-bezel">
-     <svg class="bezel-scuffs physical-damage" viewBox="0 0 800 540" preserveAspectRatio="none" aria-hidden="true"><path d="m14 18 78-7m-64 14 54-8m658 480 39-8m-28 15 19-4" stroke="#b0b5b7" opacity=".28" fill="none"/><path d="m782 9-16 18 10 20-17 12m7-32-15 4" stroke="#050708" stroke-width="3" fill="none"/></svg>
+   <div class="retro-computer" role="group" aria-label="강가에서 주운 오래된 컴퓨터">
+    <div class="crt-shell">
      <div class="recovery-glass">
       <div class="backup-window" id="backupWindow">
-       <div class="backup-caption"><span class="backup-dot"></span>백업 이미지</div>
+       <div class="backup-caption"><span class="backup-dot"></span>사용자 로그인</div>
        <div class="backup-content">
         <svg class="backup-drive" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="8" width="44" height="48" rx="4"/><circle cx="32" cy="28" r="11"/><circle cx="32" cy="28" r="3"/><path d="m36 32 10 10M18 48h16m6 0h6"/></svg>
-        <h1>사용자 자료</h1><div class="backup-account">LOCAL</div>
+        <h1>로그인</h1><div class="backup-account">LOCAL</div>
         <form id="backupLogin" class="backup-login">
          <label for="backupPassword">암호</label>
          <div class="backup-input-row"><input id="backupPassword" type="password" inputmode="numeric" maxlength="8" autocomplete="off" spellcheck="false" aria-describedby="backupError"><button id="openBackup" type="submit">열기</button></div>
          <p id="backupError" class="backup-error" role="alert"></p>
         </form>
         <div id="backupProgress" class="backup-progress" hidden>
-         <p id="backupStatus" aria-live="polite">백업 이미지 확인 중</p>
-         <div id="backupTrack" class="backup-track" role="progressbar" aria-label="백업 불러오기" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="backupFill"></span></div>
+         <p id="backupStatus" aria-live="polite">사용자 로그인 확인 중</p>
+         <div id="backupTrack" class="backup-track" role="progressbar" aria-label="시작 중" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="backupFill"></span></div>
          <span id="backupPercent" class="backup-percent">0%</span>
         </div>
        </div>
-       <div class="backup-bottom"><span class="backup-disk-symbol" aria-hidden="true">◫</span> LOCAL BACKUP</div>
+       <div class="backup-bottom"><span class="backup-disk-symbol" aria-hidden="true">◫</span> LOCAL COMPUTER</div>
       </div>
-      <svg class="glass-fractures physical-damage" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true"><g stroke="#ced8da" fill="none" opacity=".28"><path d="m1000 18-87 54-35 66-53 34-17 73m105-173-2 70 28 20m-61-24-44-22-29 13m3 116-34 18-12 49m71-148-1 62 27 37M0 584l51-32 20-57 44-29m-64 86 45 8 34-20"/><path d="m1000 24-63 51-24 64m-37 0-27 11M0 589l50-29" opacity=".5"/></g></svg>
-      <div class="screen-dust physical-damage" aria-hidden="true"></div>
      </div>
-     <div class="monitor-lower"><span class="bezel-name">LOCAL</span><span class="monitor-controls" aria-hidden="true">− &nbsp; + &nbsp; ◦ <i></i></span></div>
+     <div class="crt-chin"><span class="crt-brand">LOCAL</span><span class="crt-buttons" aria-hidden="true"><i></i><i></i><b></b></span></div>
+     <svg class="case-wear physical-damage" viewBox="0 0 620 510" preserveAspectRatio="none" aria-hidden="true"><path d="m29 31 29-7m-26 13 15-4m495 438 34-7m-29 13 16-4M17 344l8 36m544-366-35 8" stroke="#797668" stroke-width="1.2" opacity=".3" fill="none"/><path d="m28 475 26 5m488-459 29 7" stroke="#f0e7ce" stroke-width="3" opacity=".4"/></svg>
     </div>
-    <div class="monitor-neck" aria-hidden="true"></div><div class="monitor-foot" aria-hidden="true"></div>
+    <div class="computer-base" aria-hidden="true"><span class="base-vents"></span><span class="floppy-drive"></span></div>
+    <div class="keyboard" aria-hidden="true"><div class="keyboard-rows"><div class="keyboard-row"><span class="keyboard-key wide">Esc</span><span class="keyboard-key">F1</span><span class="keyboard-key">F2</span><span class="keyboard-key">F3</span><span class="keyboard-key">F4</span><span class="keyboard-key">F5</span><span class="keyboard-key">F6</span><span class="keyboard-key">F7</span><span class="keyboard-key">F8</span><span class="keyboard-key">F9</span><span class="keyboard-key wide">F10</span></div><div class="keyboard-row"><span class="keyboard-key">1</span><span class="keyboard-key">2</span><span class="keyboard-key">3</span><span class="keyboard-key">4</span><span class="keyboard-key">5</span><span class="keyboard-key">6</span><span class="keyboard-key">7</span><span class="keyboard-key">8</span><span class="keyboard-key">9</span><span class="keyboard-key">0</span><span class="keyboard-key">−</span><span class="keyboard-key">=</span></div><div class="keyboard-row"><span class="keyboard-key wide">Tab</span><span class="keyboard-key">Q</span><span class="keyboard-key">W</span><span class="keyboard-key">E</span><span class="keyboard-key">R</span><span class="keyboard-key">T</span><span class="keyboard-key">Y</span><span class="keyboard-key">U</span><span class="keyboard-key">I</span><span class="keyboard-key">O</span><span class="keyboard-key">P</span></div><div class="keyboard-row"><span class="keyboard-key wide">Caps</span><span class="keyboard-key">A</span><span class="keyboard-key">S</span><span class="keyboard-key">D</span><span class="keyboard-key">F</span><span class="keyboard-key">G</span><span class="keyboard-key">H</span><span class="keyboard-key">J</span><span class="keyboard-key">K</span><span class="keyboard-key">L</span><span class="keyboard-key wide">Enter</span></div><div class="keyboard-row"><span class="keyboard-key wide">Shift</span><span class="keyboard-key">Z</span><span class="keyboard-key">X</span><span class="keyboard-key">C</span><span class="keyboard-key">V</span><span class="keyboard-key">B</span><span class="keyboard-key">N</span><span class="keyboard-key">M</span><span class="keyboard-key">,</span><span class="keyboard-key">.</span><span class="keyboard-key wide">Shift</span></div><div class="keyboard-row"><span class="keyboard-key wide">Ctrl</span><span class="keyboard-key wide">Alt</span><span class="keyboard-key space"></span><span class="keyboard-key wide">Alt</span><span class="keyboard-key wide">Ctrl</span></div></div></div>
    </div>
-   <div class="recovery-tower" aria-label="외관이 파손된 컴퓨터 본체">
-    <svg class="tower-art" viewBox="0 0 300 580" role="img" aria-label="찌그러진 모서리와 균열, 얼룩이 남은 컴퓨터 본체">
-     <defs><linearGradient id="towerFront" x2=".7" y2="1"><stop stop-color="#333b40"/><stop offset="1" stop-color="#151a1e"/></linearGradient><linearGradient id="towerSide"><stop stop-color="#111619"/><stop offset="1" stop-color="#262e33"/></linearGradient><linearGradient id="towerTop" x2=".8" y2="1"><stop stop-color="#4a5357"/><stop offset="1" stop-color="#252d32"/></linearGradient></defs>
-     <ellipse cx="158" cy="554" rx="128" ry="18" fill="#000" opacity=".5"/>
-     <path d="M30 63 218 23 275 62 85 105Z" fill="url(#towerTop)" stroke="#616a6c" stroke-opacity=".4"/>
-     <path d="m30 63 55 42v425l-55-32Z" fill="url(#towerSide)" stroke="#343d42"/>
-     <path d="m85 105 190-43-2 40 10 14-8 414-190 35Z" fill="url(#towerFront)" stroke="#596165" stroke-opacity=".5"/>
-     <path d="m85 105 190-43-14 22-20 1-10 18-21-3-9 15" fill="#0c1012"/>
-     <path d="m94 121 167-38-5 430-162 32Z" fill="none" stroke="#414b50" stroke-opacity=".65"/>
-     <path d="m107 150 139-28v62l-140 29Z" fill="#101619" stroke="#4a555b"/><path d="m119 176 110-23" stroke="#4d575b" stroke-width="2"/>
-     <circle cx="243" cy="231" r="13" fill="#151d21" stroke="#65747b"/><path d="m243 220v11m-7-6a8 8 0 1 0 14 0" stroke="#a2b4bb" fill="none" stroke-width="1.4"/>
-     <circle cx="215" cy="239" r="2" fill="#97c4d3"/>
-     <path d="m111 249 47-10v10l-47 10Zm0 22 47-10v10l-47 10Z" fill="#090e11" stroke="#515a5e" stroke-width=".8"/>
-     <g stroke="#090e11" stroke-width="5"><path d="m116 355 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26"/></g>
-     <g class="physical-damage" fill="none"><path d="m275 105-25 45 10 29-24 17 6 32-17 17m25-95-23-6-21 13m30 39-23 12" stroke="#090d0f" stroke-width="4"/><path d="m273 106-23 45 10 27-24 18 6 32" stroke="#8d9699" stroke-width="1" opacity=".5"/><path d="m45 145 15 135m-9-140 15 86m31 268 72-13m-66 20 43-8m33-184 58-13" stroke="#9ea7a9" stroke-width="1" opacity=".28"/><path d="m32 443 32 32 16 7m179 5-17 35-13 1" stroke="#84796b" opacity=".45" stroke-width="8"/><path d="m114 85 54-15m-37 19 43-12" stroke="#e0d8c0" opacity=".15" stroke-width="3"/></g>
-     <g fill="#7a8589"><circle cx="100" cy="130" r="2"/><circle cx="257" cy="94" r="2"/><circle cx="100" cy="524" r="2"/><circle cx="259" cy="494" r="2"/></g>
-     <path d="m101 548 30-5v14l-30 6Zm129-25 29-6v14l-29 6Z" fill="#101518"/>
-    </svg>
-    <button id="caseTrace" class="tower-trace" type="button" aria-label="본체 윗면의 낡은 라벨 살펴보기"><span aria-hidden="true">20 4 ·· 05</span></button>
-   </div>
+   <button id="caseTrace" class="floppy-disk" type="button" aria-label="컴퓨터 옆 플로피 디스크의 라벨 살펴보기"><span class="floppy-sticker" aria-hidden="true">20 4 ·· 05</span><i class="floppy-notch" aria-hidden="true"></i></button>
   </div>
   <small class="recovery-fan-note">비공식 팬메이드 사이트</small>
  </div>
  <div class="trace-overlay" id="traceOverlay" hidden>
   <section class="trace-dialog" role="dialog" aria-modal="true" aria-labelledby="traceTitle">
-   <div class="trace-heading"><span id="traceTitle">본체 윗면</span><button id="closeTrace" type="button" aria-label="본체 살펴보기 닫기">×</button></div>
+   <div class="trace-heading"><span id="traceTitle">플로피 디스크의 라벨</span><button id="closeTrace" type="button" aria-label="디스크 살펴보기 닫기">×</button></div>
    <div class="trace-paper"><span class="trace-old-word" aria-hidden="true">LOCAL</span><strong>20240505</strong><svg viewBox="0 0 500 220" preserveAspectRatio="none" aria-hidden="true"><path d="m23 53 142-19m-79 22 96-13m169 127 122-16m-31 17 44-7M239 0l-9 49 15 13-6 34m-111 124 21-44-7-16" fill="none" stroke="#5b5548" stroke-opacity=".24" stroke-width="2"/></svg></div>
   </section>
  </div>
@@ -392,11 +378,11 @@
 </main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);/* The physical computer is only a pre-desktop scene; successful restoration removes it. */
 const recoveryIntro=document.getElementById('riverIntro'),recoveryAdvance=document.getElementById('introAdvance'),recoveryLine=document.getElementById('introLine'),recoveryAccess=document.getElementById('access');
 const recoveryMonologue=[
- '강에 놀러 갔다가\n컴퓨터 한 대를 주웠다',
- '둔치 한쪽에 버려져 있었다\n케이스는 찌그러졌고, 여기저기 흙이 묻어 있었다',
- '겉만 좀 망가진 거라면\n정리해서 내가 써도 되지 않을까',
- '다행히 저장장치는 읽혔다\n일단 안에 있던 것들을 백업해 뒀다',
- '전부 지우기 전에\n뭐가 들어 있는지만 잠깐 보기로 했다'
+ '강에 놀러 갔다가 이상한 걸 주웠다.\n누가 이런 데 컴퓨터를 버리고 갔지?',
+ '꽤 오래된 모델 같은데, 생각보다 상태는 괜찮았다.\n옆에는 플로피 디스크도 하나 떨어져 있었다.',
+ '집에 가져와서 켜 보니 전원도 들어왔다.\n이 정도면 아직 쓸 만한 거 아닌가?',
+ '옛날 컴퓨터 찾는 사람도 있던데.\n잘하면 팔아서 용돈이라도 좀 벌 수 있겠다.',
+ '그런데 이건 누가 쓰던 걸까.\n팔기 전에 안에 뭐가 있는지나 잠깐 봐야겠다.'
 ];
 let recoveryIntroIndex=0,recoveryIntroBusy=false,recoveryOpening=false;
 const recoveryDelay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -422,8 +408,8 @@ recoveryForm.onsubmit=async e=>{
  recoveryOpening=true;recoveryPassword.disabled=true;document.getElementById('openBackup').disabled=true;recoveryError.textContent='';recoveryForm.hidden=true;
  const progress=document.getElementById('backupProgress'),status=document.getElementById('backupStatus'),fill=document.getElementById('backupFill'),track=document.getElementById('backupTrack'),percent=document.getElementById('backupPercent');progress.hidden=false;
  let current=0;
- for(const [target,label] of [[28,'백업 이미지 확인 중'],[64,'파일 목록 불러오는 중'],[100,'사용자 환경 복원 중']]){status.textContent=label;while(current<target){current=Math.min(target,current+4);fill.style.width=current+'%';track.setAttribute('aria-valuenow',String(current));percent.textContent=current+'%';await recoveryDelay(45)}await recoveryDelay(170)}
- status.textContent='백업 불러오기 완료';await recoveryDelay(350);recoveryAccess.classList.add('departing');await recoveryDelay(750);recoveryAccess.remove();recoveryLockDesktop(false);recoveryDesktopIcons.querySelector('.desktop-icon')?.focus();
+ for(const [target,label] of [[28,'시스템 시작 중'],[64,'사용자 설정 읽는 중'],[100,'바탕화면 여는 중']]){status.textContent=label;while(current<target){current=Math.min(target,current+4);fill.style.width=current+'%';track.setAttribute('aria-valuenow',String(current));percent.textContent=current+'%';await recoveryDelay(45)}await recoveryDelay(170)}
+ status.textContent='준비 완료';await recoveryDelay(350);recoveryAccess.classList.add('departing');await recoveryDelay(750);recoveryAccess.remove();recoveryLockDesktop(false);recoveryDesktopIcons.querySelector('.desktop-icon')?.focus();
 };
 
 /* The fictional private investigator is the user. Character dossiers are separate from the owner's biography. */
@@ -444,6 +430,17 @@ const pcArt={
  settings:'<path d="M20.3 6.8h7.4l1.25 4.45 4 1.65 4-2.25 5 5-2.25 4L41.3 24l-1.6 4.05 2.25 4-5 5-4-2.25-4 1.65-1.25 4.75h-7.4l-1.25-4.75-4-1.65-4 2.25-5-5 2.25-4L6.7 24l1.6-4.05-2.25-4 5-5 4 2.25 4-1.65Z" fill="url(#G)" stroke="#537883" stroke-width="1.1" stroke-linejoin="round"/><circle cx="24" cy="24" r="11" fill="#aacbd2" stroke="#547d88" stroke-width="1.4"/><circle cx="24" cy="24" r="5.2" fill="#6a96a0" stroke="#dae9ec" stroke-width="1.55"/><path d="M18.7 15.4a10 10 0 0 1 11.2 1" fill="none" stroke="#fff" opacity=".45" stroke-width="1.65" stroke-linecap="round"/>',
  programs:'<rect x="7" y="7" width="14.8" height="14.8" rx="2.25" fill="#789fb3" stroke="#52798c" stroke-width=".9"/><rect x="26.2" y="7" width="14.8" height="14.8" rx="2.25" fill="#acc5cf" stroke="#7e9fa9" stroke-width=".9"/><rect x="7" y="26.2" width="14.8" height="14.8" rx="2.25" fill="#afc5b8" stroke="#7f9e8e" stroke-width=".9"/><rect x="26.2" y="26.2" width="14.8" height="14.8" rx="2.25" fill="#6495a0" stroke="#46717e" stroke-width=".9"/><path d="M9.5 9.5h9.3m9.9 0H38M9.5 28.7h9.3m9.9 0H38" stroke="#fff" stroke-width="1.15" opacity=".4" stroke-linecap="round"/>'
 };
+/* Small, hard-edged glyphs for the classic desktop. */
+pcArt.computer='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M2 1h12v10H9v2h5v2H2v-2h5v-2H2z"/><path fill="#c0c0c0" d="M3 2h10v8H3zM3 13h10v1H3z"/><path fill="#fff" d="M3 2h10v1H3v7H2V2z"/><path fill="#008080" d="M4 3h8v6H4z"/><path fill="#80c0c0" d="M4 3h8v1H5v5H4z"/><path fill="#808080" d="M4 10h8v1H4z"/></g>';
+pcArt.folder='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M1 4h1V2h5l2 2h6v10H1z"/><path fill="#c0a040" d="M2 3h5v2h7v8H2z"/><path fill="#ffff80" d="M1 5h12v2H1z"/><path fill="#e8ce61" d="M2 7h13l-2 6H1z"/><path fill="#fff0a0" d="M2 7h13v1H2z"/></g>';
+pcArt.internet='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M5 1h6v1h2v2h1v2h1v5h-1v2h-2v1H4v-1H2v-2H1V6h1V4h1V2h2z"/><path fill="#000080" d="M5 2h6v1h2v3h1v5h-2v2H4v-1H2V6h1V4h2z"/><path fill="#008080" d="M5 3h3v2H6v2H4v3H2V6h1V4h2zM9 8h4v3h-2v2H9v-2H8V9z"/><path fill="#80ffff" d="M5 2h5v1H5zM3 4h1v2H3zM2 6h1v3H2z"/></g>';
+pcArt.music='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M5 1h6v1h2v2h1v2h1v5h-1v2h-2v1H4v-1H2v-2H1V6h1V4h1V2h2z"/><path fill="#c0c0c0" d="M5 2h6v1h2v3h1v5h-2v2H4v-1H2V6h1V4h2z"/><path fill="#fff" d="M5 2h5v2H5zM3 4h3v2H3zM2 6h2v3H2z"/><path fill="#808080" d="M6 6h4v4H6z"/><path fill="#000080" d="M10 3h4v8h-1v1h-3v-2h2V5h-2z"/></g>';
+pcArt.photo='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M1 2h14v12H1z"/><path fill="#c0c0c0" d="M2 3h12v10H2z"/><path fill="#80c0ff" d="M3 4h10v8H3z"/><path fill="#ffff00" d="M10 5h2v2h-2z"/><path fill="#008000" d="M3 10h1V8h2V7h1v2h2v1h2V9h2v3H3z"/></g>';
+pcArt.text='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M3 1h7l3 3v11H3z"/><path fill="#fff" d="M4 2h6v3h2v9H4z"/><path fill="#808080" d="M9 2h1v3h3v1H9zM5 7h6v1H5zM5 9h6v1H5zM5 11h5v1H5z"/></g>';
+pcArt.trash='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M3 3h3V1h4v2h3v2h-1v9H4V5H3z"/><path fill="#c0c0c0" d="M4 3h8v1H4zM5 5h6v8H5zM7 2h2v1H7z"/><path fill="#fff" d="M5 5h1v8H5zM7 5h1v8H7zM9 5h1v8H9z"/><path fill="#808080" d="M11 5h1v9H5v-1h6z"/></g>';
+pcArt.drive='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M1 5h14v8H1z"/><path fill="#c0c0c0" d="M2 6h12v6H2z"/><path fill="#fff" d="M2 6h12v1H2z"/><path fill="#808080" d="M2 9h12v2H2z"/><path fill="#000" d="M3 10h7v1H3z"/><path fill="#008000" d="M12 10h1v1h-1z"/></g>';
+pcArt.archive='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M1 4h1V2h5l2 2h6v10H1z"/><path fill="#c0a040" d="M2 3h5v2h7v8H2z"/><path fill="#ffff80" d="M1 5h12v2H1z"/><path fill="#e8ce61" d="M2 7h13l-2 6H1z"/><path fill="#fff0a0" d="M2 7h13v1H2z"/><path fill="#000080" d="M7 8h5v4H7z"/><path fill="#fff" d="M8 9h3v1H8z"/></g>';
+pcArt.record='<g transform="scale(3)" shape-rendering="crispEdges"><path fill="#000" d="M3 1h7l3 3v11H3z"/><path fill="#fff" d="M4 2h6v3h2v9H4z"/><path fill="#808080" d="M9 2h1v3h3v1H9zM5 7h6v1H5zM5 9h6v1H5zM5 11h5v1H5z"/></g>';
 const pcIconColors={
  computer:['#a9d9df','#3a7286'],folder:['#ffe5a4','#d5a45b'],archive:['#b9dfe2','#648e9e'],
  internet:['#9addf6','#3574a7'],music:['#9cc6d0','#3c7896'],photo:['#9ed3e5','#5c97a5'],
@@ -1095,139 +1092,5 @@ document.addEventListener('dragover',e=>e.preventDefault());
 document.addEventListener('drop',e=>e.preventDefault());
 const pcConnectPromise=pcConnect();
 pcConnectPromise.then(bnSeed).catch(()=>{});
-</script><script>
-/* 기존 로그인 및 파란색 데스크톱 디자인 복원 */
-(() => {
-  // 이전에 추가한 디자인 테마 제거
-  const removeTheme = (css, start, end) => {
-    let startIndex = css.indexOf(start);
-
-    while (startIndex !== -1) {
-      const endIndex = css.indexOf(end, startIndex);
-      if (endIndex === -1) break;
-
-      css =
-        css.slice(0, startIndex) +
-        css.slice(endIndex + end.length);
-
-      startIndex = css.indexOf(start);
-    }
-
-    return css;
-  };
-
-  document.querySelectorAll("style").forEach(style => {
-    let css = style.textContent;
-
-    css = removeTheme(
-      css,
-      "/* MODERN ARCHIVE THEME",
-      "/* END MODERN ARCHIVE THEME */"
-    );
-
-    css = removeTheme(
-      css,
-      "/* WIN31 THEME START",
-      "/* WIN31 THEME END */"
-    );
-
-    style.textContent = css;
-  });
-
-  // 최근 디자인에서 추가한 설명 영역 제거
-  document.querySelectorAll(
-    ".modern-system-header, .desktop-context"
-  ).forEach(element => element.remove());
-
-  // 계정 표시 유지
-  const user = document.querySelector(".start-user");
-  if (user) user.textContent = "LOCAL";
-
-  // Windows 3.1의 프로그램 그룹이 남아 있다면
-  // 기존 바탕화면 아이콘으로 복구
-  const desktop = document.getElementById("desktopIcons");
-
-  if (desktop?.querySelector(".w31-groups")) {
-    const originalOrder = [
-      "컴퓨터",
-      "업무",
-      "사건 자료",
-      "인터넷",
-      "음악",
-      "사진",
-      "메모장",
-      "휴지통"
-    ];
-
-    const icons = [
-      ...desktop.querySelectorAll(".desktop-icon")
-    ];
-
-    icons.sort((a, b) => {
-      const aName =
-        a.querySelector(".di-label")?.textContent.trim();
-      const bName =
-        b.querySelector(".di-label")?.textContent.trim();
-
-      return originalOrder.indexOf(aName)
-           - originalOrder.indexOf(bName);
-    });
-
-    desktop.replaceChildren(...icons);
-  }
-
-  // 기존 파란색 바탕화면 복구
-  const restoredStyle = document.createElement("style");
-  restoredStyle.id = "restored-original-theme";
-
-  restoredStyle.textContent = `
-    html, body {
-      background: #163a5b !important;
-    }
-
-    .desktop {
-      background:
-        radial-gradient(
-          ellipse 65% 50% at 65% 48%,
-          #527fa8 0%,
-          transparent 76%
-        ),
-        linear-gradient(
-          132deg,
-          #102b51 0%,
-          #2b5986 45%,
-          #123556 100%
-        ) !important;
-    }
-
-    .desktop::before {
-      display: block !important;
-      background:
-        radial-gradient(
-          ellipse at 30% 80%,
-          #8faece40,
-          transparent 60%
-        ),
-        linear-gradient(
-          115deg,
-          transparent 0 35%,
-          #e0eaff15 47%,
-          transparent 65%
-        ) !important;
-    }
-
-    .glow,
-    .ribbon {
-      display: block !important;
-    }
-
-    .modern-system-header,
-    .desktop-context {
-      display: none !important;
-    }
-  `;
-
-  document.head.appendChild(restoredStyle);
-})();
 </script>
 </body></html>
