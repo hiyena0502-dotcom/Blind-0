@@ -296,6 +296,15 @@
 @media(max-width:480px){.net-home-columns{grid-template-columns:1fr}.net-home-brand b{font-size:40px}.net-home-links{gap:12px}.net-history-row{flex-wrap:wrap;gap:6px}.net-history-row small{font-size:10px}.net-theme-document .net-article-body{padding:16px}}
 
 .net-collections{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:22px 0 10px}.net-collections a{border:1px solid #dce3d8;background:#f8faf6;padding:12px 8px;color:#4d6c58;text-align:center;font-size:13px;text-decoration:none}.net-collections a:hover{border-color:#749581;background:#eef4eb}.net-theme-police .net-masthead{background:#203c60;color:#f1f5fa;border-bottom:5px solid #c8b780}.net-theme-police .net-site-nav{background:#e9eef4;border-bottom:1px solid #c3ccd6}.net-theme-police .net-article-body h1{color:#243d60}.net-theme-police .net-facts th{background:#e8edf5;color:#253b55}@media(max-width:700px){.net-collections{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* River introduction and physical backup screen. Damage is confined to #access. */
+.river-intro{position:absolute;inset:0;z-index:80;background:#000;color:#fff;opacity:1;transition:opacity .5s ease;isolation:isolate}.river-intro.leaving{opacity:0;pointer-events:none}.intro-advance{display:flex;align-items:center;justify-content:center;position:absolute;inset:0;width:100%;height:100%;padding:40px;background:#000;border:0;color:#f5f5f5;cursor:pointer;font-family:"Malgun Gothic",sans-serif}.intro-advance:focus-visible{outline:1px solid #333;outline-offset:-12px}.intro-line{text-align:center;font-size:clamp(19px,2.1vw,28px);font-weight:400;line-height:1.95;letter-spacing:-.035em;white-space:pre-line;word-break:keep-all;transition:opacity .18s ease,transform .18s ease}.intro-line.changing{opacity:0;transform:translateY(3px)}.intro-next{position:absolute;bottom:7%;left:calc(50% - 10px);color:#fff7;opacity:.6;transition:opacity .2s}.intro-advance:hover .intro-next{opacity:1}
+.access.found-machine{position:absolute;inset:0;z-index:60;display:block;background:#10171b;color:#d5dfe3;font-family:Tahoma,"Malgun Gothic",sans-serif;transition:opacity .7s ease,visibility .7s ease,filter .7s ease;opacity:1;visibility:visible;overflow:hidden}.access.found-machine.departing{opacity:0;visibility:hidden;pointer-events:none;filter:blur(3px)}.recovery-room{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:38px 38px 65px;background:radial-gradient(ellipse at 33% 35%,#39464a66 0,transparent 50%),linear-gradient(145deg,#161e23,#10171b 65%,#0b1115)}.recovery-light{position:absolute;inset:0;background:linear-gradient(108deg,transparent 10%,#9da9ab08 38%,transparent 58%);pointer-events:none}.recovery-desk{position:absolute;left:0;right:0;top:66%;bottom:0;background:linear-gradient(#30383b,#242c30 4%,#182126 75%);border-top:1px solid #78818433;box-shadow:0 -20px 70px #0003;pointer-events:none}.machine-setup{position:relative;width:min(1160px,100%);display:grid;grid-template-columns:minmax(0,1fr) 260px;align-items:end;gap:36px;transform:translateY(16px)}.recovery-monitor{position:relative;min-width:0;filter:drop-shadow(0 18px 22px #0007)}.monitor-bezel{position:relative;padding:18px 18px 0;background:linear-gradient(125deg,#414b50,#212a2f 48%,#151d21);border:1px solid #69757a77;border-radius:12px 12px 15px 15px;box-shadow:inset 1px 1px #c4cace19,inset -3px -3px 7px #0008,0 1px 0 #000}.bezel-scuffs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.recovery-glass{position:relative;aspect-ratio:16/10;min-height:330px;overflow:hidden;background:#0c171e;border:2px solid #0a1014;box-shadow:0 0 0 1px #63727945,inset 0 0 40px #0009}.backup-window{position:relative;width:100%;height:100%;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 30%,#203541 0,#142630 55%,#10202a);color:#d7e1e7;font-family:Tahoma,"Malgun Gothic",sans-serif}.backup-caption{height:39px;display:flex;gap:8px;align-items:center;padding:0 16px;border-bottom:1px solid #8babb523;background:#06101633;color:#96aab6;font-size:11px;letter-spacing:.02em}.backup-dot{height:5px;width:5px;background:#809ca9;display:inline-block;border-radius:50%}.backup-content{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px 35px}.backup-drive{height:48px;width:48px;fill:none;stroke:#adbdc5;stroke-width:1.15;margin:0 0 12px}.backup-content h1{font-size:23px;font-weight:400;letter-spacing:-.04em;margin:0 0 8px;color:#e4eaed}.backup-account{font:10px Consolas,monospace;color:#7e969f;letter-spacing:.19em;margin-bottom:25px}.backup-login{width:min(300px,100%)}.backup-login label{display:block;font-size:11px;color:#92a8b4;margin:0 0 7px}.backup-input-row{display:flex;gap:7px}.backup-input-row input{width:0;flex:1;min-width:0;padding:10px 12px;background:#09151dc9;border:1px solid #536b78;border-radius:2px;color:#f0f5f7;font:16px Consolas,monospace;letter-spacing:.15em;outline:none;box-shadow:inset 0 1px 4px #0005}.backup-input-row input:focus{border-color:#a3b8c6;box-shadow:0 0 0 2px #b9cdd114}.backup-input-row button{padding:8px 16px;background:linear-gradient(#becbd1,#8ca0ab);color:#152630;border:1px solid #c4d0d7;border-radius:2px;font:12px "Malgun Gothic",sans-serif;cursor:pointer}.backup-input-row button:hover{background:#c3d0d6}.backup-input-row button:disabled{opacity:.5;cursor:default}.backup-error{font-size:11px;min-height:15px;line-height:1.4;color:#d9aaa1;margin:10px 0 0}.backup-progress{width:min(300px,100%);min-height:73px;text-align:center}.backup-progress[hidden],.trace-overlay[hidden]{display:none!important}.backup-progress p{font-size:12px;color:#b1c2ca;margin:0 0 15px}.backup-track{height:4px;background:#07141d;border:0;overflow:hidden}.backup-track span{display:block;height:100%;width:0;background:#a6c0d0;transition:width .2s ease}.backup-percent{display:block;font:10px Consolas,monospace;letter-spacing:.05em;color:#7d98a7;margin-top:10px}.backup-bottom{height:31px;padding:0 16px;display:flex;align-items:center;gap:7px;font:9px Consolas,monospace;letter-spacing:.12em;color:#657f8c;border-top:1px solid #8babb518}.backup-disk-symbol{font-size:14px}.glass-fractures{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.screen-dust{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 38px #0005;background:linear-gradient(118deg,transparent 72%,#9ca5a40b 73%,transparent 76%)}.monitor-lower{position:relative;height:35px;display:flex;align-items:center;justify-content:center}.bezel-name{font:8px Consolas,monospace;letter-spacing:.2em;color:#73818a}.monitor-controls{position:absolute;right:1px;color:#7f8f97;font:10px Consolas,monospace;display:flex;align-items:center;gap:7px}.monitor-controls i{height:3px;width:3px;background:#a1bfd2;border-radius:50%;box-shadow:0 0 4px #b5d8e8}.monitor-neck{width:86px;height:67px;background:linear-gradient(90deg,#1b242a,#475258 45%,#202a30);margin:auto;box-shadow:inset 0 0 10px #0006;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)}.monitor-foot{height:14px;width:185px;border-radius:50% 50% 20% 20%;background:linear-gradient(#4b565d,#202a30 75%);border:1px solid #68747a55;margin:-1px auto 0;box-shadow:0 5px 8px #0008}.recovery-tower{position:relative;width:260px;max-width:100%;margin-bottom:-8px;filter:drop-shadow(8px 10px 15px #0006)}.tower-art{display:block;width:100%;height:auto;overflow:visible}.tower-trace{position:absolute;left:27%;top:8.2%;width:55%;height:8.3%;border:0;color:#625e5399;font:15px "Courier New",monospace;font-weight:600;letter-spacing:.04em;background:linear-gradient(120deg,#b5b09cbd,#8f8c7cbb);clip-path:polygon(3% 8%,93% 0,100% 23%,95% 34%,100% 49%,96% 100%,6% 93%,0 76%,4% 50%,0 26%);transform:rotate(-12deg) skew(-9deg);cursor:zoom-in;box-shadow:0 1px 2px #0006;opacity:.65}.tower-trace:hover,.tower-trace:focus-visible{opacity:1;filter:brightness(1.2);outline:2px solid #d0d8d1;outline-offset:3px}.tower-trace:after{content:"";position:absolute;inset:0;background:linear-gradient(4deg,transparent 33%,#6e6b5a88 34%,transparent 38%),linear-gradient(140deg,transparent 65%,#e4debb44 66%,transparent 71%);pointer-events:none}.recovery-fan-note{position:absolute;bottom:20px;right:25px;font:10px "Malgun Gothic",sans-serif;color:#72808b}
+.trace-overlay{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;padding:24px;background:#03080dbd;backdrop-filter:blur(5px)}.trace-dialog{width:min(580px,100%);padding:0 0 36px;background:#222c32;border:1px solid #66727b;box-shadow:0 25px 90px #000b}.trace-heading{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid #50606b55;color:#b9c6ce;font-size:12px}.trace-heading button{padding:0 4px;border:0;background:transparent;color:#c3cdd3;font:22px/1 Tahoma,sans-serif;cursor:pointer}.trace-paper{position:relative;display:flex;align-items:center;justify-content:center;width:84%;aspect-ratio:2.3;margin:35px auto 4px;background:linear-gradient(120deg,#c4bfa9,#a29d88 85%);color:#443f35;box-shadow:0 5px 8px #0008;transform:rotate(-3deg);clip-path:polygon(2% 1%,95% 0,100% 7%,99% 28%,100% 45%,98% 96%,88% 100%,65% 98%,30% 100%,0 95%,2% 69%,0 38%)}.trace-paper strong{position:relative;z-index:1;font:600 clamp(24px,4vw,43px) "Courier New",monospace;letter-spacing:.12em;opacity:.8;transform:rotate(2deg)}.trace-paper svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.trace-old-word{position:absolute;left:28px;top:20px;font:11px Consolas,monospace;letter-spacing:.2em;color:#625d4d77;text-decoration:line-through}
+@media(max-width:900px){.machine-setup{grid-template-columns:minmax(0,1fr) 200px;gap:18px}.recovery-tower{width:200px}.recovery-room{padding:30px 24px 55px}.monitor-bezel{padding:12px 12px 0}.recovery-glass{aspect-ratio:4/3;min-height:320px}.backup-content{padding:12px 20px}.backup-account{margin-bottom:18px}}
+@media(max-width:620px){.recovery-room{padding:20px 16px 40px}.machine-setup{grid-template-columns:minmax(0,1fr);padding-right:0;transform:translateY(-36px)}.recovery-monitor{width:100%;z-index:1}.recovery-glass{aspect-ratio:4/3;min-height:320px}.recovery-tower{position:absolute;width:125px;right:3px;bottom:-112px;z-index:2}.tower-trace{font-size:8px}.monitor-neck{height:42px}.monitor-foot{width:130px}.backup-content h1{font-size:21px}.intro-advance{padding:26px}.trace-paper strong{font-size:28px}.recovery-fan-note{font-size:9px;bottom:12px;right:14px}}
+@media(max-height:650px) and (min-width:621px){.machine-setup{width:min(930px,100%);grid-template-columns:minmax(0,1fr) 210px;gap:30px;transform:translateY(0)}.recovery-tower{width:210px}.recovery-glass{min-height:280px;aspect-ratio:16/9}.backup-drive{height:34px;margin-bottom:6px}.backup-account{margin-bottom:14px}.backup-content h1{font-size:20px}.monitor-neck{height:40px}.recovery-room{padding-bottom:32px}}
+@media(prefers-reduced-motion:reduce){.river-intro,.intro-line,.access.found-machine,.backup-track span{transition:none}}
+
 </style></head>
 <body><main class="desktop" aria-label="소유자 미상 컴퓨터 바탕화면">
 
@@ -309,77 +318,114 @@
  <div class="start-bottom"><input id="startSearch" class="start-search" placeholder="검색" aria-label="시작 메뉴 검색" autocomplete="off"><button id="shutdown" type="button" title="시스템 종료">종료</button></div>
 </div>
 <div class="context-menu" id="contextMenu" hidden></div>
-<section class="access" id="access" aria-label="가상 컴퓨터 접속 화면"><aside class="fan-disclaimer" aria-label="비공식 팬메이드 사이트 안내"><span>UNOFFICIAL FAN PROJECT</span><span>본 사이트는 잠뜰TV의 공식 사이트가 아닌 비공식 팬메이드 사이트입니다.</span></aside><div class="bg-grid"></div><div class="circuit"></div><div class="hud-top"></div><div class="hud-bottom"></div><div class="hud-left"></div><div class="hud-right"></div><div class="hud-pips" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="hud-target"></div><div class="bg-ring"></div><div class="bg-corner">NODE STATUS // ACTIVE<br>SECURE LINK // STANDBY<br>DATA FLOW // MONITORING</div><div class="bg-corner right">SESSION // 0601<br>ENCRYPTED CHANNEL<br>REMOTE TERMINAL</div><div class="data-stream" aria-hidden="true"><div class="data-column left"><span id="streamLeft"></span></div><div class="data-column right"><span id="streamRight"></span></div></div><div class="access-panel">
-<div class="access-head"><span>REMOTE INTERFACE</span><span>SESSION // 0601</span></div>
-<h1>CONNECTION REQUEST</h1>
-<div class="access-sub">LOCAL TERMINAL · AUTHORIZATION INTERFACE<br>대상 컴퓨터에 연결을 시도합니다.</div>
-<div class="terminal" id="terminal" aria-label="접속 상태 기록"></div>
-<button class="access-btn" id="connect" type="button">[ 접속 시도 ]</button>
-<div class="access-foot"><span>STATUS: STANDBY</span><span>ESCAPE IS NOT REQUIRED</span></div>
-</div><div class="auth-overlay" id="authOverlay"><div class="auth-dialog" role="dialog" aria-modal="true"><h2>ACCESS AUTHORIZATION</h2><div class="auth-stage" id="authStage" aria-label="자동 비밀번호 입력 및 접속 진행">
-<div class="auth-label"><span id="authTitle">PASSWORD INPUT</span><span id="authState">AUTO INPUT</span></div>
-<div class="auth-value" id="authValue" aria-live="off"></div>
-<div class="load-track" role="progressbar" aria-label="접속 로딩" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="loadTrack"><div class="load-fill" id="loadFill"></div></div>
-<div class="load-caption"><span id="loadStatus">AWAITING AUTHORIZATION</span><span id="loadPercent">0%</span></div></div>
-</div></div><div class="granted-screen" id="grantedScreen"><div><div class="granted-title">ACCESS GRANTED</div><div class="granted-caption">REMOTE SESSION ESTABLISHED</div></div></div></section><div class="glow"></div><div class="ribbon"></div><div class="desktop-icons" id="desktopIcons"></div>
+<section id="riverIntro" class="river-intro" role="dialog" aria-modal="true" aria-label="강가에서 주운 컴퓨터">
+ <button id="introAdvance" class="intro-advance" type="button" aria-label="다음 독백">
+  <span id="introLine" class="intro-line" aria-live="polite">강에 놀러 갔다가<br>컴퓨터 한 대를 주웠다</span>
+  <svg class="intro-next" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>
+ </button>
+</section>
+<section class="access found-machine" id="access" aria-label="주운 컴퓨터의 백업 이미지 열기">
+ <div class="recovery-room">
+  <div class="recovery-light" aria-hidden="true"></div><div class="recovery-desk" aria-hidden="true"></div>
+  <div class="machine-setup">
+   <div class="recovery-monitor">
+    <div class="monitor-bezel">
+     <svg class="bezel-scuffs physical-damage" viewBox="0 0 800 540" preserveAspectRatio="none" aria-hidden="true"><path d="m14 18 78-7m-64 14 54-8m658 480 39-8m-28 15 19-4" stroke="#b0b5b7" opacity=".28" fill="none"/><path d="m782 9-16 18 10 20-17 12m7-32-15 4" stroke="#050708" stroke-width="3" fill="none"/></svg>
+     <div class="recovery-glass">
+      <div class="backup-window" id="backupWindow">
+       <div class="backup-caption"><span class="backup-dot"></span>백업 이미지</div>
+       <div class="backup-content">
+        <svg class="backup-drive" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="8" width="44" height="48" rx="4"/><circle cx="32" cy="28" r="11"/><circle cx="32" cy="28" r="3"/><path d="m36 32 10 10M18 48h16m6 0h6"/></svg>
+        <h1>사용자 자료</h1><div class="backup-account">LOCAL</div>
+        <form id="backupLogin" class="backup-login">
+         <label for="backupPassword">암호</label>
+         <div class="backup-input-row"><input id="backupPassword" type="password" inputmode="numeric" maxlength="8" autocomplete="off" spellcheck="false" aria-describedby="backupError"><button id="openBackup" type="submit">열기</button></div>
+         <p id="backupError" class="backup-error" role="alert"></p>
+        </form>
+        <div id="backupProgress" class="backup-progress" hidden>
+         <p id="backupStatus" aria-live="polite">백업 이미지 확인 중</p>
+         <div id="backupTrack" class="backup-track" role="progressbar" aria-label="백업 불러오기" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="backupFill"></span></div>
+         <span id="backupPercent" class="backup-percent">0%</span>
+        </div>
+       </div>
+       <div class="backup-bottom"><span class="backup-disk-symbol" aria-hidden="true">◫</span> LOCAL BACKUP</div>
+      </div>
+      <svg class="glass-fractures physical-damage" viewBox="0 0 1000 620" preserveAspectRatio="none" aria-hidden="true"><g stroke="#ced8da" fill="none" opacity=".28"><path d="m1000 18-87 54-35 66-53 34-17 73m105-173-2 70 28 20m-61-24-44-22-29 13m3 116-34 18-12 49m71-148-1 62 27 37M0 584l51-32 20-57 44-29m-64 86 45 8 34-20"/><path d="m1000 24-63 51-24 64m-37 0-27 11M0 589l50-29" opacity=".5"/></g></svg>
+      <div class="screen-dust physical-damage" aria-hidden="true"></div>
+     </div>
+     <div class="monitor-lower"><span class="bezel-name">LOCAL</span><span class="monitor-controls" aria-hidden="true">− &nbsp; + &nbsp; ◦ <i></i></span></div>
+    </div>
+    <div class="monitor-neck" aria-hidden="true"></div><div class="monitor-foot" aria-hidden="true"></div>
+   </div>
+   <div class="recovery-tower" aria-label="외관이 파손된 컴퓨터 본체">
+    <svg class="tower-art" viewBox="0 0 300 580" role="img" aria-label="찌그러진 모서리와 균열, 얼룩이 남은 컴퓨터 본체">
+     <defs><linearGradient id="towerFront" x2=".7" y2="1"><stop stop-color="#333b40"/><stop offset="1" stop-color="#151a1e"/></linearGradient><linearGradient id="towerSide"><stop stop-color="#111619"/><stop offset="1" stop-color="#262e33"/></linearGradient><linearGradient id="towerTop" x2=".8" y2="1"><stop stop-color="#4a5357"/><stop offset="1" stop-color="#252d32"/></linearGradient></defs>
+     <ellipse cx="158" cy="554" rx="128" ry="18" fill="#000" opacity=".5"/>
+     <path d="M30 63 218 23 275 62 85 105Z" fill="url(#towerTop)" stroke="#616a6c" stroke-opacity=".4"/>
+     <path d="m30 63 55 42v425l-55-32Z" fill="url(#towerSide)" stroke="#343d42"/>
+     <path d="m85 105 190-43-2 40 10 14-8 414-190 35Z" fill="url(#towerFront)" stroke="#596165" stroke-opacity=".5"/>
+     <path d="m85 105 190-43-14 22-20 1-10 18-21-3-9 15" fill="#0c1012"/>
+     <path d="m94 121 167-38-5 430-162 32Z" fill="none" stroke="#414b50" stroke-opacity=".65"/>
+     <path d="m107 150 139-28v62l-140 29Z" fill="#101619" stroke="#4a555b"/><path d="m119 176 110-23" stroke="#4d575b" stroke-width="2"/>
+     <circle cx="243" cy="231" r="13" fill="#151d21" stroke="#65747b"/><path d="m243 220v11m-7-6a8 8 0 1 0 14 0" stroke="#a2b4bb" fill="none" stroke-width="1.4"/>
+     <circle cx="215" cy="239" r="2" fill="#97c4d3"/>
+     <path d="m111 249 47-10v10l-47 10Zm0 22 47-10v10l-47 10Z" fill="#090e11" stroke="#515a5e" stroke-width=".8"/>
+     <g stroke="#090e11" stroke-width="5"><path d="m116 355 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26m-125 40 125-26"/></g>
+     <g class="physical-damage" fill="none"><path d="m275 105-25 45 10 29-24 17 6 32-17 17m25-95-23-6-21 13m30 39-23 12" stroke="#090d0f" stroke-width="4"/><path d="m273 106-23 45 10 27-24 18 6 32" stroke="#8d9699" stroke-width="1" opacity=".5"/><path d="m45 145 15 135m-9-140 15 86m31 268 72-13m-66 20 43-8m33-184 58-13" stroke="#9ea7a9" stroke-width="1" opacity=".28"/><path d="m32 443 32 32 16 7m179 5-17 35-13 1" stroke="#84796b" opacity=".45" stroke-width="8"/><path d="m114 85 54-15m-37 19 43-12" stroke="#e0d8c0" opacity=".15" stroke-width="3"/></g>
+     <g fill="#7a8589"><circle cx="100" cy="130" r="2"/><circle cx="257" cy="94" r="2"/><circle cx="100" cy="524" r="2"/><circle cx="259" cy="494" r="2"/></g>
+     <path d="m101 548 30-5v14l-30 6Zm129-25 29-6v14l-29 6Z" fill="#101518"/>
+    </svg>
+    <button id="caseTrace" class="tower-trace" type="button" aria-label="본체 윗면의 낡은 라벨 살펴보기"><span aria-hidden="true">20 4 ·· 05</span></button>
+   </div>
+  </div>
+  <small class="recovery-fan-note">비공식 팬메이드 사이트</small>
+ </div>
+ <div class="trace-overlay" id="traceOverlay" hidden>
+  <section class="trace-dialog" role="dialog" aria-modal="true" aria-labelledby="traceTitle">
+   <div class="trace-heading"><span id="traceTitle">본체 윗면</span><button id="closeTrace" type="button" aria-label="본체 살펴보기 닫기">×</button></div>
+   <div class="trace-paper"><span class="trace-old-word" aria-hidden="true">LOCAL</span><strong>20240505</strong><svg viewBox="0 0 500 220" preserveAspectRatio="none" aria-hidden="true"><path d="m23 53 142-19m-79 22 96-13m169 127 122-16m-31 17 44-7M239 0l-9 49 15 13-6 34m-111 124 21-44-7-16" fill="none" stroke="#5b5548" stroke-opacity=".24" stroke-width="2"/></svg></div>
+  </section>
+ </div>
+</section>
+<div class="glow"></div><div class="ribbon"></div><div class="desktop-icons" id="desktopIcons"></div>
 <footer class="taskbar"><div class="start" title="시작 버튼 디자인" aria-label="시작 버튼"><svg viewBox="0 0 24 24"><path d="M2 4 11 2.5v9H2zm11-1.8L22 1v10.5h-9zM2 13h9v9L2 20.5zm11 0h9v10l-9-1.3z"/></svg></div><div class="sep"></div><div class="spacer"></div><div class="tray"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 4V5L7 9zm12-1q5 4 0 8m2-11q8 7 0 14"/></svg><svg viewBox="0 0 24 24"><path d="M2.5 9a14.5 14.5 0 0 1 19 0M5.5 12.5a10 10 0 0 1 13 0M8.5 16a5.5 5.5 0 0 1 7 0"/><circle cx="12" cy="20" r="1.1" fill="#d0d9d1" stroke="none"/></svg><div class="clock"><div id="time">--:--</div><div id="date">----.--.--</div></div></div><div class="showdesktop"></div></footer>
-</main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);const btn=document.getElementById('connect'),terminal=document.getElementById('terminal'),access=document.getElementById('access');
-const left=document.getElementById('streamLeft'),right=document.getElementById('streamRight');
-const hex=()=>Math.floor(Math.random()*65536).toString(16).toUpperCase().padStart(4,'0');
-// Reference numbers use verified anniversary/book dates; 20240505 is the chosen fictional login.
-// The log labels below are fictional interface flavor, not in-universe official IDs.
-const generalOps=['SCAN','PACKET','CACHE','MEMORY','AUTH','SYNC','CHECK','ROUTE','INDEX'];
-const numericEasterEggs=['SESSION : 0601','LOGIN REFERENCE : 20240505'];
-const keywordEasterEggs=['LOCAL','DESKTOP','SYSTEM','NETWORK','DOCUMENTS'];
-const pick=a=>a[Math.floor(Math.random()*a.length)];
-const makeLine=()=>{
- const roll=Math.random();
- if(roll<0.018)return pick(numericEasterEggs);
- if(roll<0.066)return 'INDEXED : '+pick(keywordEasterEggs);
- return pick(generalOps)+' 0x'+hex()+' : '+hex()+' '+hex()+' '+hex();
-};
-const streams=()=>{left.textContent=Array.from({length:65},makeLine).join('\n');right.textContent=Array.from({length:65},makeLine).join('\n')};
-streams();const streamTimer=setInterval(streams,1400);
-const ambient=[
-'> scanning interface nodes...','> reading virtual memory block 0x',
-'> checking local session flags...','> packet received : ',
-'> verifying data checksum ','> standby channel active',
-'> mapping directory index 0x','> SCAN sector 0x',
-'> PACKET routing 0x','> CACHE check : ','> MEMORY map 0x',
-'> AUTH state : pending','> SYNC channel active'
+</main><script>function updateClock(){const d=new Date();document.getElementById('time').textContent=d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false});document.getElementById('date').textContent=d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace(/\.$/,'')}updateClock();setInterval(updateClock,15000);/* The physical computer is only a pre-desktop scene; successful restoration removes it. */
+const recoveryIntro=document.getElementById('riverIntro'),recoveryAdvance=document.getElementById('introAdvance'),recoveryLine=document.getElementById('introLine'),recoveryAccess=document.getElementById('access');
+const recoveryMonologue=[
+ '강에 놀러 갔다가\n컴퓨터 한 대를 주웠다',
+ '둔치 한쪽에 버려져 있었다\n케이스는 찌그러졌고, 여기저기 흙이 묻어 있었다',
+ '겉만 좀 망가진 거라면\n정리해서 내가 써도 되지 않을까',
+ '다행히 저장장치는 읽혔다\n일단 안에 있던 것들을 백업해 뒀다',
+ '전부 지우기 전에\n뭐가 들어 있는지만 잠깐 보기로 했다'
 ];
-let log=['> initializing local interface...','> remote endpoint detected'];let connecting=false;
-const render=()=>{terminal.textContent=log.slice(-7).join('\n')+'\n_';};
-render();
-const ambientTimer=setInterval(()=>{
- if(connecting||access.classList.contains('hidden'))return;
- const roll=Math.random();
- let line;
- if(roll<0.07)line='> '+pick(numericEasterEggs);
- else if(roll<0.23)line='> '+pick(['cache entry found','reference matched','legacy keyword','archive lookup','index keyword'])+' : '+pick(keywordEasterEggs);
- else {
-  const entry=pick(ambient);
-  line=entry+(entry.endsWith('0x')||entry.endsWith(': ')||entry.endsWith('checksum ')?hex():'');
- }
- log.push(line);
- if(log.length>30)log=log.slice(-12);
- render();
-},190);
-const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-const authOverlay=document.getElementById('authOverlay'),grantedScreen=document.getElementById('grantedScreen'),authStage=document.getElementById('authStage'),authValue=document.getElementById('authValue'),authTitle=document.getElementById('authTitle'),authState=document.getElementById('authState'),loadFill=document.getElementById('loadFill'),loadTrack=document.getElementById('loadTrack'),loadStatus=document.getElementById('loadStatus'),loadPercent=document.getElementById('loadPercent');
-async function connectSequence(){
- if(connecting)return;connecting=true;btn.disabled=true;btn.textContent='[ 인증 진행 중... ]';authOverlay.classList.add('visible');log.push('> authentication gateway detected');render();
- await wait(180);const password='20240505';authValue.textContent='';
- for(const digit of password){authValue.textContent+=digit;await wait(160+Math.random()*55)}
- authState.textContent='VERIFIED';authTitle.textContent='PASSWORD ACCEPTED';log.push('> access key verified');render();await wait(160);
- loadStatus.textContent='ESTABLISHING SESSION';btn.textContent='[ 데스크톱 연결 중... ]';
- const stages=[[12,'INITIALIZING'],[27,'CHECKING LOCAL INDEX'],[46,'LOADING PROFILE'],[68,'MOUNTING DESKTOP'],[86,'RESTORING INTERFACE'],[100,'COMPLETE']];
- for(const [target,label] of stages){loadStatus.textContent=label;const current=Number(loadTrack.getAttribute('aria-valuenow'));for(let n=current+1;n<=target;n++){loadFill.style.width=n+'%';loadPercent.textContent=n+'%';loadTrack.setAttribute('aria-valuenow',String(n));await wait(20)}log.push('> '+label.toLowerCase()+' ... '+target+'%');render();await wait(115)}
- authState.textContent='ACCESS GRANTED';log.push('> connection established');render();await wait(100);authOverlay.classList.remove('visible');grantedScreen.classList.add('visible');await wait(1350);
- access.classList.add('revealing');await wait(4200);
- access.classList.add('hidden');access.setAttribute('aria-hidden','true');clearInterval(ambientTimer);clearInterval(streamTimer);
-}
-btn.addEventListener('click',connectSequence);
+let recoveryIntroIndex=0,recoveryIntroBusy=false,recoveryOpening=false;
+const recoveryDelay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const recoveryTrace=document.getElementById('caseTrace'),recoveryTraceOverlay=document.getElementById('traceOverlay'),recoveryTraceClose=document.getElementById('closeTrace'),recoveryPassword=document.getElementById('backupPassword'),recoveryForm=document.getElementById('backupLogin'),recoveryError=document.getElementById('backupError');
+const recoveryDesktopIcons=document.getElementById('desktopIcons'),recoveryDesktopWindows=document.getElementById('winLayer'),recoveryTaskbar=document.querySelector('.taskbar');
+function recoveryLockDesktop(locked){for(const node of [recoveryDesktopIcons,recoveryDesktopWindows,recoveryTaskbar])if(node){node.inert=locked;if(locked)node.setAttribute('aria-hidden','true');else node.removeAttribute('aria-hidden')}}
+recoveryLockDesktop(true);recoveryAccess.inert=true;recoveryAccess.setAttribute('aria-hidden','true');
+recoveryAdvance.onclick=async()=>{
+ if(recoveryIntroBusy)return;recoveryIntroBusy=true;
+ if(recoveryIntroIndex<recoveryMonologue.length-1){recoveryLine.classList.add('changing');await recoveryDelay(180);recoveryLine.textContent=recoveryMonologue[++recoveryIntroIndex];recoveryLine.classList.remove('changing');await recoveryDelay(180);recoveryIntroBusy=false;return}
+ recoveryAccess.inert=false;recoveryAccess.removeAttribute('aria-hidden');recoveryIntro.classList.add('leaving');await recoveryDelay(500);recoveryIntro.remove();recoveryTrace.focus();
+};
+recoveryAdvance.focus();
+function recoveryCloseInspection(){recoveryTraceOverlay.hidden=true;document.querySelector('.machine-setup').inert=false;recoveryPassword.focus()}
+recoveryTrace.onclick=()=>{recoveryTraceOverlay.hidden=false;document.querySelector('.machine-setup').inert=true;recoveryTraceClose.focus()};
+recoveryTraceClose.onclick=recoveryCloseInspection;
+recoveryTraceOverlay.onclick=e=>{if(e.target===recoveryTraceOverlay)recoveryCloseInspection()};
+recoveryTraceOverlay.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();recoveryCloseInspection()}if(e.key==='Tab'){e.preventDefault();recoveryTraceClose.focus()}});
+recoveryPassword.addEventListener('input',()=>{recoveryError.textContent='';recoveryPassword.removeAttribute('aria-invalid')});
+recoveryForm.onsubmit=async e=>{
+ e.preventDefault();if(recoveryOpening)return;
+ if(recoveryPassword.value.trim()!=='20240505'){recoveryError.textContent='암호가 일치하지 않습니다.';recoveryPassword.setAttribute('aria-invalid','true');recoveryPassword.focus();recoveryPassword.select();return}
+ recoveryOpening=true;recoveryPassword.disabled=true;document.getElementById('openBackup').disabled=true;recoveryError.textContent='';recoveryForm.hidden=true;
+ const progress=document.getElementById('backupProgress'),status=document.getElementById('backupStatus'),fill=document.getElementById('backupFill'),track=document.getElementById('backupTrack'),percent=document.getElementById('backupPercent');progress.hidden=false;
+ let current=0;
+ for(const [target,label] of [[28,'백업 이미지 확인 중'],[64,'파일 목록 불러오는 중'],[100,'사용자 환경 복원 중']]){status.textContent=label;while(current<target){current=Math.min(target,current+4);fill.style.width=current+'%';track.setAttribute('aria-valuenow',String(current));percent.textContent=current+'%';await recoveryDelay(45)}await recoveryDelay(170)}
+ status.textContent='백업 불러오기 완료';await recoveryDelay(350);recoveryAccess.classList.add('departing');await recoveryDelay(750);recoveryAccess.remove();recoveryLockDesktop(false);recoveryDesktopIcons.querySelector('.desktop-icon')?.focus();
+};
+
 /* The fictional private investigator is the user. Character dossiers are separate from the owner's biography. */
 
 /* Hand-drawn vector desktop icon family */
@@ -557,6 +603,7 @@ if(showDesktopButton){
 function pathLabel(path){const parts=[];let k=path;while(k&&fsData[k]){parts.unshift(fsData[k].name);k=fsData[k].parent}return parts.join(' › ')}
 function goFolder(id,path,history=true){const w=openWindows.get(id);if(!w||!fsData[path]||w.path===path)return;w.path=path;w.selected=null;w.search='';if(history){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(path);w.historyIndex++}renderExplorer(id)}
 function showContext(x,y,entries){
+ if(document.getElementById('access'))return;
  contextMenu.replaceChildren();
  contextMenu.setAttribute('role','menu');
  entries.forEach(([name,fn])=>{
@@ -620,6 +667,7 @@ function renderStart(){
  }
 }
 function pcToggleStart(force){
+ if(document.getElementById('access'))return;
  const open=typeof force==='boolean'?force:!startMenu.classList.contains('open');
  if(!open){closeStart();return}
  startSearch.value='';renderStart();
